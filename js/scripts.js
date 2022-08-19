@@ -18,50 +18,39 @@ for (let i = 33; i <= 126; i++) {
 for (let i = 161; i < 256; i++) {
     allChar.push(String.fromCharCode(i));
 }
-console.log(allChar)
-
 let title = document.getElementById("title").innerText;
-let r = [];
-let done = [];
-for (let i = 0; i < title.length; i++) {
-    done.push(false);
-    r.push(allChar[Math.floor(Math.random() * allChar.length)]);
-}
-document.getElementById("title").innerText = r.join("").slice(0,title.length);
-//loop 100 times
-
-var titleChange = window.setInterval(() => {
-    console.log(title.length)
+function animation() {
+    let r = [];
+    let done = [];
     for (let i = 0; i < title.length; i++) {
-        if (!done[i]) {
-            char = document.getElementById("title").innerText.split("");
-            if (Math.random() < 0.15) {
-                char[i] = title[i]
-                done[i] = true;
+        done.push(false);
+        r.push(allChar[Math.floor(Math.random() * allChar.length)]);
+    }
+    document.getElementById("title").innerText = r.join("").slice(0, title.length);
+    var titleChange = window.setInterval(() => {
+        console.log("test1")
+        for (let i = 0; i < title.length; i++) {
+            if (!done[i]) {
+                char = document.getElementById("title").innerText.split("");
+                if (Math.random() < (0.1 + (done.filter(x => x === false).length * 0.01))) {
+                    char[i] = title[i]
+                    done[i] = true;
+                } else {
+                    char[i] = allChar[Math.floor(Math.random() * allChar.length)]
+                }
+                document.getElementById("title").innerText = char.join("").slice(0, title.length);
             } else {
-                char[i] = allChar[Math.floor(Math.random() * allChar.length)]
+                continue;
             }
-            document.getElementById("title").innerText = char.join("").slice(0,title.length);
-        } else {
-            continue;
         }
-    }
-    if (done.indexOf(false) === -1) {
-        clearInterval(titleChange);
-        document.getElementById('title').innerText = title;
-        return;
-    }
-    console.log(char.length,char)
-}, 100);
-
-
-
-// let a = title.split("")
-// a[Math.floor(Math.random() * a.length)] = allChar[Math.floor(Math.random() * allChar.length)]
-// document.getElementById('title').innerHTML = a.join("")
-// timeout(100).then(() => {
-//     document.getElementById("title").innerHTML = "PORTFOLIO"
-// })
+        if (done.indexOf(false) === -1) {
+            clearInterval(titleChange);
+            document.getElementById('title').innerText = title;
+            return;
+        }
+    }, 100);
+}
+animation()
 
 
 function fadeOut(el) {
@@ -97,6 +86,8 @@ window.addEventListener('DOMContentLoaded', event => {
             return;
         }
         if (window.scrollY === 0) {
+            console.log('test')
+            animation()
             navbarCollapsible.classList.remove('navbar-shrink')
         } else {
             navbarCollapsible.classList.add('navbar-shrink')
