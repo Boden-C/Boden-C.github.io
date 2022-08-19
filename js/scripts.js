@@ -7,6 +7,63 @@
 // Scripts
 // 
 
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+let allChar = [];
+for (let i = 33; i <= 126; i++) {
+    allChar.push(String.fromCharCode(i));
+}
+for (let i = 161; i < 256; i++) {
+    allChar.push(String.fromCharCode(i));
+}
+console.log(allChar)
+
+let title = document.getElementById("title").innerText;
+let r = [];
+let done = [];
+for (let i = 0; i < title.length; i++) {
+    done.push(false);
+    r.push(allChar[Math.floor(Math.random() * allChar.length)]);
+}
+document.getElementById("title").innerText = r.join("").slice(0,title.length);
+//loop 100 times
+
+var titleChange = window.setInterval(() => {
+    console.log(title.length)
+    for (let i = 0; i < title.length; i++) {
+        if (!done[i]) {
+            char = document.getElementById("title").innerText.split("");
+            if (Math.random() < 0.15) {
+                char[i] = title[i]
+                done[i] = true;
+            } else {
+                char[i] = allChar[Math.floor(Math.random() * allChar.length)]
+            }
+            document.getElementById("title").innerText = char.join("").slice(0,title.length);
+        } else {
+            continue;
+        }
+    }
+    if (done.indexOf(false) === -1) {
+        clearInterval(titleChange);
+        document.getElementById('title').innerText = title;
+        return;
+    }
+    console.log(char.length,char)
+}, 100);
+
+
+
+// let a = title.split("")
+// a[Math.floor(Math.random() * a.length)] = allChar[Math.floor(Math.random() * allChar.length)]
+// document.getElementById('title').innerHTML = a.join("")
+// timeout(100).then(() => {
+//     document.getElementById("title").innerHTML = "PORTFOLIO"
+// })
+
+
 function fadeOut(el) {
     el.style.opacity = 1;
     (function fade() {
@@ -89,5 +146,14 @@ window.addEventListener('DOMContentLoaded', event => {
             }
         }
     })
+
+    //timeout function
+
+
+
+
+    //trigger constantly in the background
+
+
 
 });
