@@ -18,17 +18,18 @@ for (let i = 33; i <= 126; i++) {
 for (let i = 161; i < 256; i++) {
     allChar.push(String.fromCharCode(i));
 }
-let title = document.getElementById("title").innerText;
-function animation() {
+
+function animation(title) {
+    let times = 0;
     let r = [];
     let done = [];
     for (let i = 0; i < title.length; i++) {
         done.push(false);
         r.push(allChar[Math.floor(Math.random() * allChar.length)]);
     }
-    document.getElementById("title").innerText = r.join("").slice(0, title.length);
+    document.getElementById("title").innerText = r.join("").slice(0, title.length-1);
     var titleChange = window.setInterval(() => {
-        console.log("test1")
+        times++
         for (let i = 0; i < title.length; i++) {
             if (!done[i]) {
                 char = document.getElementById("title").innerText.split("");
@@ -38,20 +39,29 @@ function animation() {
                 } else {
                     char[i] = allChar[Math.floor(Math.random() * allChar.length)]
                 }
-                document.getElementById("title").innerText = char.join("").slice(0, title.length);
+                document.getElementById("title").innerText = char.join("").slice(0, title.length-1);
             } else {
                 continue;
             }
         }
-        if (done.indexOf(false) === -1) {
+        if (done.indexOf(false) === -1 || times > 25) {
             clearInterval(titleChange);
             document.getElementById('title').innerText = title;
             return;
         }
     }, 100);
 }
-animation()
-
+let title = document.getElementById("title").innerText;
+animation(title);
+if (title === "PORTFOLIO" || title === "DIGITAL") {
+    var swap = window.setInterval(() => {
+        if (document.getElementById("title").innerText === "PORTFOLIO") {
+            animation("DIGITAL")
+        } else if (document.getElementById("title").innerText === "DIGITAL") {
+            animation("PORTFOLIO")
+        }
+    } , 2000);
+}
 
 function fadeOut(el) {
     el.style.opacity = 1;
