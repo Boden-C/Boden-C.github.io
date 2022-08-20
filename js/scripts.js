@@ -12,13 +12,15 @@ function timeout(ms) {
 }
 
 let allChar = [];
-for (let i = 33; i <= 126; i++) {
+for (let i = 48; i <= 57; i++) {
     allChar.push(String.fromCharCode(i));
 }
-for (let i = 161; i < 256; i++) {
+for (let i = 65; i <= 90; i++) {
     allChar.push(String.fromCharCode(i));
 }
-
+for (let i = 192; i <= 221; i++) {
+    allChar.push(String.fromCharCode(i));
+}
 function animation(title) {
     let times = 0;
     let r = [];
@@ -27,19 +29,19 @@ function animation(title) {
         done.push(false);
         r.push(allChar[Math.floor(Math.random() * allChar.length)]);
     }
-    document.getElementById("title").innerText = r.join("").slice(0, title.length-1);
+    document.getElementById("title").innerText = r.join("");
     var titleChange = window.setInterval(() => {
         times++
         for (let i = 0; i < title.length; i++) {
             if (!done[i]) {
-                char = document.getElementById("title").innerText.split("");
-                if (Math.random() < (0.1 + (done.filter(x => x === false).length * 0.01))) {
+                char = document.getElementById("title").innerText.split("").slice(0, title.length);
+                if (Math.random() < (0.15 + (done.filter(x => x === false).length * 0.02))) {
                     char[i] = title[i]
                     done[i] = true;
                 } else {
                     char[i] = allChar[Math.floor(Math.random() * allChar.length)]
                 }
-                document.getElementById("title").innerText = char.join("").slice(0, title.length-1);
+                document.getElementById("title").innerText = char.join("");
             } else {
                 continue;
             }
