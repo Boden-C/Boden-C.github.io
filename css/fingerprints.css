@@ -22,11 +22,10 @@ color: inherit;
 text-decoration: none;
 }
 
-.fixed-top {
+.fixed {
     position: fixed;
-    top: 10;
-    left: 10;
-    z-index: 1030;
+    right: 10px;
+    bottom: 10px;
 }
 .btn {
     box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
