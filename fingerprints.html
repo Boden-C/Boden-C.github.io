@@ -1,0 +1,283 @@
+<!-- Uses Google Docs default html configurations -->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fingerprints - Portfolio</title>
+        <link rel="stylesheet" href="css/fingerprints.css">
+    </head>
+    <body class="c11 doc-content center" > 
+        <div>
+            <p class="c5 c6"><span class="c0"></span></p>
+        </div>
+        <p class="c7 title" id="h.gjdgxs">
+            <span>Digital Portfolio - Fingerprints</span>
+        </p>
+        <p class="c3 c6 subtitle" id="h.30j0zll"><span class="c0"></span></p>
+        <p class="c3 subtitle" id="h.1fob9te">
+            <span class="c0">BoHong (Boden) Chen</span>
+        </p>
+        <p class="c3 subtitle" id="h.3znysh7">
+            <span class="c0"
+                >Department of Computer Science, Allen High School</span
+            >
+        </p>
+        <p class="c3 subtitle" id="h.2et92p0">
+            <span>Computer Science III</span>
+        </p>
+        <p class="c3 subtitle" id="h.tyjcwt"><span>Mr. Ben-Yaakov</span></p>
+        <p class="c3 subtitle" id="h.3dy6vkm"><span>25 August 2022</span></p>
+        <p class="c5 c6 c9"><span class="c0"></span></p>
+        <p class="c5 c6 c9"><span class="c0"></span></p>
+        <p class="c5 c6 c9"><span class="c0"></span></p>
+        <p class="c5 c6 c9"><span class="c0"></span></p>
+        <p class="c5 c6 c9"><span class="c0"></span></p>
+        <p class="c5 c9 c6"><span class="c0"></span></p>
+        <hr style="page-break-before: always; display: none" />
+        <p class="c5 c9 c6"><span class="c0"></span></p>
+        <h1 class="c3" id="h.2s8eyo1">
+            <span class="c2">Digital Portfolio - Fingerprints</span>
+        </h1>
+        <p class="c5">
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
+            ><span class="c4"
+                >The internet is built upon the transfer of information and is
+                now used constantly in communication. The transfer of data on
+                the internet uses HyperText Transfer Protocol (HTTP), which
+                transmits information between the clients and servers. The
+                information in HTTP is stored in plain text, so anyone who
+                intercepts can read the message and the user input. This
+                unsecured transfer can be disastrous as </span
+            ><span
+                >hackers can easily steal private information and
+                passwords</span
+            ><span class="c4">. Therefor</span><span>e, </span
+            ><span class="c4"
+                >a more secure version of HyperText Transfer Protocol Secure
+                (HTTPS) was created to solve the two problem</span
+            ><span>s of</span><span class="c4">&nbsp;</span
+            ><span>privacy and security by</span
+            ><span class="c4"
+                >&nbsp;using a key to encrypt the plain text content </span
+            ><span>into something undecipherable without the same key</span
+            ><span class="c4">. </span><span>This key is</span
+            ><span class="c4"
+                >&nbsp;exchanged during the first interaction between the client
+                and server, called the Transport Layer Security (TLS) handshake,
+                previously the Secure Sockets Layer (SSL). </span
+            ><span class="c0"
+                >The TLS handshake is an exchange of vital data between the web
+                server and the client that ensures the remote server&#39;s
+                identity.</span
+            >
+        </p>
+        <p class="c5">
+            <span class="c0"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first step
+                of the handshake is the versions, cipher, and algorithms to be
+                used in the future. Once this is agreed upon, the server must
+                prove that this server is authentic by sending a Digital
+                Certificate. The body of the certificate includes various data,
+                including serial numbers, valid dates, versions, algorithms,
+                ciphers, the subject, and the issuer of the certificate, which
+                is the Certification Authority that authorizes them. The server
+                also sends its public key to prepare for data decryption. All of
+                this is signed by the aforementioned Certification Authority
+                with a Digital Signature to prove the certification is
+                authentic.</span
+            >
+        </p>
+        <p class="c5">
+            <span class="c0"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To decrypt
+                information, a key must be used. However, sending the key in a
+                symmetrical system where only one key is used is dangerous if it
+                is sent in plain text. An asymmetrical design is used with a
+                private and public key to solve this. The public key can only
+                decrypt data encrypted from its corresponding private key and
+                vice versa. However, outsiders cannot decipher the private from
+                the public key, so it is safe to give the public key as long as
+                the private key is kept secure. The client receives the
+                certificate with the public key, and once it verifies the
+                certificate to be genuine, it generates a symmetric key pair to
+                be used in further messages. The user&rsquo;s key is encrypted
+                with the server&rsquo;s public key and sent to the server,
+                meaning that only the server can decrypt and read the
+                user&rsquo;s key. Upon completion of the handshake, both the
+                server and client have a symmetrical key that either can use to
+                decrypt and encrypt data.</span
+            >
+        </p>
+        <p class="c5">
+            <span class="c0"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Before the
+                client sends their key, however, they need to trust that the
+                certificate isn&rsquo;t fake. The client relies upon Certificate
+                Authorities, trusted third-party sources who sign with their
+                Digital Signature, to confirm that the web server and public key
+                are authentic. To create the Digital Signature in this context,
+                the Digital Certificate is first hashed - meaning irreversibly,
+                cryptographically transforming the data into a fixed-length
+                value. Hashing is usually done with a highly secure hash such as
+                Secure Hash Algorithm 256-bit (SHA-256). A hash generally needs
+                to change dramatically with minor updates and be relatively
+                unique to be secure. The value is then encrypted with the
+                Certificate Authority&rsquo;s private key, completing the
+                Digital Signature. The signature is then sent along with the
+                Digital Certificate to the client. On the client side, the
+                Digital Certificate they received is hashed following the
+                earlier agreed upon hash during the first part of the handshake,
+                then compared with the Digital Signature decrypted with the
+                Certification Authority&rsquo;s public key stored on the
+                client&rsquo;s computer. If the signatures match, then the
+                client is sure that the certificate was issued by the actual
+                Certificate Authority and not altered, as the public key can
+                only decrypt its corresponding private key, which they should
+                hold.</span
+            >
+        </p>
+        <p class="c5">
+            <span class="c0"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;As more
+                websites begin using HTTPS instead of unencrypted HTTP,
+                organizations find it harder to see the user&#39;s data to
+                either use, store, or check that they comply with their policy.
+                To counteract this, these organizations use a man in the middle
+                attack to read your information even if the website uses a
+                secure HTTPS connection. A man in the middle attack is a general
+                term for someone who positions themselves in the middle of a
+                conversation to siphon information away while still giving
+                information to the other side, so nothing seems wrong. The
+                attack presents a risk to the client as they would not assume
+                that their organization is spying on them as the interaction
+                still seems normal. On the internet, the attack can be achieved
+                through an HTTPS Proxy Appliance, which in this context refers
+                to a fake server set up between the actual server and the
+                client. When clients ask for a website, the organization&rsquo;s
+                network can redirect them to their HTTPS Proxy Appliance. For
+                the client to trust the proxy, however, a general TLS handshake
+                still has to occur. However, this time, the proxy sends a fake
+                Digital Certificate with a fake Certificate Authority
+                authorizing said certificate. Usually, the client&rsquo;s
+                computer would not trust the fake Certificate Authority as it
+                does not recognize it. However, if the organization also
+                controls the computer, it can add the phony authority to the
+                list of trusted authorities and their corresponding public key.
+                If they do this, the client&rsquo;s computer cannot recognize
+                the illegitimacy of the Certificate Authority, and therefore,
+                the handshake continues with the proxy. The client sends their
+                key as usual, and now the proxy can decrypt all information sent
+                by the client to store or interpret. To create an aura of
+                normalcy, the proxy establishes another connection with the
+                actual server, completes a different TLS handshake, and sends
+                the user data encrypted with the proxy/server key to the server.
+                When the server responds with new information, the proxy
+                decrypts the data, reads it, then encrypts it again with the
+                proxy/client key and sends it to the client. If done correctly,
+                the client would not suspect anything.</span
+            >
+        </p>
+        <p class="c5">
+            <span class="c0"
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I believe that
+                although compliance with the policy is essential, the
+                fundamental right of privacy should still hold, and schools,
+                governments, or Internet Service Providers should not have a
+                right to have unrestricted access to all information sent by you
+                without evidence of illegal acts. Although this behavior usually
+                cannot be prevented as the organization can force this exchange,
+                detection is possible. This is because the certificate exchanged
+                with the proxy would not match the actual certificate exchanged
+                with the server. A simple way of comparing certificates is with
+                a &ldquo;fingerprint&rdquo;, also called a
+                &ldquo;thumbprint,&rdquo; which is a hash of a certificate and,
+                therefore, should be unique for each certificate. The
+                fingerprint is similar to the Digital Signature but is usually
+                not used in the computer&rsquo;s verification process. The
+                fingerprint is often generated afterward and is often for the
+                user. The fingerprint can still be in SHA-1 instead of SHA-256,
+                as the security aspect is not as vitally important, and SHA-1 is
+                good enough for the client to use. The user can compare this
+                fingerprint to a list of verified authentic fingerprints. If the
+                fingerprints don&rsquo;t match, it indicates that the
+                certificates are different and that you might be connecting to a
+                proxy server that is spying on you. A false positive is when the
+                fingerprint is different, but the reality is that it is still
+                safe. Massive companies, such as Amazon or Google, use multiple
+                authenticators and various certificates. Malware applications
+                can also purposefully intercept information to scan for viruses,
+                such as BitDefender and Kaspersky A/V. Strange web
+                configurations creating multiple certificates for almost
+                identical addresses or proxy servers that do not steal
+                information can also be considered a false positive.</span
+            >
+        </p>
+        <p class="c5 c9">
+            <span
+                >On the other hand, false negatives are when a fingerprint is
+                the same, and the client marks it as negative for any
+                interception, but in reality, it is not. After ruling out human
+                error, this is almost impossible unless the proxy has somehow
+                obtained the Certificate Authority&rsquo;s private key. There is
+                a hypothetical chance that if you use SHA-1 to compare
+                fingerprints, such as the list of authentic fingerprints in
+                grc.com, there can be a duplicate fingerprint with different
+                certificates. Despite being nearly impossible, security experts
+                still transitioned the critical hashes, such as the Digital
+                Signature, to SHA-256. This is to maintain security and privacy
+                on the internet, attempting to make a secure connection actually
+                secure.</span
+            >
+        </p>
+        <hr style="page-break-before: always; display: none" />
+        <h1 class="c5 c6 c10" id="h.vg60davjrd8u"><span class="c2"></span></h1>
+        <h1 class="c3" id="h.z337ya"><span class="c2">References</span></h1>
+        <p class="c8">
+            <span class="c1"
+                >Digital Signature vs. Digital Certificate - the difference
+                explained</span
+            ><span class="c0"
+                >. Savvy Security. (2021, January 26). Retrieved August 25,
+                2022, from
+                https://cheapsslsecurity.com/blog/digital-signature-vs-digital-certificate-the-difference-explained/</span
+            >
+        </p>
+        <p class="c8">
+            <span>Gibson, S. (n.d.). </span
+            ><span class="c1"
+                >GRC : &nbsp;SSL TLS HTTPS web server certificate fingerprints
+                &nbsp;</span
+            ><span class="c0"
+                >. GRC | SSL TLS HTTPS Web Server Certificate Fingerprints
+                &nbsp;. Retrieved August 25, 2022, from
+                https://www.grc.com/fingerprints.htm</span
+            >
+        </p>
+        <p class="c8">
+            <span>Lynch, V. (2020, November 11). </span
+            ><span class="c1"
+                >Why your SSL certificate still has a SHA-1 thumbprint</span
+            ><span class="c0"
+                >. Hashed Out by The SSL Store&trade;. Retrieved August 25,
+                2022, from
+                https://www.thesslstore.com/blog/ssl-certificate-still-sha-1-thumbprint/</span
+            >
+        </p>
+        <p class="c8">
+            <span class="c1"
+                >What happens in a TLS handshake? | SSL handshake</span
+            ><span class="c0"
+                >. (n.d.). Retrieved August 25, 2022, from
+                https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/</span
+            >
+        </p>
+        <p class="c8">
+            <span class="c1">What is a Certificate Authority (CA)?</span
+            ><span class="c0"
+                >&nbsp;SSL.com. (2021, December 9). Retrieved August 25, 2022,
+                from https://www.ssl.com/faqs/what-is-a-certificate-authority/
+            </span>
+        </p>
+    </body>
+</html>
