@@ -62,7 +62,7 @@ if (title === "PORTFOLIO" || title === "DIGITAL") {
         } else if (document.getElementById("title").innerText === "DIGITAL") {
             animation("PORTFOLIO")
         }
-    } , 2000);
+    } , 3000);
 }
 
 function fadeOut(el) {

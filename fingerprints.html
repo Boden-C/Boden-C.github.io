@@ -2,17 +2,18 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Fingerprints - Portfolio</title>
-        <link rel="stylesheet" href="css/fingerprints.css">
+        <link rel="stylesheet" href="css/fingerprints.css" />
     </head>
-    <body class="c11 doc-content" > 
+    <body class="c11 doc-content">
         <img
-            src="assets/img/fingerprints.svg"
+            src="assets/img/fingerprints.png"
             class="flowchart"
-            alt="flowchart">
+            alt="flowchart"
+        />
         <a class="fixed btn btn-primary" href="index.html">Back</a>
         <div>
             <p class="c5 c6"><span class="c0"></span></p>
@@ -25,14 +26,14 @@
             <span class="c0">BoHong (Boden) Chen</span>
         </p>
         <p class="c3 subtitle" id="h.3znysh7">
-            <span class="c0"
-                >Department of Computer Science, Allen</span
-            >
+            <span class="c0">Department of Computer Science, Allen</span>
         </p>
         <p class="c3 subtitle" id="h.2et92p0">
             <span>Computer Science III</span>
         </p>
-        <p class="c3 subtitle" id="h.tyjcwt"><span>Professor Ben-Yaakov</span></p>
+        <p class="c3 subtitle" id="h.tyjcwt">
+            <span>Professor Ben-Yaakov</span>
+        </p>
         <p class="c3 subtitle" id="h.3dy6vkm"><span>25 August 2022</span></p>
         <p class="c5 c6 c9"><span class="c0"></span></p>
         <p class="c5 c6 c9"><span class="c0"></span></p>
@@ -54,28 +55,17 @@
                 transmits information between the clients and servers. The
                 information in HTTP is stored in plain text, so anyone who
                 intercepts can read the message and the user input. This
-                unsecured transfer can be disastrous as </span
-            ><span
-                >hackers can easily steal private information and
-                passwords</span
-            ><span class="c4">. Therefor</span><span>e, </span
-            ><span class="c4"
-                >a more secure version of HyperText Transfer Protocol Secure
-                (HTTPS) was created to solve the two problem</span
-            ><span>s of</span><span class="c4">&nbsp;</span
-            ><span>privacy and security by</span
-            ><span class="c4"
-                >&nbsp;using a key to encrypt the plain text content </span
-            ><span>into something undecipherable without the same key</span
-            ><span class="c4">. </span><span>This key is</span
-            ><span class="c4"
-                >&nbsp;exchanged during the first interaction between the client
-                and server, called the Transport Layer Security (TLS) handshake,
-                previously the Secure Sockets Layer (SSL). </span
-            ><span class="c0"
-                >The TLS handshake is an exchange of vital data between the web
-                server and the client that ensures the remote server&#39;s
-                identity.</span
+                unsecured transfer can be disastrous as hackers can easily steal
+                private information and passwords. Therefore, a more secure
+                version of HyperText Transfer Protocol Secure (HTTPS) was
+                created to solve the two problems of privacy and security by
+                using a key to encrypt the plain text content into something
+                undecipherable without the same key. This key is exchanged
+                during the first interaction between the client and server,
+                called the Transport Layer Security (TLS) handshake, previously
+                the Secure Sockets Layer (SSL). The TLS handshake is an exchange
+                of vital data between the web server and the client that ensures
+                the remote server&#39;s identity.</span
             >
         </p>
         <p class="c5">
@@ -90,8 +80,8 @@
                 is the Certification Authority that authorizes them. The server
                 also sends its public key to prepare for data decryption. All of
                 this is signed by the aforementioned Certification Authority
-                with a Digital Signature to prove the certification is
-                authentic.</span
+                with a Digital Signature to prove the certification is authentic
+                (Gibson).</span
             >
         </p>
         <p class="c5">
@@ -112,7 +102,7 @@
                 meaning that only the server can decrypt and read the
                 user&rsquo;s key. Upon completion of the handshake, both the
                 server and client have a symmetrical key that either can use to
-                decrypt and encrypt data.</span
+                decrypt and encrypt data ("What happens in a TLS", 2022).</span
             >
         </p>
         <p class="c5">
@@ -122,8 +112,9 @@
                 certificate isn&rsquo;t fake. The client relies upon Certificate
                 Authorities, trusted third-party sources who sign with their
                 Digital Signature, to confirm that the web server and public key
-                are authentic. To create the Digital Signature in this context,
-                the Digital Certificate is first hashed - meaning irreversibly,
+                are authentic ("What is a Certificate Authority", 2021). To
+                create the Digital Signature in this context, the Digital
+                Certificate is first hashed - meaning irreversibly,
                 cryptographically transforming the data into a fixed-length
                 value. Hashing is usually done with a highly secure hash such as
                 Secure Hash Algorithm 256-bit (SHA-256). A hash generally needs
@@ -140,7 +131,7 @@
                 client is sure that the certificate was issued by the actual
                 Certificate Authority and not altered, as the public key can
                 only decrypt its corresponding private key, which they should
-                hold.</span
+                hold ("Digital Signature vs. Digital Certificate", 2021).</span
             >
         </p>
         <p class="c5">
@@ -181,7 +172,7 @@
                 When the server responds with new information, the proxy
                 decrypts the data, reads it, then encrypts it again with the
                 proxy/client key and sends it to the client. If done correctly,
-                the client would not suspect anything.</span
+                the client would not suspect anything (Gibson).</span
             >
         </p>
         <p class="c5">
@@ -204,9 +195,9 @@
                 fingerprint is often generated afterward and is often for the
                 user. The fingerprint can still be in SHA-1 instead of SHA-256,
                 as the security aspect is not as vitally important, and SHA-1 is
-                good enough for the client to use. The user can compare this
-                fingerprint to a list of verified authentic fingerprints. If the
-                fingerprints don&rsquo;t match, it indicates that the
+                good enough for the client to use (Lynch). The user can compare
+                this fingerprint to a list of verified authentic fingerprints.
+                If the fingerprints don&rsquo;t match, it indicates that the
                 certificates are different and that you might be connecting to a
                 proxy server that is spying on you. A false positive is when the
                 fingerprint is different, but the reality is that it is still
@@ -216,7 +207,8 @@
                 such as BitDefender and Kaspersky A/V. Strange web
                 configurations creating multiple certificates for almost
                 identical addresses or proxy servers that do not steal
-                information can also be considered a false positive.</span
+                information can also be considered a false positive
+                (Gibson).</span
             >
         </p>
         <p class="c5 c9">
@@ -233,7 +225,7 @@
                 still transitioned the critical hashes, such as the Digital
                 Signature, to SHA-256. This is to maintain security and privacy
                 on the internet, attempting to make a secure connection actually
-                secure.</span
+                secure (Gibson).</span
             >
         </p>
         <hr style="page-break-before: always; display: none" />
