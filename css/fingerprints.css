@@ -1,12 +1,4 @@
-/* uses Google Docs default css */
 
-.flowchart {
-    position:absolute;
-    right:10px;
-    top:500px;
-    width: calc(100% - 1250px);
-    overflow: hidden;
-}
 a {
     color: #64a19d;
     text-decoration: none;

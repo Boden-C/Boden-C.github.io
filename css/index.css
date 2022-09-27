@@ -9,6 +9,13 @@
   background-attachment: scroll;
   background-size: cover;
 }
+.voliara {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 75%, #000 100%), url("../assets/img/bg-voliara.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
 .masthead h1, .masthead .h1 {
   font-family: "Varela Round", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 2.5rem;
