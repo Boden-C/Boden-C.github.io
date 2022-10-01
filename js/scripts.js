@@ -35,7 +35,7 @@ function animation(title) {
         for (let i = 0; i < title.length; i++) {
             if (!done[i]) {
                 char = document.getElementById("title").innerText.split("").slice(0, title.length);
-                if (Math.random() < (0.15 + (done.filter(x => x === false).length * 0.02))) {
+                if (Math.random() < (0.18 + (done.filter(x => x === false).length * 0.02))) {
                     char[i] = title[i]
                     done[i] = true;
                 } else {
@@ -147,14 +147,4 @@ window.addEventListener('DOMContentLoaded', event => {
             }
         }
     })
-
-    //timeout function
-
-
-
-
-    //trigger constantly in the background
-
-
-
 });
