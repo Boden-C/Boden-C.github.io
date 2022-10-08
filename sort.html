@@ -9,15 +9,16 @@
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Simple line icons-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css"
-        rel="stylesheet" >
+        rel="stylesheet">
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic"
-        rel="stylesheet" type="text/css" >
+        rel="stylesheet" type="text/css">
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" >
-    <link href="css/index.css" rel="stylesheet" >
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
     <title>Sorting - Portfolio</title>
 </head>
+
 <body id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -59,18 +60,22 @@
                         &emsp;This sorting algorithm that uses radix sort to sort strings in alphabetical order.
                     </p>
                     <p class="mb-5" style="text-align: left;">
-                        &emsp;However, it is special as it stores all letters, including special characters, in a map with a
-                        defined value. That defined value is how the algorithm would sort instead of using the ASCII value. This allows
-                        special characters to be sorted in the correct order instead of in the back, which most algorithms do.
+                        &emsp;However, it is special as it stores all letters, including special characters, in a map
+                        with a
+                        defined value. That defined value is how the algorithm would sort instead of using the ASCII
+                        value. This allows
+                        special characters to be sorted in the correct order instead of in the back, which most
+                        algorithms do.
                     </p>
                     <div class="bg-dark mx-auto" style="border-radius: 10px; width: 60%;">
                         <code class="mb-1">
                             {"A",0},{"a",0},{"Æ",1},{"æ",1},{"B",2},{"b",2}
                         </code>
                     </div>
-                    <p class="mb-5 fst-italic">Example map in C++ where capitalization is equailvalent and Æ is between A and B</p>
+                    <p class="mb-5 fst-italic">Example map in C++ where capitalization is equailvalent and Æ is between
+                        A and B</p>
                     <p style="text-align: left;">
-                        &emsp;This also opens up the possibility of sorting in an order other than alphabetical, 
+                        &emsp;This also opens up the possibility of sorting in an order other than alphabetical,
                         putting numbers before or after letters, and many more.
                     </p>
                     <p>
@@ -86,7 +91,54 @@
         </div>
     </section>
     <div>
-        <img class="mt-5 mb-5 mx-auto" style="width: 50%; display: block;" src="assets/img/sort.svg" alt="Flowchart">
+        <img class="mt-5 mb-5 mx-auto" style="width: 40%; display: block;" src="assets/img/sort.svg" alt="Flowchart">
+    </div>
+    <section id="academics" class="academics-section bg-light mt-5">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+                <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="assets/img/sort-all.png"
+                        alt="..."></div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="featured-text text-center text-lg-left">
+                        <h4>Time Complexity</h4>
+                        <p class="text-black-50 mb-0 px-2" style="text-align: left;">
+                            &emsp;When the number of words increases, the sorting speed can change in many ways
+                            based on the sorting algorithm and the order. For example, some algorithms scale
+                            exponentially - when the words increase, the speed is squared. This is bad as when words increase, the speed 
+                            would increase drastically. This mis shown on the graph as a curved line where as the words increase, the time
+                            would increase more. However, the increase in speed can also depend on the order of the words too. Some 
+                            algorithms have linear time, where the increase is constant, making a straight line.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div>
+        <p class="text-black-50 px-2 mx-auto" style="text-align: left; width: 60%;">
+            &emsp;In an already ordered list of words, Bubble Sort would sort in linear time. However, in random and a
+            reverse ordered list, Bubble Sort would be in exponential time. This is shown in the graph as an already
+            ordered list is linear while the others are exponential. This is because it can do a full pass once and
+            realize it is already sorted. Reverse-ordered is the slowest, as it would be exponential and the complete
+            opposite of the intention.
+        </p>
+        <img class="mt-5 mb-5 mx-auto" style="width: 60%; display: block;" src="assets/img/sort-bubble.png"
+            alt="Flowchart">
+        <p class="text-black-50 px-2 mx-auto" style="text-align: left; width: 60%;">
+            &emsp;This also occurs in Insertion Sort with an ordered list being in linear time but random being
+            exponential and reversed order being the exponential and the slowest. Despite these algorithms having linear
+            time, these only occur for already ordered lists. This means that these algorithms would be quick for
+            checking if a list is already ordered, but for actually sorting a random list, the algorithm would be slow.
+        </p>
+        <img class="mt-5 mb-5 mx-auto" style="width: 60%; display: block;" src="assets/img/sort-insertion.png"
+            alt="Flowchart">
+        <p class="text-black-50 px-2 mx-auto" style="text-align: left; width: 60%;">
+            &emsp;In a Selection Sort, however, both ordered, reverse order, and random is exponential. This is because
+            when traversing, Selection Sort also needs to traverse through the list again. This makes even an ordered
+            list exponential, shown below.
+        </p>
+        <img class="mt-5 mb-5 mx-auto" style="width: 60%; display: block;" src="assets/img/sort-selection.png"
+            alt="Flowchart">
+        <a class="btn btn-primary btn-xl" href="https://docs.google.com/spreadsheets/d/1liL3KyAqaPEhlZWDd_BniwrMiFn5JBJF4b8DnTSUeFk/edit?usp=sharing">View Spreadsheet</a>
     </div>
     <!-- Contact-->
     <section class="contact-section bg-black">
@@ -97,7 +149,7 @@
                         <div class="card-body text-center">
                             <i class="fas fa-map-marked-alt text-primary mb-2"></i>
                             <h4 class="text-uppercase m-0">Address</h4>
-                            <hr class="my-4 mx-auto" >
+                            <hr class="my-4 mx-auto">
                             <div class="small text-black-50">200 Fairfax Dr, Allen TX</div>
                         </div>
                     </div>
@@ -107,7 +159,7 @@
                         <div class="card-body text-center">
                             <i class="fas fa-envelope text-primary mb-2"></i>
                             <h4 class="text-uppercase m-0">Email</h4>
-                            <hr class="my-4 mx-auto" >
+                            <hr class="my-4 mx-auto">
                             <div class="small text-black-50">bodenchen@gmail.com</div>
                         </div>
                     </div>
@@ -117,7 +169,7 @@
                         <div class="card-body text-center">
                             <i class="fas fa-brands fa-github text-primary mb-2"></i>
                             <h4 class="text-uppercase m-0">Page on Github</h4>
-                            <hr class="my-4 mx-auto" >
+                            <hr class="my-4 mx-auto">
                             <div class="small text-black-50"><a href="https://boden-C.github.io" target="_blank"
                                     rel="noopener noreferrer">github.com/Boden-C</a></div>
                         </div>
