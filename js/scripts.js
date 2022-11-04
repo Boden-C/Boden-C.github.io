@@ -10,32 +10,36 @@
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+function getAllChar() {
+    var allChar = [];
+    for (let i = 48; i <= 57; i++) {
+        allChar.push(String.fromCharCode(i));
+    }
+    for (let i = 65; i <= 90; i++) {
+        allChar.push(String.fromCharCode(i));
+    }
+    for (let i = 192; i <= 221; i++) {
+        allChar.push(String.fromCharCode(i));
+    }
+    return allChar;
+}
 
-let allChar = [];
-for (let i = 48; i <= 57; i++) {
-    allChar.push(String.fromCharCode(i));
-}
-for (let i = 65; i <= 90; i++) {
-    allChar.push(String.fromCharCode(i));
-}
-for (let i = 192; i <= 221; i++) {
-    allChar.push(String.fromCharCode(i));
-}
 function animation(title) {
     let times = 0;
     let r = [];
     let done = [];
+    let allChar = getAllChar();
     for (let i = 0; i < title.length; i++) {
         done.push(false);
         r.push(allChar[Math.floor(Math.random() * allChar.length)]);
     }
-    document.getElementById("title").innerText = r.join("");
+    TITLE.innerText = r.join("");
     var titleChange = window.setInterval(() => {
         times++
         for (let i = 0; i < title.length; i++) {
             if (!done[i]) {
                 char = document.getElementById("title").innerText.split("").slice(0, title.length);
-                if (Math.random() < (0.18 + (done.filter(x => x === false).length * 0.02))) {
+                if (Math.random() < (0.16 + (done.filter(x => x === false).length * 0.05))) {
                     char[i] = title[i]
                     done[i] = true;
                 } else {
@@ -53,16 +57,17 @@ function animation(title) {
         }
     }, 100);
 }
-let title = document.getElementById("title").innerText;
-animation(title);
-if (title === "PORTFOLIO" || title === "DIGITAL") {
+
+let TITLE = document.getElementById("title").innerText;
+animation(TITLE);
+if (TITLE === "PORTFOLIO" || TITLE === "DIGITAL") {
     var swap = window.setInterval(() => {
         if (document.getElementById("title").innerText === "PORTFOLIO") {
             animation("DIGITAL")
         } else if (document.getElementById("title").innerText === "DIGITAL") {
             animation("PORTFOLIO")
         }
-    } , 3000);
+    }, 3000);
 }
 
 function fadeOut(el) {
