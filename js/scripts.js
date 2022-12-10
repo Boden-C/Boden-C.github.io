@@ -7,8 +7,8 @@
 // Scripts
 //
 
-let DUAL_ANIMATIONS = [["DIGITAL", "PORTFOLIO"]];
-let ORIGINAL_PAGE_TITLE = document.getElementById("title").innerText;
+const DUAL_ANIMATIONS = [["DIGITAL", "PORTFOLIO"]];
+const ORIGINAL_PAGE_TITLE = document.getElementById("title").innerText;
 let DID_ANIMATION = false;
 
 function timeout(ms) {
@@ -45,7 +45,14 @@ function animateTitleTransition(id, originalText, newText) {
         currentTitle.innerText = r.join("");
         var titleChange = window.setInterval(() => {
             times++;
-            for (let i = 0; i < newText.length; i++) {
+
+            for (let i = 0; i < Math.max(chars.length, newText.length); i++) {
+                if (i > newText.length - 1) {
+                    chars.pop();
+                    currentTitle.innerText = chars.join("");
+                    continue;
+                }
+
                 if (!done[i]) {
                     let chance =
                         0.08 + done.filter((x) => x === true).length * (done.filter((x) => x === true).length * 0.01);
@@ -104,7 +111,6 @@ function doAnimation(id) {
     }
     if (dual !== null) {
         var swap = window.setInterval(() => {
-            console.log(dual)
             var i = dual.indexOf(document.getElementById(id).innerText);
             if (i < 0 || i >= dual.length - 1) {
                 i = 0;
@@ -112,7 +118,7 @@ function doAnimation(id) {
                 i++;
             }
             animateTitleTransition(id, document.getElementById(id).innerText, dual[i]);
-        }, 3000);
+        }, 4000);
     }
 }
 
