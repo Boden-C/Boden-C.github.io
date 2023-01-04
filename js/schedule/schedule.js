@@ -32,9 +32,8 @@ function generateSchedules(data, selectedCourseIds) {
     }
     var pool = selectedCourses;
     var poolByPeriod = [[], [], [], [], [], [], [], [], []];
-    var currentSchedule = [null, null, null, null, null, null, null, null, null];
+    var currentSchedule = [];
     var generatedSchedules = [];
-
 
     //updates and returns new pool of schedules for next period
     function updatePoolHelper(i, currentPeriod) {
@@ -62,6 +61,8 @@ function generateSchedules(data, selectedCourseIds) {
             return true;
         }
     }
+
+    //hi random onlooker, why am i not using recursion? this is faster. which is an excuse for bad code.
 
     poolByPeriod[1] = selectedCourses.filter(course => course.periods.indexOf(1) != -1)
 
@@ -112,9 +113,10 @@ function generateSchedules(data, selectedCourseIds) {
                                                             for (const p in poolByPeriod[8]) {
                                                                 //p is the final period, so it must work, no need to check
                                                                 currentSchedule[8] = poolByPeriod[8][p].id;
+                                                                let newSchedule = currentSchedule.slice();
                                                                 pool.splice(pool.indexOf(poolByPeriod[8][p]), 1)
-                                                                console.log("GENERATED SCHEDULE: ", currentSchedule);
-                                                                generatedSchedules.push(currentSchedule);
+                                                                generatedSchedules.push(newSchedule);
+                                                                console.log("GENERATED SCHEDULE: ", newSchedule);
                                                                 console.log("GENERATED " + generatedSchedules.length + " SCHEDULES");
 
                                                                 //reset
@@ -140,7 +142,11 @@ function generateSchedules(data, selectedCourseIds) {
             }
         }
         nextCourseHelper(i, 1);
+
     }
+
+    
+    return generatedSchedules;
 }
 
 
@@ -156,6 +162,43 @@ function generateSchedules(data, selectedCourseIds) {
 function test() {
     let courses = ["TA2S3A", "LA3E4A", "MA3CBA", "SS3GVC", "MA3STA", "SC3PCA", "PP17SA", "PP18SA"]
     console.time()
-    generateSchedules(getData(), courses);
+    const a = generateSchedules(getData(), courses);
     console.timeEnd()
+    return a
+}
+
+function render(array) {
+    let html = document.getElementById("result");
+    html.innerHTML  = array.length+" schedules generated (might be "+array.length/2+" because priv can swap)";
+
+    //ASSUMES PERIOD 0 DOES NOT EXIST
+    for (const i in array) {
+        html.innerHTML += "<li>" + array[i].slice(1) + "</li>";
+    }
+}
+
+
+const basicFilter = {
+    "TA2S3A": [1,2,3,4,5,6,7], //comp sci - any period
+    "LA3E4A": [5,6,7], //english - b day
+    "MA3CBA": [5,6,7], //math - b day
+    "SS3GVC": [1,2,3,4,5,6,7], //government - any
+    "MA3STA": [1,2,3,4,5,6,7], //stat - any
+    "SC3PCA": [1,2,3,4,5,6,7], //physics - any
+    "PP17SA": [4,7], //priv
+    "PP18SA": [8] //priv - double blocked
+}
+
+function filter(schedules, rules) {
+    let begin = 1;
+    return schedules.filter(x => {
+        var bool = true
+        for (let i = begin; i <= 8; i++) {
+            if (rules[x[i]].indexOf(i) === -1) {
+                bool = false;
+                break;
+            }
+        }
+        return bool;
+    });
 }

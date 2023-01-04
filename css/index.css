@@ -1,75 +1,172 @@
-.masthead {
-  position: relative;
-  width: 100%;
-  min-height: 35rem;
-  padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/bg-masthead.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-size: cover;
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 100%);
+    overflow: hidden;
+    scroll-behavior: smooth;
 }
-.voliara {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 75%, #000 100%), url("../assets/img/bg-voliara.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-size: cover;
+.wrapper section {
+    width: 100%;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    margin: 20px 0;
 }
-.masthead h1, .masthead .h1 {
-  font-family: monospace, "Varela Round", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 2.5rem;
-  line-height: 2.5rem;
-  letter-spacing: 0.8rem;
-  color: #ef9469
+.wrapper section .item {
+    padding: 0 2px;
+    transition: 250ms all;
+    background-color: #000;
 }
-.masthead h2, .masthead .h2 {
-  max-width: 20rem;
-  font-size: 1rem;
+.wrapper section .item:hover {
+    margin: 0 40px;
+    transform: scale(1.2);
+}
+.wrapper section a {
+    position: absolute;
+    color: #fff;
+    text-decoration: none;
+    font-size: 6em;
+    background: black;
+    width: 80px;
+    padding: 20px;
+    text-align: center;
+    z-index: 1;
+}
+.wrapper section a:nth-of-type(1) {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(-90deg, rgba(0, 0, 0, 0) 0%, black 100%);
+}
+.wrapper section a:nth-of-type(2) {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, black 100%);
 }
 
-.masthead h1, .masthead .h1 {
-  font-size: 6.5rem;
-  line-height: 6.5rem;
-  letter-spacing: 0.8rem;
+@media only screen and (max-width: 600px) {
+    a.arrow__btn {
+        display: none;
+    }
 }
-.masthead h2, .masthead .h2 {
-  max-width: 30rem;
-  font-size: 1.25rem;
+
+.masthead {
+    position: relative;
+    width: 100%;
+    min-height: 35rem;
+    padding: 15rem 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #0b0b0c 100%),
+        url("../assets/img/bg-masthead.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+}
+.voliara {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 75%, #0b0b0c 100%),
+        url("../assets/img/bg-voliara.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+}
+
+.pretitle {
+    font-family: monospace, "Varela Round", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    line-height: 2.5rem;
+    color: #407aa4;
+	text-align: left;
+	margin-bottom: 1rem;
+}
+
+.pretitle span {
+    color: #6657a6;
+}
+
+.masthead h1,
+.masthead .h1 {
+    font-family: monospace, "Varela Round", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    color: #407aa4;
+}
+
+.masthead h1 span {
+    color: #6657a6;
+}
+
+.masthead h1 #title {
+    color: #c43b66;
+}
+
+.masthead h2,
+.masthead .h2 {
+    max-width: 20rem;
+    font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+	.pretitle {
+		font-size: 2rem;
+	}
+    .masthead h1,
+    .masthead .h1 {
+        font-size: 4rem;
+        line-height: 4rem;
+    }
+}
+@media (min-width: 992px) {
+	.pretitle {
+		font-size: 3rem;
+	}
+    .masthead h1,
+    .masthead .h1 {
+        font-size: 6.5rem;
+        line-height: 6.5rem;
+        letter-spacing: 0.8rem;
+    }
+    .masthead h2,
+    .masthead .h2 {
+        max-width: 30rem;
+        font-size: 1.25rem;
+    }
 }
 
 .about-section {
-padding-top: 5rem;
-padding-bottom: 5rem;
-background: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    background: linear-gradient(to bottom, rgba(11, 11, 12, 1) 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);
 }
 
 .boxLay-section {
-padding: 10rem 0;
+    padding: 10rem 0;
 }
 .boxLay-section .featured-text {
-padding: 2rem;
+    padding: 2rem;
 }
 
 @media (min-width: 992px) {
-  .boxLay-section .featured-text {
-    padding: 0 0 0 2rem;
-    border-left: 0.5rem solid #64a19d;
-  }
+    .boxLay-section .featured-text {
+        padding: 0 0 0 2rem;
+        border-left: 0.5rem solid #64a19d;
+    }
 }
 .boxLay-section .boxLay-text {
-  padding: 3rem;
-  font-size: 90%;
+    padding: 3rem;
+    font-size: 90%;
 }
 @media (min-width: 992px) {
-  .boxLay-section .boxLay-text {
-    padding: 5rem;
-  }
-  .boxLay-section .boxLay-text hr {
-    border-color: #64a19d;
-    border-width: 0.25rem;
-    width: 30%;
-  }
+    .boxLay-section .boxLay-text {
+        padding: 5rem;
+    }
+    .boxLay-section .boxLay-text hr {
+        border-color: #64a19d;
+        border-width: 0.25rem;
+        width: 30%;
+    }
 }
 
 .scroll-to-top {
@@ -96,15 +193,17 @@ padding: 2rem;
 }
 
 .content-section {
-  padding-bottom: 7.5rem;
+    padding-bottom: 7.5rem;
 }
 
-.content-section-heading h2, .content-section-heading .h2 {
-  font-size: 3rem;
+.content-section-heading h2,
+.content-section-heading .h2 {
+    font-size: 3rem;
 }
-.content-section-heading h3, .content-section-heading .h3 {
-  font-size: 1rem;
-  text-transform: uppercase;
+.content-section-heading h3,
+.content-section-heading .h3 {
+    font-size: 1rem;
+    text-transform: uppercase;
 }
 
 .portfolio-item {
@@ -113,8 +212,8 @@ padding: 2rem;
     overflow: hidden;
     max-width: 530px;
     margin: auto auto 1rem;
-  }
-  .portfolio-item .caption {
+}
+.portfolio-item .caption {
     display: flex;
     height: 100%;
     width: 100%;
@@ -123,43 +222,44 @@ padding: 2rem;
     top: 0;
     bottom: 0;
     z-index: 1;
-  }
-  .portfolio-item .caption .caption-content {
+}
+.portfolio-item .caption .caption-content {
     color: #fff;
     margin: auto 2rem 2rem;
-  }
-  .portfolio-item .caption .caption-content h2, .portfolio-item .caption .caption-content .h2 {
+}
+.portfolio-item .caption .caption-content h2,
+.portfolio-item .caption .caption-content .h2 {
     font-size: 0.8rem;
     text-transform: uppercase;
-  }
-  .portfolio-item .caption .caption-content p {
+}
+.portfolio-item .caption .caption-content p {
     font-weight: 300;
     font-size: 1.2rem;
-  }
-  @media (min-width: 992px) {
+}
+@media (min-width: 992px) {
     .portfolio-item {
-      max-width: none;
-      margin: 0;
+        max-width: none;
+        margin: 0;
     }
     .portfolio-item .caption {
-      transition: clip-path 0.25s ease-out, background-color 0.7s;
-              clip-path: inset(0px);
+        transition: clip-path 0.25s ease-out, background-color 0.7s;
+        clip-path: inset(0px);
     }
     .portfolio-item .caption .caption-content {
-      transition: opacity 0.25s;
-      margin-left: 5rem;
-      margin-right: 5rem;
-      margin-bottom: 5rem;
+        transition: opacity 0.25s;
+        margin-left: 5rem;
+        margin-right: 5rem;
+        margin-bottom: 5rem;
     }
     .portfolio-item img {
-      transition: clip-path 0.25s ease-out;
-              clip-path: inset(-1px);
+        transition: clip-path 0.25s ease-out;
+        clip-path: inset(-1px);
     }
     .portfolio-item:hover img {
-              clip-path: inset(2rem);
+        clip-path: inset(2rem);
     }
     .portfolio-item:hover .caption {
-      background-color: rgba(18, 35, 53, 0.692);
-              clip-path: inset(2rem);
+        background-color: rgba(18, 35, 53, 0.692);
+        clip-path: inset(2rem);
     }
-  }
+}

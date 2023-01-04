@@ -18,43 +18,21 @@
             type="text/css"
         />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/index.css" rel="stylesheet" />
+        <link href="../css/styles.css" rel="stylesheet" />
+        <link href="../css/index.css" rel="stylesheet" />
         <title>Sorting - Portfolio</title>
     </head>
 
     <body id="page-top">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="index.html">Digital Portfolio</a>
-                <button
-                    class="navbar-toggler navbar-toggler-right"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarResponsive"
-                    aria-controls="navbarResponsive"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html#about">About Me</a></li>
-                        <li class="nav-item"><a class="nav-link" href="index.html#academics">Academics</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="index.html#projects">Projects</a></li>
-                        <li class="nav-item"><a class="nav-link" href="index.html#essay">Essays</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <div include-html="header.html"></div>
         <!-- Masthead-->
         <header class="masthead">
             <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
-                        <h1 id="title" class="mx-auto my-0 text-uppercase">Sorting</h1>
+                        <div class="pretitle"><span>~</span>/<span>projects</span></div>
+                        <h1>/<span id="title" class="mx-auto my-0 text-uppercase">SORTING</span></h1>
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">alphabetical sorting algorithm for strings</h2>
                     </div>
                 </div>
@@ -105,7 +83,7 @@
             <img
                 class="mt-5 mb-5 mx-auto"
                 style="width: 40%; display: block"
-                src="assets/img/sort.svg"
+                src="../assets/img/sort.svg"
                 alt="Flowchart"
             />
         </div>
@@ -113,7 +91,7 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                     <div class="col-xl-8 col-lg-7">
-                        <img class="img-fluid mb-3 mb-lg-0" src="assets/img/sort-all.png" alt="..." />
+                        <img class="img-fluid mb-3 mb-lg-0" src="../assets/img/sort-all.png" alt="..." />
                     </div>
                     <div class="col-xl-4 col-lg-5">
                         <div class="featured-text text-center text-lg-left">
@@ -143,7 +121,7 @@
             <img
                 class="mt-5 mb-5 mx-auto"
                 style="width: 60%; display: block"
-                src="assets/img/sort-bubble.png"
+                src="../assets/img/sort-bubble.png"
                 alt="Flowchart"
             />
             <p class="text-black-50 px-2 mx-auto" style="text-align: left; width: 60%">
@@ -156,7 +134,7 @@
             <img
                 class="mt-5 mb-5 mx-auto"
                 style="width: 60%; display: block"
-                src="assets/img/sort-insertion.png"
+                src="../assets/img/sort-insertion.png"
                 alt="Flowchart"
             />
             <p class="text-black-50 px-2 mx-auto" style="text-align: left; width: 60%">
@@ -167,7 +145,7 @@
             <img
                 class="mt-5 mb-5 mx-auto"
                 style="width: 60%; display: block"
-                src="assets/img/sort-selection.png"
+                src="../assets/img/sort-selection.png"
                 alt="Flowchart"
             />
             <a
@@ -226,6 +204,6 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="../js/scripts.js"></script>
     </body>
 </html>

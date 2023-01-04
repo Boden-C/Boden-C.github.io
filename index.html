@@ -24,41 +24,15 @@
         <link href="css/styles.css" rel="stylesheet" />
         <link href="css/index.css" rel="stylesheet" />
     </head>
-
     <body id="page-top">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#page-top">Digital Portfolio</a>
-                <button
-                    class="navbar-toggler navbar-toggler-right"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarResponsive"
-                    aria-controls="navbarResponsive"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#about">About Me</a></li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#academics">Academics</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#essay">Essays</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <div include-html="header.html"></div>
         <!-- Masthead-->
         <header class="masthead voliara">
             <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
-                        <h1><span style="color:#61b2d5">/</span><span id="title" class="mx-auto my-0 text-uppercase">PORTFOLIO</span></h1>
+                        <h1><span>~</span>/<span id="title" class="mx-auto my-0 text-uppercase">PORTFOLIO</span></h1>
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">a digital portfolio of BoHong (Boden) Chen</h2>
                     </div>
                 </div>
@@ -73,28 +47,99 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5">
                     <div class="col-lg-7 mx-auto text-white-50 justify-content-center" style="text-align: left">
-                        <h2 class="text-white mb-4" style="text-align: center">Who I Am</h2>
+                        <h2 class="text-white mb-4" style="text-align: center">Hi!</h2>
                         <p>
-                            &emsp;A student who is passionate in computer science and pursuing a major in it. With
+                            &emsp;I'm a student who is passionate in computer science and pursuing a major in it. With
                             technology becoming more prevelant in the world, I wish to learn more of computer science to
                             help me in my future. Although I take courses, I am interested in concepts beyond the
                             coursework and constantly learn new things.
                         </p>
                         <p>
-                            &emsp;I have a creative yet logical personality that question the standards but place
-                            efficiency as the most important factor in work and life. I would rather spend time on
-                            workaround to be more efficient in the future than do I find inefficient. Due to this, I'll
-                            often use coding to automate my work and and life.
+                            &emsp;I also have an interest in software and product design, including but not limited to
+                            UI/UX design, graphic design, and game design. I also love architecture
+                            and worldbuilding, using my creativity to find logical solutions.
                         </p>
                         <p>
                             &emsp;Once I commit myself to something, I can learn something quickly and achieve great
                             things.
                         </p>
-                        <p style="text-align: center">
-                            <a href="why.html">Read More on Why Digital Portfolio is Important</a>
-                        </p>
                     </div>
                 </div>
+            </div>
+        </section>
+        <!-- Projects-->
+        <section id="projects" class="content-section">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-0">
+                    <div class="col-lg-6">
+                        <a class="portfolio-item" href="projects/mathle.html">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <div class="h2">Mathle</div>
+                                    <p class="mb-0">Independent Service Project - Lead Developer</p>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio-1.jpg" alt="..." />
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a class="portfolio-item" href="projects/scheduling.html">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <div class="h2">N2</div>
+                                    <p class="mb-0">Scheduling Application - Project Manager</p>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio-2.jpg" alt="..." />
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a class="portfolio-item" href="projects/sort.html">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <div class="h2">Alphabetical Sort</div>
+                                    <p class="mb-0">Sorting Algorithm - Lead Developer</p>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio-3.jpg" alt="..." />
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a class="portfolio-item" href="https://github.com/Boden-C/wynnbot">
+                            <div class="caption">
+                                <div class="caption-content">
+                                    <div class="h2">WynnBot</div>
+                                    <p class="mb-0">Optimized Build Search - Founder</p>
+                                </div>
+                            </div>
+                            <img class="img-fluid" src="assets/img/portfolio-4.jpg" alt="..." />
+                        </a>
+                    </div>
+                </div>
+                <h2 class="mt-5 mb-3 mx-auto">More Projects</h2>
+                <a class="btn btn-xl btn-dark mb-5 mx-3" href="projects/plan.html">Webshop - Website CSS Generator</a>
+                <a class="btn btn-xl btn-dark mb-5 mx-3" href="projects/stockai.html"
+                    >StockAI - Machine Learning Stock Predictions</a
+                >
+                <a class="btn btn-xl btn-dark mb-5 mx-3" href="projects/others.html">Discontinued Projects</a>
+            </div>
+        </section>
+        <!-- Essay-->
+        <section id="essay" class="content-section bg-primary text-white p-5">
+            <div class="container px-4 px-lg-5 text-center mt-5">
+                <h2 class="mb-4">Fingerprints</h2>
+                <p>In-Depth Analysis of the TLS Handshake and Related HTTPS Concepts</p>
+                <a class="btn btn-xl btn-light mb-5" href="fingerprints.html">Read</a>
+            </div>
+            <div class="container px-4 px-lg-5 text-center mt-5">
+                <h2 class="mb-4">AI Sentience</h2>
+                <p>Argumentative Essay of the Impact of Perfect AI</p>
+                <a class="btn btn-xl btn-light mb-5" href="ai.html">Read</a>
+            </div>
+            <div class="container px-4 px-lg-5 text-center mt-5">
+                <h2 class="mb-4">Biases in Software Development</h2>
+                <p>Analysis on the Biases that can Affect our Decision Making in Software Development</p>
+                <a class="btn btn-xl btn-light mb-5" href="bias.html">Read</a>
             </div>
         </section>
         <!-- Academics-->
@@ -115,78 +160,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!-- Projects-->
-        <section id="projects" class="content-section">
-            <div class="container px-4 px-lg-5">
-                <div class="content-section-heading text-left">
-                    <h2 class="mb-3 text-primary">Featured Projects</h2>
-                </div>
-                <div class="row gx-0">
-                    <div class="col-lg-6">
-                        <a class="portfolio-item" href="projects/mathle.html">
-                            <div class="caption">
-                                <div class="caption-content">
-                                    <div class="h2">Mathle</div>
-                                    <p class="mb-0">Independent Service Project - Lead Developer</p>
-                                </div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio-1.jpg" alt="..." />
-                        </a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a class="portfolio-item" href="#!">
-                            <div class="caption">
-                                <div class="caption-content">
-                                    <div class="h2">N2</div>
-                                    <p class="mb-0">Scheduling Application - Project Manager (COMING SOON)</p>
-                                </div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio-2.jpg" alt="..." />
-                        </a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a class="portfolio-item" href="projects/sort.html">
-                            <div class="caption">
-                                <div class="caption-content">
-                                    <div class="h2">Alphabetical Sort</div>
-                                    <p class="mb-0">Sorting Algorithm - Lead Developer</p>
-                                </div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio-3.jpg" alt="..." />
-                        </a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a class="portfolio-item" href="#!">
-                            <div class="caption">
-                                <div class="caption-content">
-                                    <div class="h2">WynnBot</div>
-                                    <p class="mb-0">Optimized Build Search - Founder (COMING SOON)</p>
-                                </div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio-4.jpg" alt="..." />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Essay-->
-        <section id="essay" class="content-section bg-primary text-white p-5">
-            <div class="container px-4 px-lg-5 text-center mt-5">
-                <h2 class="mb-4">Fingerprints</h2>
-                <p>In-Depth Analysis of the TLS Handshake and Related HTTPS Concepts</p>
-                <a class="btn btn-xl btn-light mb-5" href="fingerprints.html">Read</a>
-            </div>
-            <div class="container px-4 px-lg-5 text-center mt-5">
-                <h2 class="mb-4">AI Sentience</h2>
-                <p>Argumentative Essay of the Impact of Perfect AI</p>
-                <a class="btn btn-xl btn-light mb-5" href="ai.html">Read</a>
-            </div>
-            <div class="container px-4 px-lg-5 text-center mt-5">
-                <h2 class="mb-4">Biases in Software Development</h2>
-                <p>Analysis on the Biases that can Affect our Decision Making in Software Development</p>
-                <a class="btn btn-xl btn-light mb-5" href="bias.html">Read</a>
             </div>
         </section>
         <!-- Contact-->
@@ -217,10 +190,10 @@
                         <div class="card py-4 h-100">
                             <div class="card-body text-center">
                                 <i class="fas fa-brands fa-github text-primary mb-2"></i>
-                                <h4 class="text-uppercase m-0">Page on Github</h4>
+                                <h4 class="text-uppercase m-0">Github</h4>
                                 <hr class="my-4 mx-auto" />
                                 <div class="small text-black-50">
-                                    <a href="https://boden-C.github.io" target="_blank" rel="noopener noreferrer"
+                                    <a href="https://github.com/Boden-C" target="_blank" rel="noopener noreferrer"
                                         >github.com/Boden-C</a
                                     >
                                 </div>
