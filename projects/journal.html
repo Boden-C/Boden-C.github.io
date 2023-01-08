@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=2.0" />
+        <script>
+            // Check if the user has accepted the disclaimer
+            function checkDisclaimer() {
+                // Check if the "disclaimerAccepted" item is present in local storage
+                if (localStorage.getItem("disclaimerAccepted") !== "true") {
+                    // If not, redirect the user to the disclaimer page
+                    window.location.replace("journal-disclaimer.html");
+                }
+            }
+        </script>
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Simple line icons-->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css"
+            rel="stylesheet"
+        />
+        <!-- Google fonts-->
+        <link
+            href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="../css/styles.css" rel="stylesheet" />
+        <link href="../css/index.css" rel="stylesheet" />
+        <title>Journal - Portfolio</title>
+    </head>
+
+    <body id="page-top" onload="checkDisclaimer()">
+        <!-- Navigation-->
+        <div include-html="header.html"></div>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <div class="pretitle"><span>~</span>/<span>projects</span></div>
+                        <h1>/<span id="title" class="mx-auto my-0 text-uppercase">JOURNAL</span></h1>
+                        <h2 class="text-white-50 mx-auto mt-2 mb-5">hidden page</h2>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Summary-->
+        <section id="summary" class="about-section text-center">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-7 mx-auto text-white-50">
+                        <h2 class="text-white mb-4">Development Journal for Project DUAL</h2>
+                        <p style="text-align: left">
+                            &emsp;StockAI and N3 are two seperate projects developing in parallel and as such it is
+                            subsequently referred under the same name - DUAL.
+                        </p>
+                        <p style="text-align: left">
+                            &emsp;Record keeping is important, however my personal opinion states that the publication
+                            of said journals is a massive breach of privacy. Due to external factors, this is publically
+                            available, and therefore I ask you to be respectful to all mentions of team members as they
+                            are real.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <style>
+            body div.mt-5 p {
+                text-align: left;
+                margin: auto;
+                padding-right: 0.5;
+                padding-left: 0.5;
+                color: rgba(0, 0, 0, 0.5) !important;
+                margin-bottom: 10px;
+            }
+        </style>
+        <div class="mt-5 mb-5 col-lg-6 mx-auto" style="text-align: center">
+            <h2>2022-<b>Jan-2</b></h2>
+            <p>
+                &emsp;Software Development Engineer is the main engineer who focuses on the development and design of
+                computer systems, applications, and software. They are responsible for the creation and maintenance of
+                software systems, including writing, testing, and debugging code. This is usually a generic role that
+                requires skills in programming and therefore most programmers so most programmers are suitable for the
+                role. Most complications are intrapersonal with this role so research would usually suffice.
+            </p>
+            <p>
+                &emsp;A QA Engineer (Quality Assurance Engineer) is responsible for testing and ensuring the quality of
+                software products. They are involved in the software development process from the beginning to the end,
+                and work closely with software developers and other stakeholders to identify and resolve defects. They
+                usually require rigorous testing skills, but most programmers are suitable for the role once they have
+                gained the necessary skills. I do not believe I am as suitable for this role as others though as I am
+                usually a software engineer and would be bias towards this role. However, I do wish to bring more focus
+                on the testing side of the project and making sure to better provide for future testing.
+            </p>
+            <p>
+                &emsp;A Project Manager is responsible for planning, organizing, and managing resources to bring about
+                the successful completion of specific project goals and objectives. They are the point of contact for
+                all aspects of a project, and work closely with a team of engineers, developers, and other stakeholders
+                to ensure that the project is completed on time and within budget. They usually focus on the more
+                business side of the project and therefore I try and stray away from this role and focus more on the
+                engineering side. Complications are usually interpersonal with this role and therefore requires time
+                managment and communication which I am usually "too direct" with.
+            </p>
+            <p>
+                &emsp;A Project Manager is responsible for planning, organizing, and managing resources to bring about
+                the successful completion of specific project goals and objectives. They are the point of contact for
+                all aspects of a project, and work closely with a team of engineers, developers, and other stakeholders
+                to ensure that the project is completed on time and within budget. They usually focus on the more
+                business side of the project and therefore I try and stray away from this role and focus more on the
+                engineering side. Complications are usually interpersonal with this role and therefore requires time
+                managment and communication which I am usually "too direct" with.
+            </p>
+            <p>
+                &emsp;A Product Manager is responsible for the development and management of a company's product line.
+                They work with cross-functional teams, including engineering, marketing, and sales, to bring new
+                products to market and to ensure the success of existing products. Product Managers are responsible for
+                defining the strategy and roadmap for their product line, as well as gathering and prioritizing product
+                and customer requirements. Since this management is more engineering focused, I am more suitable for the
+                role, though I still would need to deal with the communication challenges this provides.
+            </p>
+            <p>
+                &emsp;A Release Engineer is responsible for the creation, testing, and deployment of software releases.
+                They work with software developers and other stakeholders to ensure that the software is ready for
+                release, and coordinate the release process to minimize downtime and disruption. This is more testing
+                focused like the QA engineer but more business focused, making me less suitable for the role. Challenges
+                of time management and communication are clearly present and inevitable and so I would need to ensure
+                the release product is stable and ready for release.
+            </p>
+        </div>
+        <!-- Contact-->
+        <div include-html="../footer.html"></div>
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+        <!-- Footer-->
+        <footer class="footer bg-black small text-center text-white-50">
+            <div class="container px-4 px-lg-5"></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>
