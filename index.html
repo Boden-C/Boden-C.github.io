@@ -26,7 +26,32 @@
     </head>
     <body id="page-top">
         <!-- Navigation-->
-        <div include-html="header.html"></div>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="#page-top">Digital Portfolio</a>
+                <button
+                    class="navbar-toggler navbar-toggler-right"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarResponsive"
+                    aria-controls="navbarResponsive"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#about">About Me</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#essay">Essays</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#academics">Academics</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <!-- Masthead-->
         <header class="masthead voliara">
             <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
@@ -47,19 +72,21 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5">
                     <div class="col-lg-7 mx-auto text-white-50 justify-content-center" style="text-align: left">
-                        <h2 class="text-white mb-4" style="text-align: center">Hi!</h2>
-                        <p>
+                        <h2 class="text-white mb-4 transition-scroll shrink" style="text-align: center">
+                            Hello World!
+                        </h2>
+                        <p class="transition-scroll left one">
                             &emsp;I'm a student who is passionate in computer science and pursuing a major in it. With
                             technology becoming more prevelant in the world, I wish to learn more of computer science to
                             help me in my future. Although I take courses, I am interested in concepts beyond the
                             coursework and constantly learn new things.
                         </p>
-                        <p>
+                        <p class="transition-scroll left one">
                             &emsp;I also have an interest in software and product design, including but not limited to
-                            UI/UX design, graphic design, and game design. I also love architecture
-                            and worldbuilding, using my creativity to find logical solutions.
+                            UI/UX design, graphic design, and game design. I also love architecture and worldbuilding,
+                            using my creativity to find logical solutions.
                         </p>
-                        <p>
+                        <p class="transition-scroll left one">
                             &emsp;Once I commit myself to something, I can learn something quickly and achieve great
                             things.
                         </p>
@@ -71,44 +98,44 @@
         <section id="projects" class="content-section">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-0">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 transition-scroll left zero">
                         <a class="portfolio-item" href="projects/mathle.html">
                             <div class="caption">
                                 <div class="caption-content">
-                                    <div class="h2">Mathle</div>
+                                    <div class="h2">Mathle Number Generator</div>
                                     <p class="mb-0">Independent Service Project - Lead Developer</p>
                                 </div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio-1.jpg" alt="..." />
                         </a>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 transition-scroll left zero">
                         <a class="portfolio-item" href="projects/scheduling.html">
                             <div class="caption">
                                 <div class="caption-content">
-                                    <div class="h2">N2</div>
+                                    <div class="h2">N2 Scheduling Application</div>
                                     <p class="mb-0">Scheduling Application - Project Manager</p>
                                 </div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio-2.jpg" alt="..." />
                         </a>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 transition-scroll right zero">
                         <a class="portfolio-item" href="projects/sort.html">
                             <div class="caption">
                                 <div class="caption-content">
-                                    <div class="h2">Alphabetical Sort</div>
+                                    <div class="h2">Alphabetical Sort Algorithm</div>
                                     <p class="mb-0">Sorting Algorithm - Lead Developer</p>
                                 </div>
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio-3.jpg" alt="..." />
                         </a>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 transition-scroll right zero">
                         <a class="portfolio-item" href="https://github.com/Boden-C/wynnbot">
                             <div class="caption">
                                 <div class="caption-content">
-                                    <div class="h2">WynnBot</div>
+                                    <div class="h2">WynnBot Addon</div>
                                     <p class="mb-0">Optimized Build Search - Founder</p>
                                 </div>
                             </div>
@@ -116,27 +143,31 @@
                         </a>
                     </div>
                 </div>
-                <h2 class="mt-5 mb-3 mx-auto">More Projects</h2>
-                <a class="btn btn-xl btn-dark mb-5 mx-3" href="projects/plan.html">Webshop - Website CSS Generator</a>
-                <a class="btn btn-xl btn-dark mb-5 mx-3" href="projects/stockai.html"
+                <h2 class="mt-5 mb-3 text-center transition-scroll left zero">More Projects</h2>
+                <a class="btn btn-xl btn-dark mb-5 mx-3 transition-scroll left one" href="projects/plan.html"
+                    >Webshop - Website CSS Generator</a
+                >
+                <a class="btn btn-xl btn-dark mb-5 mx-3 transition-scroll left two" href="projects/stockai.html"
                     >StockAI - Machine Learning Stock Predictions</a
                 >
-                <a class="btn btn-xl btn-dark mb-5 mx-3" href="projects/others.html">Discontinued Projects</a>
+                <a class="btn btn-xl btn-dark mb-5 mx-3 transition-scroll left three" href="projects/others.html"
+                    >Discontinued Projects</a
+                >
             </div>
         </section>
         <!-- Essay-->
         <section id="essay" class="content-section bg-primary text-white p-5">
-            <div class="container px-4 px-lg-5 text-center mt-5">
+            <div class="container px-4 px-lg-5 text-center mt-5 transition-scroll left zero">
                 <h2 class="mb-4">Fingerprints</h2>
                 <p>In-Depth Analysis of the TLS Handshake and Related HTTPS Concepts</p>
-                <a class="btn btn-xl btn-light mb-5" href="fingerprints.html">Read</a>
+                <a class="btn btn-xl btn-light mb-5 transition-scroll left one" href="fingerprints.html">Read</a>
             </div>
-            <div class="container px-4 px-lg-5 text-center mt-5">
+            <div class="container px-4 px-lg-5 text-center mt-5 transition-scroll right zero">
                 <h2 class="mb-4">AI Sentience</h2>
                 <p>Argumentative Essay of the Impact of Perfect AI</p>
                 <a class="btn btn-xl btn-light mb-5" href="ai.html">Read</a>
             </div>
-            <div class="container px-4 px-lg-5 text-center mt-5">
+            <div class="container px-4 px-lg-5 text-center mt-5 transition-scroll left zero">
                 <h2 class="mb-4">Biases in Software Development</h2>
                 <p>Analysis on the Biases that can Affect our Decision Making in Software Development</p>
                 <a class="btn btn-xl btn-light mb-5" href="bias.html">Read</a>
@@ -150,7 +181,7 @@
                         <img class="img-fluid mb-3 mb-lg-0" src="assets/img/bg-masthead1.jpg" alt="..." />
                     </div>
                     <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
+                        <div class="featured-text text-center text-lg-left transition-scroll right zero">
                             <h4>Academics</h4>
                             <p class="text-black-50 mb-0 px-2">
                                 Currently enrolled as a senior at Allen High School in Allen, TX. Took a majority of AP

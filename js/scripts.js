@@ -109,6 +109,8 @@ function doAnimation(id) {
             dual = DUAL_ANIMATIONS[i];
         }
     }
+
+    //Swap title if dual title
     if (dual !== null) {
         var swap = window.setInterval(() => {
             var i = dual.indexOf(document.getElementById(id).innerText);
@@ -118,7 +120,7 @@ function doAnimation(id) {
                 i++;
             }
             animateTitleTransition(id, document.getElementById(id).innerText, dual[i]);
-        }, 4000);
+        }, 3000);
     }
 }
 
@@ -180,24 +182,40 @@ includeHTML();
 window.addEventListener("DOMContentLoaded", (event) => {
     let SCROLL_TO_TOP_VISIBLE = false;
 
-    // Navbar shrink function
-    var navbarShrink = function () {
+
+    //Animate on scroll
+    function scroll() {
+
+        //Navbar shrink function
         const navbarCollapsible = document.body.querySelector("#mainNav");
+        const elements = document.querySelectorAll('.transition-scroll');
+
         if (!navbarCollapsible) {
             return;
         }
         if (window.scrollY === 0) {
             navbarCollapsible.classList.remove("navbar-shrink");
+            //Reset animation
+            elements.forEach(element => {
+                element.classList.remove('active');
+            });
         } else {
             navbarCollapsible.classList.add("navbar-shrink");
         }
-    };
+        
+        //Animate element if in view
+        elements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            if(rect.top < window.innerHeight && rect.bottom >= 0) {
+                element.classList.add('active');
+            }
+        });
+    }
 
-    // Shrink the navbar
-    navbarShrink();
+    scroll();
 
     // Shrink the navbar when page is scrolled
-    document.addEventListener("scroll", navbarShrink);
+    document.addEventListener('scroll', scroll);
 
     // Activate Bootstrap scrollspy on the main nav element
     const mainNav = document.body.querySelector("#mainNav");
