@@ -182,11 +182,17 @@ includeHTML();
 var background = document.querySelector('.masthead');
 var image = new Image();
 
+//TODO - find a better solution then this
+var relPath = "";
+if (window.location.hostname === "www.codermerlin.com") {
+    relPath = "../";
+}
+
 switch (ORIGINAL_PAGE_TITLE) {
     case "PORTFOLIO":
-        image.src = "../assets/img/bg-voliara.png";
+        image.src = relPath+"assets/img/bg-voliara.png";
     default:
-        image.src = "../assets/img/bg-masthead.png"
+        image.src = relPath+"assets/img/bg-masthead.png"
 }
 
 image.onload = function() {
