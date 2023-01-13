@@ -1,12 +1,3 @@
-/*!
- * Start Bootstrap - Grayscale v7.0.5 (https://startbootstrap.com/theme/grayscale)
- * Copyright 2013-2022 Start Bootstrap
- * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-grayscale/blob/master/LICENSE)
- */
-//
-// Scripts
-//
-
 const DUAL_ANIMATIONS = [["DIGITAL", "PORTFOLIO"]];
 const ORIGINAL_PAGE_TITLE = document.getElementById("title").innerText;
 let DID_ANIMATION = false;
@@ -126,29 +117,6 @@ function doAnimation(id) {
 
 doAnimation("title");
 
-function fadeOut(el) {
-    el.style.opacity = 1;
-    (function fade() {
-        if ((el.style.opacity -= 0.1) < 0) {
-            el.style.display = "none";
-        } else {
-            requestAnimationFrame(fade);
-        }
-    })();
-}
-
-function fadeIn(el, display) {
-    el.style.opacity = 0;
-    el.style.display = display || "block";
-    (function fade() {
-        var val = parseFloat(el.style.opacity);
-        if (!((val += 0.1) > 1)) {
-            el.style.opacity = val;
-            requestAnimationFrame(fade);
-        }
-    })();
-}
-
 function includeHTML() {
     var z, i, elmnt, file, xhttp;
     /* Loop through a collection of all HTML elements: */
@@ -182,16 +150,54 @@ includeHTML();
 var background = document.querySelector('.masthead');
 var image = new Image();
 
+//TODO - find a better solution then this
+var relPath = "";
+if (window.location.hostname === "www.codermerlin.com" && window.location.pathname.split("/") > 5) {
+    relPath = "../";
+}
+
 switch (ORIGINAL_PAGE_TITLE) {
-    case "PORTFOLIO":
-        image.src = "../assets/img/bg-voliara.png";
+case "PORTFOLIO":
+        image.src = relPath+"assets/img/bg-voliara.png";
     default:
-        image.src = "../assets/img/bg-masthead.png"
+        image.src = relPath+"assets/img/bg-masthead.png"
 }
 
 image.onload = function() {
     background.classList.add("loaded");
 };
+
+/*!
+ * Start Bootstrap - Grayscale v7.0.5 (https://startbootstrap.com/theme/grayscale)
+ * Copyright 2013-2022 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-grayscale/blob/master/LICENSE)
+ */
+//
+// Scripts
+//
+
+function fadeOut(el) {
+    el.style.opacity = 1;
+    (function fade() {
+        if ((el.style.opacity -= 0.1) < 0) {
+            el.style.display = "none";
+        } else {
+            requestAnimationFrame(fade);
+        }
+    })();
+}
+
+function fadeIn(el, display) {
+    el.style.opacity = 0;
+    el.style.display = display || "block";
+    (function fade() {
+        var val = parseFloat(el.style.opacity);
+        if (!((val += 0.1) > 1)) {
+            el.style.opacity = val;
+            requestAnimationFrame(fade);
+        }
+    })();
+}
 
 window.addEventListener("DOMContentLoaded", (event) => {
     let SCROLL_TO_TOP_VISIBLE = false;
