@@ -1,11 +1,3 @@
-body {
-    overflow-x: hidden;
-}
-
-body header {
-    background-color: #0d0d0d;
-}
-
 .transition-scroll {
     transition: all 0.5s ease-in-out 0s;
 }
@@ -20,27 +12,33 @@ body header {
     transform: translateX(50px);
 }
 
-.transition-scroll.zero.active {
+.transition-scroll.active {
     opacity: 1;
     transform: translateX(0);
 }
 
-.transition-scroll.one.active {
+.transition-scroll.one {
     transition-delay: 0.3s;
-    opacity: 1;
-    transform: translateX(0);
 }
 
-.transition-scroll.two.active {
+.transition-scroll.two {
     transition-delay: 0.4s;
-    opacity: 1;
-    transform: translateX(0);
 }
 
-.transition-scroll.three.active {
+.transition-scroll.three {
     transition-delay: 0.5s;
-    opacity: 1;
-    transform: translateX(0);
+}
+
+.transition-scroll .child-animate:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.transition-scroll .child-animate:nth-child(2) {
+    transition-delay: 0.3s;
+}
+
+.transition-scroll .child-animate:nth-child(3) {
+    transition-delay: 0.6s;
 }
 
 .transition-scroll.shrink {
@@ -51,7 +49,6 @@ body header {
     transition: transform 0.3s ease-in-out 0.3s;
     transform: scale(1);
 }
-
 
 .wrapper {
     display: grid;
@@ -105,25 +102,81 @@ body header {
     }
 }
 
+.caption-right {
+    color: gray;
+    line-height: 2px;
+    float: right;
+    margin-top: -50px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .caption-right {
+        display: none;
+    }
+}
+
 .masthead {
     position: relative;
     width: 100%;
     min-height: 35rem;
     padding: 15rem 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #0b0b0c 100%),
-        url("../assets/img/bg-masthead.png");
+    background-color: #0b0b0c;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-size: cover;
 }
+
+.bg-container {
+    overflow: hidden;
+}
+
+
+.bg-overlay {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #0b0b0c 100%);
+}
+
 .voliara {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 75%, #0b0b0c 100%),
-        url("../assets/img/bg-voliara.png");
+    background: #0b0b0c;
+}
+
+.voliara.loaded {
+    background-image: url("../assets/img/bg-voliara.png");
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-size: cover;
+    transition: all 1s ease-in-out;
+    animation: zoomOut 0.5s ease-in-out;
+}
+
+.masthead.default {
+    background: #475d79;
+}
+
+.masthead.default.loaded {
+    background-image: url("../assets/img/bg-masthead.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+    transition: all 1s ease-in-out;
+    animation: zoomOut 0.5s ease-in-out;
+}
+
+@keyframes zoomOut {
+    from {
+        transform: scale(2);
+    }
+    to {
+        transform: scale(1);
+    }
 }
 
 .pretitle {
@@ -132,16 +185,16 @@ body header {
     font-size: 1rem;
     line-height: 2.5rem;
     color: #407aa4;
-	text-align: left;
-	margin-bottom: 1rem;
+    text-align: left;
+    margin-bottom: 1rem;
 }
 
 .pretitle span {
     color: #6657a6;
 }
 
-.masthead h1,
-.masthead .h1 {
+.bg-overlay h1,
+.bg-overlay .h1 {
     font-family: monospace, "Varela Round", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 2.5rem;
@@ -149,42 +202,42 @@ body header {
     color: #407aa4;
 }
 
-.masthead h1 span {
+.bg-overlay h1 span {
     color: #6657a6;
 }
 
-.masthead h1 #title {
+.bg-overlay h1 #title {
     color: #c43b66;
 }
 
-.masthead h2,
-.masthead .h2 {
+.bg-overlay h2,
+.bg-overlay .h2 {
     max-width: 20rem;
     font-size: 1rem;
 }
 
 @media (min-width: 768px) {
-	.pretitle {
-		font-size: 2rem;
-	}
-    .masthead h1,
-    .masthead .h1 {
+    .pretitle {
+        font-size: 2rem;
+    }
+    .bg-overlay h1,
+    .bg-overlay .h1 {
         font-size: 4rem;
         line-height: 4rem;
     }
 }
 @media (min-width: 992px) {
-	.pretitle {
-		font-size: 3rem;
-	}
-    .masthead h1,
-    .masthead .h1 {
+    .pretitle {
+        font-size: 3rem;
+    }
+    .bg-overlay h1,
+    .bg-overlay .h1 {
         font-size: 6.5rem;
         line-height: 6.5rem;
         letter-spacing: 0.8rem;
     }
-    .masthead h2,
-    .masthead .h2 {
+    .bg-overlay h2,
+    .bg-overlay .h2 {
         max-width: 30rem;
         font-size: 1.25rem;
     }

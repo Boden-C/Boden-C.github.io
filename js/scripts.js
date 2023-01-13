@@ -179,9 +179,22 @@ function includeHTML() {
 
 includeHTML();
 
+var background = document.querySelector('.masthead');
+var image = new Image();
+
+switch (ORIGINAL_PAGE_TITLE) {
+    case "PORTFOLIO":
+        image.src = "../assets/img/bg-voliara.png";
+    default:
+        image.src = "../assets/img/bg-masthead.png"
+}
+
+image.onload = function() {
+    background.classList.add("loaded");
+};
+
 window.addEventListener("DOMContentLoaded", (event) => {
     let SCROLL_TO_TOP_VISIBLE = false;
-
 
     //Animate on scroll
     function scroll() {
