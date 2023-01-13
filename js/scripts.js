@@ -157,7 +157,7 @@ if (window.location.hostname === "www.codermerlin.com" && window.location.pathna
 }
 
 switch (ORIGINAL_PAGE_TITLE) {
-case "PORTFOLIO":
+    case "PORTFOLIO":
         image.src = relPath+"assets/img/bg-voliara.png";
     default:
         image.src = relPath+"assets/img/bg-masthead.png"

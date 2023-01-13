@@ -11837,17 +11837,27 @@ body {
 }
 
 @media (min-width: 768px) {
-    .masthead h1,
-    .masthead .h1 {
+    .bg-overlay h1,
+    .bg-overlay .h1 {
         font-size: 4rem;
         line-height: 4rem;
     }
 }
 @media (min-width: 992px) {
+    .bg-container {
+        height: 100vh;
+        padding: 0;
+    }
+
     .masthead {
         height: 100vh;
         padding: 0;
     }
+
+    .voliara {
+      height: 100vh;
+      padding: 0;
+  }
 }
 
 .contact-section {
