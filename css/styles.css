@@ -11855,9 +11855,14 @@ body {
     }
 
     .voliara {
-      height: 100vh;
-      padding: 0;
-  }
+        height: 100vh;
+        padding: 0;
+    }
+
+    .bg-overlay {
+        height: 100vh;
+        padding: 0;
+    }
 }
 
 .contact-section {
