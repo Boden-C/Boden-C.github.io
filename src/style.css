@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Styles */
+:root {
+  --transition-speed: 1s;
+  --primary-font: "Poppins", sans-serif;
+}
+
+/* Title Component Styles */
+.title-container {
+  transition:
+    top var(--transition-speed) ease-in-out,
+    left var(--transition-speed) ease-in-out,
+    transform var(--transition-speed) ease-in-out;
+}
+
+.title-text {
+  font-family: var(--primary-font);
+  font-size: 13vw;
+  padding: 0.05em 0;
+  transition: transform 0.3s ease;
+}
+
+/* Glossy Text Effect */
+.glossy-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: radial-gradient(
+    circle at var(--x, 45%) var(--y, 50%),
+    rgba(255, 255, 255, 0.95),
+    rgba(240, 240, 240, 0.85) 10%,
+    rgba(220, 220, 220, 0.75) 25%,
+    rgba(180, 180, 180, 0.6) 40%,
+    rgba(140, 140, 140, 0.4) 60%,
+    rgba(100, 100, 100, 0.2) 80%,
+    rgba(70, 70, 70, 0.1)
+  );
+  background-size: 150% 150%;
+  position: relative;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Hover effect */
+.glossy-text:hover {
+  transform: scale(1.03);
+}
+
+/* --- Loaded State Styles --- */
+
+/* Horizontal Layout */
+.title-container.loaded-horizontal {
+  top: 30%;
+  left: 25%;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+.below-title-container.loaded-horizontal {
+  transition: opacity 0.5s ease-in-out;
+  top: 40%;
+  left: 5%;
+  width: 35%;
+}
+
+.project-container.loaded-horizontal {
+  transition: opacity 0.5s ease-in-out;
+  top: 2.5rem;
+  right: 2.5rem;
+  bottom: 2.5rem;
+  width: 50%;
+}
+
+/* Vertical Layout */
+.title-container.loaded-vertical {
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, 0) scale(0.8);
+}
+
+.below-title-container.loaded-vertical {
+  transition: opacity 0.5s ease-in-out;
+  top: max(13%, 90px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+}
+
+.project-container.loaded-vertical {
+  transition: opacity 0.5s ease-in-out;
+  top: max(40%, 350px);
+  left: 1rem;
+  right: 1rem;
+  bottom: 3rem;
+}
+
+/* Focus and Accessibility Styles */
+:focus {
+  outline: 2px solid #4299e1;
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
