@@ -86,9 +86,9 @@ export const animateGlossyText = (): number => {
     }
 
     // Initialize animation parameters
-    const speed = 0.01; // Reduced speed (was 0.02)
+    const speed = 0.01;
     let angle = 0;
-    let radius = 15; // Base radius (was 20)
+    let radius = 15;
 
     // Add randomness factors
     let randomOffsetX = 0;
@@ -105,7 +105,7 @@ export const animateGlossyText = (): number => {
         targetRandomY = (Math.random() - 0.5) * 15;
 
         // Also randomly adjust radius slightly
-        radius = 10 + Math.random() * 8; // Random between 12-20
+        radius = 10 + Math.random() * 8;
 
         setTimeout(updateRandomTargets, directionChangeInterval + Math.random() * 2000);
     };
@@ -119,7 +119,6 @@ export const animateGlossyText = (): number => {
         randomOffsetY += (targetRandomY - randomOffsetY) * 0.01;
 
         // Calculate new position using circular motion plus randomness
-        // Shifted base position from 50% to 45% to move left
         const x = 45 + Math.sin(angle) * radius + randomOffsetX - 10;
         const y = 50 + Math.cos(angle) * radius + randomOffsetY;
 

@@ -107,7 +107,7 @@ export const About = (props: AboutProps) => {
             <div class="terminal-container text-left">
                 <!-- Terminal header with static prompt and animated command -->
                 <div class="terminal-header flex items-center text-green-400">
-                    <span class="font-bold">guest$  </span>
+                    <span class="font-bold">guest$ </span>
                     <span id="terminal-command"></span>
                     <span id="cursor" class="ml-1 inline-block w-2 h-4 bg-green-400"></span>
                 </div>
@@ -162,7 +162,7 @@ export const About = (props: AboutProps) => {
                         </svg>
                     </a>
                     <a
-                        href="https://linkedin.com/in/boden-chen"
+                        href="https://www.linkedin.com/in/boden-chen-7088462b3/"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="text-white hover:text-blue-300 transition-colors"

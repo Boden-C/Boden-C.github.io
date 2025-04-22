@@ -245,7 +245,7 @@ const animateBackgroundEffect = () => {
 
     // Wave effect based on time and mouse position
     const positions = (particles.geometry as THREE.BufferGeometry).getAttribute("position");
-    const time = Date.now() * 0.0004; // Reduced from 0.0005 to 0.0003
+    const time = Date.now() * 0.0004;
 
     for (let i = 0; i < positions.count; i++) {
         const x = positions.getX(i);
@@ -253,10 +253,10 @@ const animateBackgroundEffect = () => {
         const z = positions.getZ(i);
 
         // Create wave effect
-        const newZ = z + Math.sin(time + x * 0.03 + y * 0.03) * 2; // Reduced from 0.05 to 0.03 and amplitude from 2 to 1.5
+        const newZ = z + Math.sin(time + x * 0.03 + y * 0.03) * 2;
 
         // Subtle mouse interaction
-        const mouseInfluence = 0.05; // Reduced from 0.08 to 0.05
+        const mouseInfluence = 0.05;
         const adjustedZ = newZ + state.mouseX * mouseInfluence * x + state.mouseY * mouseInfluence * y;
 
         positions.setZ(i, adjustedZ);
@@ -265,7 +265,7 @@ const animateBackgroundEffect = () => {
     positions.needsUpdate = true;
 
     // Rotate particles very slowly
-    particles.rotation.y += 0.0001; // Reduced from 0.0005 to 0.0003
+    particles.rotation.y += 0.0001;
 
     renderer.render(scene, camera);
 };
