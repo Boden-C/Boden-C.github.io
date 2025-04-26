@@ -117,7 +117,7 @@ export const About = (props: AboutProps) => {
                     <!-- First paragraph as header with different styling -->
                     <p
                         id="paragraph-0"
-                        class="mb-4 opacity-0 transform translate-y-4 text-xl font-bold text-blue-400"
+                        class="mb-4 opacity-0 transform translate-y-4 text-2xl font-bold text-blue-400"
                         style="transition: opacity 0.3s, transform 0.3s"
                     >
                         ${README_PARAGRAPHS[0]}

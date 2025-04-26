@@ -4,8 +4,8 @@ Personal website built with [lit-html](https://lit.dev/docs/libraries/standalone
 
 ## Project Structure
 
-- **Source Code**: All development code is located in the `src/` directory
-- **Built Files**: The compiled/built files are in the root directory to ensure GitHub Pages can properly serve the site
+-   **Source Code**: All development code is located in the `src/` directory
+-   **Built Files**: The compiled/built files are in the root directory to ensure GitHub Pages can properly serve the site
 
 ## Development
 

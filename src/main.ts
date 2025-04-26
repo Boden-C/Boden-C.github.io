@@ -3,6 +3,10 @@ import { Layout } from "./components/Layout";
 import { debounce, isHorizontalLayout, announceToScreenReader, animateGlossyText } from "./utils";
 import * as THREE from "three";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ModelViewer } from "./components/model";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // --- Application State ---
 interface AppState {
@@ -21,6 +25,7 @@ interface AppState {
     textAnimation?: {
         animationFrame?: number;
     };
+    modelViewer?: ModelViewer;
 }
 
 const state: AppState = {
@@ -35,6 +40,7 @@ const state: AppState = {
 
 // --- DOM References ---
 const appElement = document.getElementById("app") as HTMLElement;
+const modelSectionElement = document.getElementById("section-model") as HTMLElement;
 
 // --- Rendering ---
 const renderApp = () => {
@@ -100,7 +106,7 @@ const initBackgroundEffect = () => {
         canvas.style.top = "0";
         canvas.style.left = "0";
         canvas.style.width = "100%";
-        canvas.style.height = "100%";
+        canvas.style.height = "500%";
         canvas.style.zIndex = "-1";
         canvas.style.opacity = "0";
         document.body.prepend(canvas);
@@ -111,7 +117,7 @@ const initBackgroundEffect = () => {
     // Add gradient background
     const backgroundColor = new THREE.Color(0x000000);
     scene.background = backgroundColor;
-    scene.fog = new THREE.FogExp2(0x000000, 0.001);
+    scene.fog = new THREE.FogExp2(0x000000, 0.00001);
 
     // Setup camera
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -281,6 +287,42 @@ const initGlossyTextAnimation = () => {
 };
 
 /**
+ * Initialize the model viewer for the second section
+ */
+const initModelViewer = () => {
+    if (!modelSectionElement) {
+        console.error("Model section container not found");
+        return;
+    }
+
+    console.log("Initializing model viewer...");
+    state.modelViewer = new ModelViewer("section-model");
+    state.modelViewer.loadContent();
+
+    // Create a smooth scroll effect from main section to model section
+    gsap.utils.toArray("section").forEach((section, i) => {
+        ScrollTrigger.create({
+            trigger: section as HTMLElement,
+            start: "top bottom",
+            end: "bottom top",
+            toggleClass: "active",
+            onEnter: () => {
+                if (i === 1) {
+                    // If entering model section
+                    announceToScreenReader("Entering 3D model section");
+                }
+            },
+            onLeaveBack: () => {
+                if (i === 1) {
+                    // If leaving model section going back up
+                    announceToScreenReader("Returning to main section");
+                }
+            },
+        });
+    });
+};
+
+/**
  * Handle content load completion
  */
 const handleLoad = () => {
@@ -288,6 +330,7 @@ const handleLoad = () => {
     state.isLoaded = true;
     initBackgroundEffect();
     initGlossyTextAnimation();
+    initModelViewer(); // Initialize the model viewer
     renderApp();
 };
 
