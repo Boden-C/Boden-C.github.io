@@ -16,14 +16,28 @@
         <script type="module" src="main.ts" defer></script>
     </head>
 
-    <body class="bg-black overflow-x-hidden">
-        <main id="app" class="h-screen w-screen relative overflow-hidden">
+    <body class="bg-black overflow-x-hidden no-fouc">
+        <main id="app" class="w-screen relative overflow-hidden">
             <!-- Content will be rendered by lit-html -->
-            <!-- Fade gradient overlay at the bottom of main section -->
-            <div class="fade-gradient-overlay"></div>
         </main>
-        <section id="section-model" class="w-full h-[500vh] bg-black">
+        <section id="section-model" class="w-full h-[300vh] pt-10">
             <!-- 3D model will be loaded here by ModelViewer -->
+            <!-- This section is hidden initially and faded in after model loads -->
         </section>
+
+        <script>
+            // Prevent scroll jumps during page load
+            document.documentElement.style.scrollBehavior = "auto";
+            window.addEventListener("load", function () {
+                // Force scroll to top on initial load
+                window.scrollTo(0, 0);
+                // Add loaded class to html element
+                document.documentElement.classList.add("loaded");
+                // Restore smooth scrolling after load
+                setTimeout(() => {
+                    document.documentElement.style.scrollBehavior = "smooth";
+                }, 100);
+            });
+        </script>
     </body>
 </html>

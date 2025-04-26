@@ -29,7 +29,7 @@ export const Projects = (props: ProjectsProps) => {
 
     return html`
         <section
-            id="project-container"
+            id="projects-section"
             class="${classes}"
             aria-hidden="${!isVisible}"
             aria-labelledby="projects-heading"
