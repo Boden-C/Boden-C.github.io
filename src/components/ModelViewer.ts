@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"; // Import GLTFLoader
 
+const PATH = "src/assets/model/scene.gltf"; // Path to the model
+
 export class ModelViewer {
     private container: HTMLElement;
     private scene: THREE.Scene;
@@ -124,7 +126,7 @@ export class ModelViewer {
     public loadContent(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const loader = new GLTFLoader();
-            const modelPath = "/assets/model/scene.gltf";
+            const modelPath = PATH;
 
             loader.load(
                 modelPath,

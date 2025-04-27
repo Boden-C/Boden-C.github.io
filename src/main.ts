@@ -44,8 +44,8 @@ const renderApp = () => {
  * Handle title transition end event
  */
 const handleTitleTransitionEnd = (event: TransitionEvent) => {
-    // Only respond to the transform property ending
-    if (event.propertyName === "transform" && !state.areExtraDivsVisible) {
+    // Only respond to the transform property ending after content is loaded
+    if (event.propertyName === "transform" && state.isLoaded && !state.areExtraDivsVisible) {
         console.log("Title transition finished.");
         showContentSections();
     }
@@ -114,21 +114,23 @@ const initModelViewer = () => {
         .loadContent()
         .then(() => {
             console.log("Model loaded successfully");
-            state.isLoaded = true;
-            renderApp();
+            setTimeout(() => {
+                state.isLoaded = true;
+                renderApp();
 
-            // Smoothly fade in the model instead of jumping
-            if (modelSectionElement) {
-                modelSectionElement.style.visibility = "visible";
-                gsap.to(modelSectionElement, {
-                    opacity: 1,
-                    duration: 0.5,
-                    ease: "power2.inOut",
-                });
-            }
+                // Smoothly fade in the model instead of jumping
+                if (modelSectionElement) {
+                    modelSectionElement.style.visibility = "visible";
+                    gsap.to(modelSectionElement, {
+                        opacity: 1,
+                        duration: 0.5,
+                        ease: "power2.inOut",
+                    });
+                }
 
-            // Allow scrolling after model is loaded
-            document.body.classList.remove("overflow-y-hidden");
+                // Allow scrolling after model is loaded
+                document.body.classList.remove("overflow-y-hidden");
+            }, 1000); // 1 second delay
         })
         .catch((error) => {
             console.error("Failed to load the model:", error);
@@ -166,6 +168,19 @@ window.addEventListener("scroll", () => {
     if (!state.isLoaded) {
         window.scrollTo(0, initialScrollPos);
     }
+});
+
+// Prevent scroll jumps during page load
+document.documentElement.style.scrollBehavior = "auto";
+window.addEventListener("load", function () {
+    // Force scroll to top on initial load
+    window.scrollTo(0, 0);
+    // Add loaded class to html element
+    document.documentElement.classList.add("loaded");
+    // Restore smooth scrolling after load
+    setTimeout(() => {
+        document.documentElement.style.scrollBehavior = "smooth";
+    }, 100);
 });
 
 // Initial setup
