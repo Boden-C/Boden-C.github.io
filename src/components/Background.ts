@@ -13,103 +13,106 @@ export class Background {
     /**
      * Initialize the 3D background effect
      */
-    public init(): void {
-        if (!document.getElementById("background-canvas")) {
-            const canvas = document.createElement("canvas");
-            canvas.id = "background-canvas";
-            canvas.style.position = "fixed";
-            canvas.style.top = "0";
-            canvas.style.left = "0";
-            canvas.style.width = "100%";
-            canvas.style.height = "100%";
-            canvas.style.zIndex = "-1";
-            canvas.style.opacity = "0";
-            document.body.prepend(canvas);
-        }
+    public init(): Promise<void> {
+        return new Promise((resolve) => {
+            if (!document.getElementById("background-canvas")) {
+                const canvas = document.createElement("canvas");
+                canvas.id = "background-canvas";
+                canvas.style.position = "fixed";
+                canvas.style.top = "0";
+                canvas.style.left = "0";
+                canvas.style.width = "100%";
+                canvas.style.height = "100%";
+                canvas.style.zIndex = "-1";
+                canvas.style.opacity = "0";
+                document.body.prepend(canvas);
+            }
 
-        this.scene = new THREE.Scene();
+            this.scene = new THREE.Scene();
 
-        // Add gradient background
-        const backgroundColor = new THREE.Color(0x000000);
-        this.scene.background = backgroundColor;
-        this.scene.fog = new THREE.FogExp2(0x000000, 0.00001);
+            // Add gradient background
+            const backgroundColor = new THREE.Color(0x000000);
+            this.scene.background = backgroundColor;
+            this.scene.fog = new THREE.FogExp2(0x000000, 0.00001);
 
-        // Setup camera
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.position.z = 50;
+            // Setup camera
+            this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            this.camera.position.z = 50;
 
-        // Setup renderer
-        this.renderer = new THREE.WebGLRenderer({
-            canvas: document.getElementById("background-canvas") as HTMLCanvasElement,
-            alpha: true,
-            antialias: true,
-        });
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+            // Setup renderer
+            this.renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById("background-canvas") as HTMLCanvasElement,
+                alpha: true,
+                antialias: true,
+            });
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
+            this.renderer.setPixelRatio(window.devicePixelRatio);
 
-        // Create particles
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 5000;
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 5000;
 
-        const positions = new Float32Array(particlesCount * 3);
-        const colors = new Float32Array(particlesCount * 3);
+            const positions = new Float32Array(particlesCount * 3);
+            const colors = new Float32Array(particlesCount * 3);
 
-        const particleSize = 0.5;
+            const particleSize = 0.5;
 
-        // Create better particle distribution using spherical coordinates
-        for (let i = 0; i < particlesCount; i++) {
-            // Use spherical distribution with randomness to prevent clumping
-            const radius = 40 + Math.random() * 60; // Varied radius between 40-100
-            const theta = Math.random() * Math.PI * 2; // Random angle around y-axis
-            const phi = Math.acos(Math.random() * 2 - 1); // Random angle from top to bottom
+            // Create better particle distribution using spherical coordinates
+            for (let i = 0; i < particlesCount; i++) {
+                // Use spherical distribution with randomness to prevent clumping
+                const radius = 40 + Math.random() * 60; // Varied radius between 40-100
+                const theta = Math.random() * Math.PI * 2; // Random angle around y-axis
+                const phi = Math.acos(Math.random() * 2 - 1); // Random angle from top to bottom
 
-            // Convert spherical to cartesian coordinates
-            positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta); // x
-            positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta); // y
-            positions[i * 3 + 2] = radius * Math.cos(phi); // z
+                // Convert spherical to cartesian coordinates
+                positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta); // x
+                positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta); // y
+                positions[i * 3 + 2] = radius * Math.cos(phi); // z
 
-            // Color - brighter white/blue variations
-            colors[i * 3] = 0.9 + Math.random() * 0.1; // r - increased brightness
-            colors[i * 3 + 1] = 0.9 + Math.random() * 0.1; // g - increased brightness
-            colors[i * 3 + 2] = 1.0; // b - full brightness for blue
-        }
+                // Color - brighter white/blue variations
+                colors[i * 3] = 0.9 + Math.random() * 0.1; // r - increased brightness
+                colors[i * 3 + 1] = 0.9 + Math.random() * 0.1; // g - increased brightness
+                colors[i * 3 + 2] = 1.0; // b - full brightness for blue
+            }
 
-        particlesGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-        particlesGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+            particlesGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+            particlesGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
-        // Create a canvas texture for rounded particles
-        const particleTexture = new THREE.Texture(this.createParticleTexture());
-        particleTexture.needsUpdate = true;
+            // Create a canvas texture for rounded particles
+            const particleTexture = new THREE.Texture(this.createParticleTexture());
+            particleTexture.needsUpdate = true;
 
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: particleSize,
-            sizeAttenuation: true,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8,
-            map: particleTexture,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false,
-        });
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: particleSize,
+                sizeAttenuation: true,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                map: particleTexture,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+            });
 
-        this.particles = new THREE.Points(particlesGeometry, particlesMaterial);
-        this.scene.add(this.particles);
+            this.particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            this.scene.add(this.particles);
 
-        // Handle window resize
-        window.addEventListener("resize", this.handleResize.bind(this));
+            // Handle window resize
+            window.addEventListener("resize", this.handleResize.bind(this));
 
-        // Handle mouse movement
-        window.addEventListener("mousemove", this.handleMouseMove.bind(this));
+            // Handle mouse movement
+            window.addEventListener("mousemove", this.handleMouseMove.bind(this));
 
-        // Animate the background effect
-        this.animate();
+            // Animate the background effect
+            this.animate();
 
-        // Fade in the canvas
-        gsap.to(document.getElementById("background-canvas")!, {
-            opacity: 0.6,
-            duration: 2,
-            ease: "power2.inOut",
-            delay: 0.5,
+            // Fade in the canvas and resolve once done
+            gsap.to(document.getElementById("background-canvas")!, {
+                opacity: 0.6,
+                duration: 2,
+                ease: "power2.inOut",
+                delay: 0.5,
+                onComplete: () => resolve(),
+            });
         });
     }
 

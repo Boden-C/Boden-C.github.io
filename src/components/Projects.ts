@@ -1,4 +1,5 @@
 import { html } from "lit-html";
+import { gsap } from "gsap";
 
 export interface ProjectsProps {
     isVisible: boolean;
@@ -35,4 +36,20 @@ export const Projects = (props: ProjectsProps) => {
             aria-labelledby="projects-heading"
         ></section>
     `;
+};
+
+/**
+ * Initialize projects section effect
+ */
+export const init = (): Promise<void> => {
+    return new Promise((resolve) => {
+        const el = document.getElementById("projects-section");
+        if (!el) return resolve();
+        gsap.to(el, {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.inOut",
+            onComplete: () => resolve(),
+        });
+    });
 };

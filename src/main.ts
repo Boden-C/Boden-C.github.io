@@ -4,6 +4,7 @@ import { debounce, isHorizontalLayout, announceToScreenReader } from "./utils";
 import { gsap } from "gsap";
 import { ModelViewer } from "./components/ModelViewer";
 import { Background } from "./components/Background";
+import { init as initProjects } from "./components/Projects";
 
 // --- Application State ---
 interface AppState {
@@ -84,22 +85,22 @@ const updateLayout = () => {
 /**
  * Initialize the background effect
  */
-const initBackgroundEffect = () => {
+const initBackgroundEffect = (): Promise<void> => {
     console.log("Initializing background effect...");
     state.background = new Background();
-    state.background.init();
+    return state.background.init();
 };
 
 /**
- * Initialize the model viewer for the second section
+ * Initialize and start loading the model in the background
  */
-const initModelViewer = () => {
+const initModelLoader = (): Promise<void> => {
     if (!modelSectionElement) {
         console.error("Model section container not found");
-        return;
+        return Promise.resolve();
     }
 
-    console.log("Initializing model viewer...");
+    console.log("Starting model loading in the background...");
 
     // Prevent layout shifts during loading by pre-dimensioning the container
     if (modelSectionElement) {
@@ -108,44 +109,20 @@ const initModelViewer = () => {
     }
 
     state.modelViewer = new ModelViewer("section-model");
+    return state.modelViewer.load(); // Only load the model, don't render yet
+};
 
-    // Load model content and handle the returned promise
-    state.modelViewer
-        .loadContent()
-        .then(() => {
-            console.log("Model loaded successfully");
-            setTimeout(() => {
-                state.isLoaded = true;
-                renderApp();
+/**
+ * Render the model (assumes it has been loaded or is loading)
+ */
+const renderModel = (): Promise<void> => {
+    if (!state.modelViewer) {
+        console.error("Model viewer not initialized");
+        return Promise.resolve();
+    }
 
-                // Smoothly fade in the model instead of jumping
-                if (modelSectionElement) {
-                    modelSectionElement.style.visibility = "visible";
-                    gsap.to(modelSectionElement, {
-                        opacity: 1,
-                        duration: 0.5,
-                        ease: "power2.inOut",
-                    });
-                }
-
-                // Allow scrolling after model is loaded
-                document.body.classList.remove("overflow-y-hidden");
-            }, 1000); // 1 second delay
-        })
-        .catch((error) => {
-            console.error("Failed to load the model:", error);
-            // Set loaded state anyway to continue with UI display
-            state.isLoaded = true;
-            renderApp();
-
-            // Show the section even if model failed
-            if (modelSectionElement) {
-                modelSectionElement.style.visibility = "visible";
-                modelSectionElement.style.opacity = "1";
-            }
-
-            document.body.classList.remove("overflow-y-hidden");
-        });
+    console.log("Rendering model...");
+    return state.modelViewer.render();
 };
 
 // --- Event Listeners ---
@@ -183,8 +160,56 @@ window.addEventListener("load", function () {
     }, 100);
 });
 
-// Initial setup
-document.body.classList.add("overflow-y-hidden");
-initBackgroundEffect();
-renderApp();
-initModelViewer();
+// Helpers
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+// Orchestrate load sequence
+const orchestrateInitialLoad = async () => {
+    document.body.classList.add("overflow-y-hidden");
+    renderApp();
+
+    // Start loading the model in the background right away
+    const modelLoadPromise = initModelLoader();
+
+    try {
+        // Background and projects with min 1s, max 4s
+        await Promise.all([
+            initBackgroundEffect(),
+            Promise.race([
+                Promise.all([initProjects(), delay(1000)]),
+                delay(4000).then(() => {
+                    throw new Error("Projects init timed out");
+                }),
+            ]),
+        ]);
+    } catch (err) {
+        console.error(err);
+    }
+
+    state.isLoaded = true;
+    renderApp();
+    await delay(4500);
+
+    try {
+        // Render the model with timeout (which should be mostly loaded by now)
+        await Promise.race([
+            renderModel(),
+            delay(10000).then(() => {
+                throw new Error("Model render timed out");
+            }),
+        ]);
+    } catch (err) {
+        console.error(err);
+    }
+
+    // Fade in model section
+    if (modelSectionElement) {
+        modelSectionElement.style.visibility = "visible";
+        gsap.to(modelSectionElement, { opacity: 1, duration: 0.5, ease: "power2.inOut" });
+    }
+
+    document.body.classList.remove("overflow-y-hidden");
+};
+
+// Start
+orchestrateInitialLoad();

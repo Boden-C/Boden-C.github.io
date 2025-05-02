@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"; // Import GLTFLoader
 
-const PATH = "src/assets/model/scene.gltf"; // Path to the model
+const PATH = "../assets/model/scene.gltf"; // Path to the model
 
 export class ModelViewer {
     private container: HTMLElement;
@@ -18,6 +18,10 @@ export class ModelViewer {
     private targetMouseX: number = 0; // Target mouse X for smooth interpolation
     private targetMouseY: number = 0; // Target mouse Y for smooth interpolation
     private model: THREE.Object3D | null = null; // Reference to the loaded model
+    private modelLoaded: boolean = false;
+    private modelLoading: boolean = false;
+    private loadPromise: Promise<void> | null = null;
+    private isRendering: boolean = false;
 
     constructor(containerId: string) {
         // Get the container element
@@ -44,9 +48,6 @@ export class ModelViewer {
         // Flip the output horizontally by scaling the renderer's domElement
         this.renderer.domElement.style.transform = "scaleX(-1)";
 
-        // Add the renderer to the container
-        this.container.appendChild(this.renderer.domElement);
-
         // Setup camera position - Adjusted for closer view
         this.camera.position.set(0, 0, 3); // Moved closer and higher
 
@@ -56,9 +57,6 @@ export class ModelViewer {
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
         directionalLight.position.set(5, 10, 7.5);
         this.scene.add(directionalLight);
-
-        // Initialize animation
-        this.animate();
 
         // Handle resize events
         window.addEventListener("resize", this.handleResize.bind(this));
@@ -87,6 +85,8 @@ export class ModelViewer {
     }
 
     private animate(): void {
+        if (!this.isRendering) return;
+
         this.animationFrame = requestAnimationFrame(this.animate.bind(this));
 
         // Update animation mixer
@@ -114,6 +114,9 @@ export class ModelViewer {
             cancelAnimationFrame(this.animationFrame);
         }
 
+        // Stop rendering
+        this.isRendering = false;
+
         // Stop animation mixer
         this.mixer = null;
 
@@ -122,9 +125,20 @@ export class ModelViewer {
         window.removeEventListener("mousemove", this.handleMouseMove);
     }
 
-    // Method to add content to the scene
-    public loadContent(): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
+    // Method to load the model in the background
+    public load(): Promise<void> {
+        // If already loaded or loading, return the existing promise
+        if (this.modelLoaded) {
+            return Promise.resolve();
+        }
+
+        if (this.modelLoading && this.loadPromise) {
+            return this.loadPromise;
+        }
+
+        this.modelLoading = true;
+
+        this.loadPromise = new Promise<void>((resolve, reject) => {
             const loader = new GLTFLoader();
             const modelPath = PATH;
 
@@ -157,43 +171,13 @@ export class ModelViewer {
                     // Start with lower Y position
                     model.position.y = -(center.y - 1.0);
 
-                    // Add ~1 second delay before starting the animation
-                    const animationDelay = 1200; // 1 second in milliseconds
-
-                    setTimeout(() => {
-                        // Animate the model from lower to higher position
-                        const startY = model.position.y;
-                        const targetY = -(center.y - 1.4); // Target position from the original code
-
-                        // Use GSAP or simple animation
-                        const duration = 3; // seconds
-                        const startTime = this.clock.getElapsedTime();
-
-                        const animateModelPosition = () => {
-                            const elapsed = this.clock.getElapsedTime() - startTime;
-                            const progress = Math.min(elapsed / duration, 1);
-
-                            // Ease function (ease-out)
-                            const easeProgress = 1 - Math.pow(1 - progress, 3);
-
-                            // Interpolate position
-                            model.position.y = startY + (targetY - startY) * easeProgress;
-
-                            if (progress < 1) {
-                                requestAnimationFrame(animateModelPosition);
-                            }
-                        };
-
-                        // Start the animation
-                        animateModelPosition();
-                    }, animationDelay);
-
                     // Rotate model 90 degrees around Y axis to face us
                     model.rotation.y = Math.PI / 2; // 90 degrees in radians
 
+                    // Add model to scene but don't display it yet
                     this.scene.add(model);
 
-                    // --- Setup animations ---
+                    // Setup animations
                     if (gltf.animations && gltf.animations.length) {
                         console.log("Model has animations:", gltf.animations);
                         this.mixer = new THREE.AnimationMixer(model);
@@ -205,7 +189,8 @@ export class ModelViewer {
                         console.log("Model has no animations.");
                     }
 
-                    // Resolve the promise when the model is loaded and added to the scene
+                    this.modelLoaded = true;
+                    this.modelLoading = false;
                     resolve();
                 },
                 (xhr) => {
@@ -223,10 +208,77 @@ export class ModelViewer {
                     this.scene.add(cube);
                     this.model = cube; // Store reference to the fallback cube
 
-                    // Reject the promise with the error
+                    this.modelLoaded = true;
+                    this.modelLoading = false;
                     reject(error);
                 }
             );
         });
+
+        return this.loadPromise;
+    }
+
+    // Method to start rendering the model
+    public render(): Promise<void> {
+        return new Promise<void>((resolve) => {
+            // Ensure the model is loaded first
+            if (!this.modelLoaded && !this.modelLoading) {
+                this.load();
+            }
+
+            // Attach renderer to DOM if not already attached
+            if (!this.container.contains(this.renderer.domElement)) {
+                this.container.appendChild(this.renderer.domElement);
+            }
+
+            // Start animation loop
+            this.isRendering = true;
+            this.animate();
+
+            // Add ~1 second delay before starting the animation
+            const animationDelay = 1200; // 1 second in milliseconds
+
+            setTimeout(() => {
+                if (!this.model) {
+                    resolve();
+                    return;
+                }
+
+                // Animate the model from lower to higher position
+                const startY = this.model.position.y;
+                const targetY = -(new THREE.Box3().setFromObject(this.model).getCenter(new THREE.Vector3()).y - 2);
+
+                // Use GSAP or simple animation
+                const duration = 3; // seconds
+                const startTime = this.clock.getElapsedTime();
+
+                const animateModelPosition = () => {
+                    if (!this.model || !this.isRendering) return;
+
+                    const elapsed = this.clock.getElapsedTime() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // Ease function (ease-out)
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+                    // Interpolate position
+                    this.model.position.y = startY + (targetY - startY) * easeProgress;
+
+                    if (progress < 1 && this.isRendering) {
+                        requestAnimationFrame(animateModelPosition);
+                    } else {
+                        resolve();
+                    }
+                };
+
+                // Start the animation
+                animateModelPosition();
+            }, animationDelay);
+        });
+    }
+
+    // For backward compatibility
+    public loadContent(): Promise<void> {
+        return this.load().then(() => this.render());
     }
 }
