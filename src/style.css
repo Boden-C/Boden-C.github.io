@@ -84,7 +84,7 @@
     transition: opacity 0.5s ease-in-out;
     top: 40%;
     left: 5%;
-    width: 35%;
+    width: min(50%, 500px);
 }
 
 .project-container.loaded-horizontal {

@@ -176,7 +176,7 @@ export const About = (props: AboutProps) => {
                         <span class="text-sm mt-1">LinkedIn</span>
                     </a>
                     <a
-                        href="../assets/Boden_Chen_Resume.pdf"
+                        href="../assets/Boden_Chen_resume.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="text-white hover:text-blue-300 transition-colors flex flex-col items-center"
