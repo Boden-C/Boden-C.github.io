@@ -1,6 +1,8 @@
 # Boden-C.github.io
 
-Personal website built with [lit-html](https://lit.dev/docs/libraries/standalone-templates/).
+Source code behind [personal website](https://boden-c.github.io)
+
+Built with [lit-html](https://lit.dev/docs/libraries/standalone-templates/).
 
 ## Project Structure
 
