@@ -37,7 +37,6 @@ export class ModelViewer {
         // Prevent layout shifts by explicitly setting dimensions
         this.container.style.minHeight = "400px";
         this.container.style.position = "relative";
-        this.container.style.zIndex = "-1";
 
         // Create scene, camera, and renderer
         this.scene = new THREE.Scene();

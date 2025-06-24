@@ -85,132 +85,19 @@ export const About = (props: AboutProps) => {
     if (isVisible) {
         // Use setTimeout to ensure DOM is ready
         setTimeout(() => {
-            animateTerminalContent();            // Setup blinking cursor animation
+            animateTerminalContent();
+
+            // Setup blinking cursor animation
             gsap.to("#cursor", {
                 opacity: 0,
                 repeat: -1,
                 yoyo: true,
                 duration: 0.8,
             });
-
-            // Setup GitHub icon pulsing animation (optimized)
-            gsap.to("#github-icon", {
-                scale: 1.1,
-                opacity: 0.9,
-                repeat: -1,
-                yoyo: true,
-                duration: 2.5,
-                ease: "power2.inOut",
-            });
-
-            // Floating animation for all social icons (reduced frequency)
-            gsap.to(".social-icon", {
-                y: -3,
-                duration: 3,
-                ease: "power1.inOut",
-                yoyo: true,
-                repeat: -1,
-                stagger: 0.5,
-            });
-
-            // Setup optimized hover animations for social icons
-            const socialIcons = document.querySelectorAll(".social-icon");
-            socialIcons.forEach((icon, index) => {
-                const svg = icon.querySelector("svg");
-                const label = icon.querySelector("span");                icon.addEventListener("mouseenter", () => {
-                    // Minimal rotation for smooth performance
-                    gsap.to(icon, {
-                        scale: 1.1,
-                        rotationY: 3,
-                        duration: 0.2,
-                        ease: "power2.out",
-                    });
-                    
-                    // Reduced rotation for better performance
-                    gsap.to(svg, {
-                        scale: 1.15,
-                        rotation: 10,
-                        duration: 0.3,
-                        ease: "power2.out",
-                    });
-                    
-                    // Simplified label animation
-                    gsap.to(label, {
-                        scale: 1.03,
-                        y: -1,
-                        duration: 0.2,
-                        ease: "power2.out",
-                    });
-
-                    // Reduced particle count for performance
-                    for (let i = 0; i < 2; i++) {
-                        const particle = document.createElement("div");
-                        particle.style.cssText = `
-                            position: absolute;
-                            width: 2px;
-                            height: 2px;
-                            background: ${index === 0 ? '#a855f7' : index === 1 ? '#3b82f6' : '#22c55e'};
-                            border-radius: 50%;
-                            pointer-events: none;
-                            z-index: 1000;
-                        `;
-                        icon.appendChild(particle);
-                        
-                        gsap.fromTo(particle, 
-                            { 
-                                x: 0, 
-                                y: 0, 
-                                opacity: 1,
-                                scale: 0 
-                            },
-                            {
-                                x: (Math.random() - 0.5) * 40,
-                                y: (Math.random() - 0.5) * 40,
-                                opacity: 0,
-                                scale: 1,
-                                duration: 0.6,
-                                ease: "power2.out",
-                                onComplete: () => particle.remove()
-                            }
-                        );
-                    }
-                });
-
-                icon.addEventListener("mouseleave", () => {
-                    gsap.to(icon, {
-                        scale: 1,
-                        rotationY: 0,
-                        duration: 0.3,
-                        ease: "power2.out",
-                    });
-                    
-                    gsap.to(svg, {
-                        scale: 1,
-                        rotation: 0,
-                        duration: 0.3,
-                        ease: "power2.out",
-                    });
-                    
-                    gsap.to(label, {
-                        scale: 1,
-                        y: 0,
-                        duration: 0.2,
-                        ease: "power2.out",
-                    });
-                });
-            });
         }, 100);
-    }    return html`
-        <style>
-            @keyframes gradientFlow {
-                0%, 100% {
-                    background-position: 0% 50%;
-                }
-                50% {
-                    background-position: 100% 50%;
-                }
-            }
-        </style>
+    }
+
+    return html`
         <section id="about-section" class="${classes}" aria-hidden="${!isVisible}" aria-labelledby="terminal-header">
             <div class="terminal-container text-left">
                 <!-- Terminal header with static prompt and animated command -->
@@ -221,19 +108,12 @@ export const About = (props: AboutProps) => {
                 </div>
 
                 <!-- Terminal content (paragraphs with animations) -->
-                <div class="mt-4 text-gray-200">                    <!-- First paragraph as header with different styling -->
+                <div class="mt-4 text-gray-200">
+                    <!-- First paragraph as header with different styling -->
                     <p
                         id="paragraph-0"
-                        class="mb-4 opacity-0 transform translate-y-4 text-3xl font-bold"
-                        style="
-                            transition: opacity 0.3s, transform 0.3s;
-                            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #a855f7, #3b82f6);
-                            background-size: 300% 100%;
-                            background-clip: text;
-                            -webkit-background-clip: text;
-                            -webkit-text-fill-color: transparent;
-                            animation: gradientFlow 3s ease-in-out infinite;
-                        "
+                        class="mb-4 opacity-0 transform translate-y-4 text-3xl font-bold text-blue-400"
+                        style="transition: opacity 0.3s, transform 0.3s"
                     >
                         ${README_PARAGRAPHS[0]}
                     </p>
@@ -250,64 +130,63 @@ export const About = (props: AboutProps) => {
                             </p>
                         `
                     )}
-                </div>                <!-- Social links -->
+                </div>
+
+                <!-- Social links -->
                 <div
                     id="social-links"
-                    class="mt-6 flex items-center justify-center flex-wrap opacity-0 transform translate-y-4"
-                    style="gap: 2rem;"
-                ><a
+                    class="mt-6 flex items-center opacity-0 transform translate-y-4"
+                    style="gap: 1.5rem;"
+                >
+                    <span class="text-blue-400">See my projects on:</span>
+                    <a
                         href="https://github.com/Boden-C"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="social-icon text-white hover:text-purple-300 transition-all duration-500 flex flex-col items-center group relative overflow-hidden rounded-lg p-3 backdrop-blur-sm border border-purple-500/20 hover:border-purple-400/60 hover:bg-gradient-to-br hover:from-purple-900/20 hover:via-purple-800/20 hover:to-pink-900/20"
-                        style="transform-style: preserve-3d;"
+                        class="text-white hover:text-blue-300 transition-colors flex flex-col items-center"
                     >
-                        <div class="absolute inset-0 bg-gradient-to-r from-purple-600/0 via-purple-500/10 to-pink-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>                        <svg
-                            id="github-icon"
-                            class="w-10 h-10 inline transition-all duration-500 filter drop-shadow-lg relative z-10 group-hover:drop-shadow-xl"
+                        <svg
+                            class="w-8 h-8 inline"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 496 512"
                             fill="currentColor"
-                            style="filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)) drop-shadow(0 0 16px rgba(168, 85, 247, 0.3));"
                         >
                             <path
                                 d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
                             />
-                        </svg>                        <span class="text-sm mt-1 relative z-10 group-hover:text-purple-200 transition-colors duration-300">GitHub</span>
-                    </a>                    <a
+                        </svg>
+                        <span class="text-sm mt-1">GitHub</span>
+                    </a>
+                    <a
                         href="https://www.linkedin.com/in/boden-chen-7088462b3/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="social-icon text-white hover:text-blue-300 transition-all duration-500 flex flex-col items-center group relative overflow-hidden rounded-lg p-3 backdrop-blur-sm border border-blue-500/20 hover:border-blue-400/60 hover:bg-gradient-to-br hover:from-blue-900/20 hover:via-blue-800/20 hover:to-cyan-900/20"
-                        style="transform-style: preserve-3d;"
+                        class="text-white hover:text-blue-300 transition-colors flex flex-col items-center"
                     >
-                        <div class="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-500/10 to-cyan-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="absolute inset-0 bg-gradient-to-45 from-transparent via-blue-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>                        <svg
-                            class="w-10 h-10 inline transition-all duration-500 filter drop-shadow-lg relative z-10 group-hover:drop-shadow-xl group-hover:scale-110"
+                        <svg
+                            class="w-8 h-8 inline"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 448 512"
                             fill="currentColor"
-                            style="filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 16px rgba(59, 130, 246, 0.3));"
                         >
                             <path
                                 d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
                             />
-                        </svg>                        <span class="text-sm mt-1 relative z-10 group-hover:text-blue-200 transition-colors duration-300">LinkedIn</span>
-                    </a>                    <a
+                        </svg>
+                        <span class="text-sm mt-1">LinkedIn</span>
+                    </a>
+                    <a
                         href="../assets/Boden_Chen_resume.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="social-icon text-white hover:text-green-300 transition-all duration-500 flex flex-col items-center group relative overflow-hidden rounded-lg p-3 backdrop-blur-sm border border-green-500/20 hover:border-green-400/60 hover:bg-gradient-to-br hover:from-green-900/20 hover:via-emerald-800/20 hover:to-teal-900/20"
+                        class="text-white hover:text-blue-300 transition-colors flex flex-col items-center"
                         aria-label="View my resume"
-                        style="transform-style: preserve-3d;"
                     >
-                        <div class="absolute inset-0 bg-gradient-to-r from-green-600/0 via-emerald-500/10 to-teal-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="absolute inset-0 bg-gradient-to-tl from-transparent via-green-400/8 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-800 animate-bounce"></div>                        <svg
-                            class="w-10 h-10 inline transition-all duration-500 filter drop-shadow-lg relative z-10 group-hover:drop-shadow-xl group-hover:scale-110 group-hover:rotate-3"
+                        <svg
+                            class="w-8 h-8 inline"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 384 512"
                             fill="currentColor"
-                            style="filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6)) drop-shadow(0 0 16px rgba(34, 197, 94, 0.3));"
                         >
                             <path
                                 d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5-17.2-10.5-28.7-25-36.8-46.3 3.9-16.1 10.1-40.6 5.4-56-4.2-26.2-37.8-23.6-42.6-5.9-4.4 16.1-.4 38.5 7 67.1-10 23.9-24.9 56-35.4 74.4-20 10.3-47 26.2-51 46.2-3.3 15.8 26 55.2 76.1-31.2 22.4-7.4 46.8-16.5 68.4-20.1 18.9 10.2 41 17 55.8 17 25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7 8.3 15.1 18.9 27.2 30.1 35.5-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z"
