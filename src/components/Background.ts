@@ -23,7 +23,7 @@ export class Background {
                 canvas.style.left = "0";
                 canvas.style.width = "100%";
                 canvas.style.height = "100%";
-                canvas.style.zIndex = "-1";
+                canvas.style.zIndex = "1";
                 canvas.style.opacity = "0";
                 document.body.prepend(canvas);
             }
@@ -100,7 +100,8 @@ export class Background {
             window.addEventListener("resize", this.handleResize.bind(this));
 
             // Handle mouse movement
-            window.addEventListener("mousemove", this.handleMouseMove.bind(this));
+            // Too laggy...but know I added it
+            // window.addEventListener("mousemove", this.handleMouseMove.bind(this));
 
             // Animate the background effect
             this.animate();

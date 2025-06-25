@@ -271,8 +271,9 @@ const orchestrateInitialLoad = async () => {
     } else {
         state.isLoaded = true;
     }
-
-    document.body.classList.remove("overflow-y-hidden");
+    
+    // TODO: Add back in the model
+    // document.body.classList.remove("overflow-y-hidden");
 };
 
 // Start
