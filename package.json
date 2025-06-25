@@ -19,6 +19,7 @@
     "dependencies": {
         "gsap": "^3.12.2",
         "lit-html": "^3.3.0",
+        "polymorph-js": "^1.0.2",
         "three": "^0.154.0"
     }
 }
