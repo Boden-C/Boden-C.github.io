@@ -2,7 +2,6 @@ import { render } from "lit-html";
 import { Layout } from "./components/Layout";
 import { debounce, isHorizontalLayout, announceToScreenReader } from "./utils";
 import { gsap } from "gsap";
-import { ModelViewer } from "./components/ModelViewer";
 import { Background } from "./components/Background";
 import { init as initProjects } from "./components/Projects";
 
@@ -13,9 +12,8 @@ interface AppState {
     areExtraDivsVisible: boolean;
     mouseX: number;
     mouseY: number;
-    background?: Background;
-    modelViewer?: ModelViewer;
     currentPath: string;
+    background?: Background;
 }
 
 const state: AppState = {
@@ -44,7 +42,6 @@ const fetchHtmlContent = async (url: string): Promise<string | null> => {
 
 // --- DOM References ---
 const appElement = document.getElementById("app") as HTMLElement;
-const modelSectionElement = document.getElementById("section-model") as HTMLElement;
 
 // --- Rendering ---
 const renderApp = async (): Promise<void> => {
@@ -52,53 +49,8 @@ const renderApp = async (): Promise<void> => {
         console.error("App container not found");
         return;
     }
-    switch (state.currentPath) {
-        case "/languages": {
-            const languagesHtml = await fetchHtmlContent("/languages.html");
-            if (languagesHtml) {
-                appElement.innerHTML = languagesHtml;
-            } else {
-                appElement.innerHTML = "<p>Error: Could not load languages page.</p>";
-            }
-            break;
-        }
-        case "/":
-        default:
-            render(Layout(state), appElement);
-            break;
-    }
+    render(Layout(state), appElement);
 };
-
-// --- Router Logic ---
-const navigateTo = async (path: string): Promise<void> => {
-    if (window.location.pathname === path && window.location.search === "") {
-        return;
-    }
-    history.pushState({ path }, "", path);
-    state.currentPath = path;
-    await renderApp();
-};
-
-window.addEventListener("popstate", async (event: PopStateEvent) => {
-    const path = event.state?.path || window.location.pathname;
-    state.currentPath = path;
-    await renderApp();
-});
-
-document.addEventListener("click", (event: MouseEvent) => {
-    const target = event.target as HTMLElement;
-    const anchor = target.closest("a[href^='/']");
-    if (anchor && anchor instanceof HTMLAnchorElement && anchor.host === window.location.host) {
-        if (anchor.target === "_blank" || anchor.hasAttribute("download") || event.metaKey || event.ctrlKey) {
-            return;
-        }
-        const path = anchor.pathname;
-        if (path !== window.location.pathname) {
-            event.preventDefault();
-            navigateTo(path).catch((err) => console.error("Navigation error:", err));
-        }
-    }
-});
 
 // --- Event Handlers ---
 
@@ -151,40 +103,6 @@ const initBackgroundEffect = (): Promise<void> => {
     return state.background.init();
 };
 
-/**
- * Initialize and start loading the model in the background
- */
-const initModelLoader = (): Promise<void> => {
-    if (!modelSectionElement) {
-        console.error("Model section container not found");
-        return Promise.resolve();
-    }
-
-    console.log("Starting model loading in the background...");
-
-    // Prevent layout shifts during loading by pre-dimensioning the container
-    if (modelSectionElement) {
-        modelSectionElement.style.visibility = "hidden"; // Hide until loaded
-        modelSectionElement.style.opacity = "0";
-    }
-
-    state.modelViewer = new ModelViewer("section-model");
-    return state.modelViewer.load(); // Only load the model, don't render yet
-};
-
-/**
- * Render the model (assumes it has been loaded or is loading)
- */
-const renderModel = (): Promise<void> => {
-    if (!state.modelViewer) {
-        console.error("Model viewer not initialized");
-        return Promise.resolve();
-    }
-
-    console.log("Rendering model...");
-    return state.modelViewer.render();
-};
-
 // --- Event Listeners ---
 window.addEventListener("resize", debounce(updateLayout, 100));
 window.addEventListener("orientationchange", updateLayout);
@@ -229,51 +147,20 @@ const orchestrateInitialLoad = async () => {
     await renderApp();
 
     if (state.currentPath === "/") {
-        // Start loading the model in the background right away
-        const modelLoadPromise = initModelLoader();
-
+        // Removed model loading
         try {
-            // Background and projects with min 1s, max 4s
-            await Promise.all([
-                initBackgroundEffect(),
-                // Promise.race([
-                //     Promise.all([initProjects(), delay(1000)]),
-                //     delay(4000).then(() => {
-                //         throw new Error("Projects init timed out");
-                //     }),
-                // ]),
-            ]);
+            await initBackgroundEffect();
         } catch (err) {
             console.error(err);
         }
 
         state.isLoaded = true;
         await renderApp();
-        await delay(4500);
-
-        try {
-            // Render the model with timeout (which should be mostly loaded by now)
-            await Promise.race([
-                renderModel(),
-                delay(10000).then(() => {
-                    throw new Error("Model render timed out");
-                }),
-            ]);
-        } catch (err) {
-            console.error(err);
-        }
-
-        // Fade in model section
-        if (modelSectionElement) {
-            modelSectionElement.style.visibility = "visible";
-            gsap.to(modelSectionElement, { opacity: 1, duration: 0.5, ease: "power2.inOut" });
-        }
     } else {
         state.isLoaded = true;
     }
-    
+
     // TODO: Add back in the model
-    // document.body.classList.remove("overflow-y-hidden");
 };
 
 // Start

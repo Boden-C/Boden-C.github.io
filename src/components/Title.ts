@@ -12,6 +12,8 @@ interface AnimationConfig {
     easing: number;
     directionChangeInterval: number;
     movementMagnitude: number;
+    /** Influence factor of mouse velocity on gradient position */
+    mouseInfluence: number;
 }
 
 interface AnimationState {
@@ -21,6 +23,10 @@ interface AnimationState {
     targetRandomY: number;
     prevX: number;
     prevY: number;
+    lastMouseX: number;
+    lastMouseY: number;
+    velocityX: number;
+    velocityY: number;
 }
 
 /**
@@ -31,9 +37,10 @@ export const initTitleAnimation = (): number => {
     const elements = document.querySelectorAll(".glossy-text");
     if (elements.length === 0) return 0; // Animation configuration
     const config: AnimationConfig = {
-        easing: 0.015,
-        directionChangeInterval: 400,
+        easing: 0.04,
+        directionChangeInterval: 200,
         movementMagnitude: 80,
+        mouseInfluence: 30,
     };
 
     // Animation state
@@ -44,7 +51,21 @@ export const initTitleAnimation = (): number => {
         targetRandomY: getRandomOffset(config.movementMagnitude),
         prevX: 40,
         prevY: 45,
+        lastMouseX: 0,
+        lastMouseY: 0,
+        velocityX: 0,
+        velocityY: 0,
     };
+
+    // track mouse velocity
+    document.addEventListener("mousemove", (e) => {
+        const dx = e.clientX - state.lastMouseX;
+        const dy = e.clientY - state.lastMouseY;
+        state.velocityX = (dx / window.innerWidth) * 100;
+        state.velocityY = (dy / window.innerHeight) * 100;
+        state.lastMouseX = e.clientX;
+        state.lastMouseY = e.clientY;
+    });
 
     setupRandomMovement(state, config);
     return startAnimationLoop(elements, state, config);
@@ -87,6 +108,10 @@ function startAnimationLoop(elements: NodeListOf<Element>, state: AnimationState
         const centerY = 45;
         let x = centerX + state.randomOffsetX;
         let y = centerY + state.randomOffsetY;
+
+        // incorporate mouse velocity influence
+        x += state.velocityX * config.mouseInfluence;
+        y += state.velocityY * config.mouseInfluence;
 
         // Constrain the position to prevent it from moving outside reasonable bounds
         x = Math.max(25, Math.min(65, x));
