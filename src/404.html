@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Page not found - Boden Chen's portfolio" />
+        <title>404 - Page Not Found | Boden Chen</title>
+
+        <!-- Open Graph / Rich Preview Meta Tags -->
+        <meta property="og:title" content="404 - Page Not Found | Boden Chen" />
+        <meta property="og:description" content="The page you're looking for doesn't exist." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://boden-c.github.io/404" />
+        <meta property="og:image" content="assets/logo.jpg" />
+        <meta property="og:site_name" content="Boden Chen Portfolio" />
+        <meta name="twitter:card" content="summary_large_image" />
+
+        <!-- Favicon -->
+        <link rel="icon" href="assets/icon.png" type="image/png" />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="style.css" />
+
+        <!-- GSAP Animation Library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+        <!-- Inline 404 Page Animations -->
+        <script>
+            /**
+             * 404 Error Page Animation Controller
+             * Handles all animations and interactive effects for the error page
+             */
+            class ErrorPageAnimator {
+                constructor() {
+                    this.particles = [];
+                    this.animationFrameId = null;
+                    this.mouseX = 0;
+                    this.mouseY = 0;
+                    this.isInitialized = false;
+                }
+
+                /**
+                 * Initialize all animations and effects
+                 */
+                async init() {
+                    if (this.isInitialized) return;
+
+                    this.setupEventListeners();
+                    await this.createParticles();
+                    await this.animateBackground();
+                    await this.animateContent();
+                    await this.setupInteractiveEffects();
+
+                    this.isInitialized = true;
+                    this.startAnimationLoop();
+                }
+
+                /**
+                 * Setup event listeners for mouse tracking and interactions
+                 */
+                setupEventListeners() {
+                    document.addEventListener("mousemove", this.handleMouseMove.bind(this));
+
+                    // Keyboard accessibility
+                    document.addEventListener("keydown", (e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            const target = e.target;
+                            if (target.classList.contains("error-btn")) {
+                                target.click();
+                            }
+                        }
+                    });
+                }
+
+                /**
+                 * Handle mouse movement for interactive effects
+                 */
+                handleMouseMove(event) {
+                    this.mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                    this.mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                }
+
+                /**
+                 * Create floating particles with random positions and animations
+                 */
+                async createParticles() {
+                    const particleContainer = document.querySelector(".error-particles");
+                    if (!particleContainer) return;
+
+                    const particleCount = 50;
+
+                    for (let i = 0; i < particleCount; i++) {
+                        const particle = document.createElement("div");
+                        particle.className = "error-particle absolute rounded-full bg-white opacity-20";
+
+                        // Random size between 1-4px
+                        const size = Math.random() * 3 + 1;
+                        particle.style.width = `${size}px`;
+                        particle.style.height = `${size}px`;
+
+                        // Random position
+                        particle.style.left = `${Math.random() * 100}%`;
+                        particle.style.top = `${Math.random() * 100}%`;
+
+                        // Random animation delay
+                        particle.style.animationDelay = `${Math.random() * 5}s`;
+
+                        particleContainer.appendChild(particle);
+                        this.particles.push(particle);
+
+                        // Animate particle appearance
+                        gsap.fromTo(
+                            particle,
+                            { scale: 0, opacity: 0 },
+                            {
+                                scale: 1,
+                                opacity: Math.random() * 0.3 + 0.1,
+                                duration: Math.random() * 2 + 1,
+                                delay: Math.random() * 3,
+                                ease: "power2.out",
+                            }
+                        );
+                    }
+                }
+
+                /**
+                 * Animate the background gradient
+                 */
+                async animateBackground() {
+                    const bgGradient = document.querySelector(".error-bg-gradient");
+                    if (!bgGradient) return;
+
+                    // Set initial gradient
+                    bgGradient.style.background = `
+            radial-gradient(
+                circle at 30% 70%,
+                rgba(45, 55, 75, 0.15) 0%,
+                rgba(25, 35, 55, 0.1) 40%,
+                rgba(15, 20, 35, 0.05) 70%,
+                transparent 100%
+            ),
+            linear-gradient(
+                135deg,
+                rgba(30, 40, 60, 0.1) 0%,
+                rgba(20, 25, 40, 0.08) 50%,
+                rgba(10, 15, 25, 0.05) 100%
+            )
+        `;
+
+                    // Fade in background
+                    gsap.to(bgGradient, {
+                        opacity: 1,
+                        duration: 3,
+                        ease: "power2.inOut",
+                    });
+
+                    // Animate gradient position
+                    gsap.to(bgGradient, {
+                        backgroundPosition: "100% 30%",
+                        duration: 20,
+                        ease: "none",
+                        repeat: -1,
+                        yoyo: true,
+                    });
+                }
+
+                /**
+                 * Animate the main content elements
+                 */
+                async animateContent() {
+                    const content = document.querySelector(".error-content");
+                    const number = document.querySelector(".error-number");
+                    const title = document.querySelector(".error-title");
+                    const description = document.querySelector(".error-description");
+                    const actions = document.querySelector(".error-actions");
+
+                    if (!content) return;
+
+                    // Main content container
+                    gsap.to(content, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1.5,
+                        ease: "power3.out",
+                        delay: 0.5,
+                    });
+
+                    // Large 404 number with dramatic entrance
+                    if (number) {
+                        // Set initial styles for 404 number
+                        number.style.fontSize = "min(25vw, 15rem)";
+                        number.style.fontWeight = "700";
+                        number.style.lineHeight = "0.8";
+
+                        gsap.fromTo(
+                            number,
+                            {
+                                scale: 0.3,
+                                opacity: 0,
+                                rotationY: 180,
+                                filter: "blur(20px)",
+                            },
+                            {
+                                scale: 1,
+                                opacity: 1,
+                                rotationY: 0,
+                                filter: "blur(0px)",
+                                duration: 2,
+                                ease: "back.out(1.7)",
+                                delay: 0.8,
+                            }
+                        );
+
+                        // Continuous subtle animation
+                        gsap.to(number, {
+                            rotationY: 5,
+                            duration: 4,
+                            ease: "sine.inOut",
+                            repeat: -1,
+                            yoyo: true,
+                        });
+                    }
+
+                    // Title animation
+                    if (title) {
+                        title.style.fontSize = "2rem";
+                        gsap.to(title, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            ease: "power2.out",
+                            delay: 1.5,
+                        });
+                    }
+
+                    // Description animation
+                    if (description) {
+                        gsap.to(description, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            ease: "power2.out",
+                            delay: 1.8,
+                        });
+                    }
+
+                    // Actions animation
+                    if (actions) {
+                        gsap.to(actions, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            ease: "power2.out",
+                            delay: 2.1,
+                        });
+                    }
+
+                    // Animate decorative glows
+                    this.animateDecorativeElements();
+                }
+
+                /**
+                 * Animate decorative glow elements
+                 */
+                animateDecorativeElements() {
+                    const glows = document.querySelectorAll("[class^='error-glow-']");
+
+                    glows.forEach((glow, index) => {
+                        const size = Math.random() * 200 + 100;
+                        const x = Math.random() * 100;
+                        const y = Math.random() * 100;
+
+                        glow.style.width = `${size}px`;
+                        glow.style.height = `${size}px`;
+                        glow.style.left = `${x}%`;
+                        glow.style.top = `${y}%`;
+                        glow.style.background = `radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)`;
+                        glow.style.borderRadius = "50%";
+                        glow.style.filter = "blur(20px)";
+
+                        gsap.to(glow, {
+                            opacity: 0.5,
+                            duration: 3 + index,
+                            ease: "power2.inOut",
+                            delay: 2 + index * 0.5,
+                        });
+
+                        // Floating animation
+                        gsap.to(glow, {
+                            x: `${(Math.random() - 0.5) * 100}px`,
+                            y: `${(Math.random() - 0.5) * 100}px`,
+                            duration: 8 + index * 2,
+                            ease: "sine.inOut",
+                            repeat: -1,
+                            yoyo: true,
+                        });
+                    });
+                }
+
+                /**
+                 * Setup interactive hover and focus effects
+                 */
+                async setupInteractiveEffects() {
+                    const buttons = document.querySelectorAll(".error-btn");
+
+                    buttons.forEach((button) => {
+                        // Set initial button styles
+                        if (button.classList.contains("error-btn-primary")) {
+                            button.style.background =
+                                "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)";
+                            button.style.border = "1px solid rgba(255,255,255,0.2)";
+                            button.style.backdropFilter = "blur(10px)";
+                            button.style.color = "white";
+                        } else {
+                            button.style.background =
+                                "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)";
+                            button.style.border = "1px solid rgba(255,255,255,0.1)";
+                            button.style.backdropFilter = "blur(10px)";
+                            button.style.color = "rgba(255,255,255,0.8)";
+                        }
+
+                        // Hover effects
+                        button.addEventListener("mouseenter", () => {
+                            gsap.to(button, {
+                                scale: 1.05,
+                                duration: 0.3,
+                                ease: "power2.out",
+                            });
+
+                            if (button.classList.contains("error-btn-primary")) {
+                                gsap.to(button, {
+                                    background:
+                                        "linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)",
+                                    duration: 0.3,
+                                });
+                            }
+                        });
+
+                        button.addEventListener("mouseleave", () => {
+                            gsap.to(button, {
+                                scale: 1,
+                                duration: 0.3,
+                                ease: "power2.out",
+                            });
+
+                            if (button.classList.contains("error-btn-primary")) {
+                                gsap.to(button, {
+                                    background:
+                                        "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
+                                    duration: 0.3,
+                                });
+                            }
+                        });
+
+                        // Click effect
+                        button.addEventListener("click", () => {
+                            gsap.to(button, {
+                                scale: 0.95,
+                                duration: 0.1,
+                                ease: "power2.out",
+                                yoyo: true,
+                                repeat: 1,
+                            });
+                        });
+                    });
+                }
+
+                /**
+                 * Main animation loop for continuous effects
+                 */
+                startAnimationLoop() {
+                    const animate = () => {
+                        this.updateParticles();
+                        this.updateMouseEffects();
+                        this.animationFrameId = requestAnimationFrame(animate);
+                    };
+
+                    animate();
+                }
+
+                /**
+                 * Update particle positions and animations
+                 */
+                updateParticles() {
+                    this.particles.forEach((particle, index) => {
+                        const time = Date.now() * 0.0001;
+                        const offset = index * 0.1;
+
+                        // Gentle floating motion
+                        const x = Math.sin(time + offset) * 20;
+                        const y = Math.cos(time * 0.7 + offset) * 15;
+
+                        particle.style.transform = `translate(${x}px, ${y}px)`;
+
+                        // Subtle opacity pulsing
+                        const opacity = 0.1 + Math.sin(time * 2 + offset) * 0.1;
+                        particle.style.opacity = opacity.toString();
+                    });
+                }
+
+                /**
+                 * Update mouse-based interactive effects
+                 */
+                updateMouseEffects() {
+                    const number = document.querySelector(".error-number");
+                    if (!number) return;
+
+                    // Subtle mouse following for the 404 number
+                    const targetX = 45 + this.mouseX * 10;
+                    const targetY = 50 + this.mouseY * 10;
+
+                    number.style.setProperty("--x", `${targetX}%`);
+                    number.style.setProperty("--y", `${targetY}%`);
+                }
+
+                /**
+                 * Clean up animations and event listeners
+                 */
+                dispose() {
+                    if (this.animationFrameId) {
+                        cancelAnimationFrame(this.animationFrameId);
+                    }
+
+                    document.removeEventListener("mousemove", this.handleMouseMove);
+                    gsap.killTweensOf("*");
+                }
+            }
+
+            // Initialize the error page animations when DOM is ready
+            document.addEventListener("DOMContentLoaded", async () => {
+                const animator = new ErrorPageAnimator();
+                await animator.init();
+
+                // Cleanup on page unload
+                window.addEventListener("beforeunload", () => {
+                    animator.dispose();
+                });
+            });
+
+            // Announce page load to screen readers
+            setTimeout(() => {
+                const announcer = document.getElementById("screen-reader-announcer");
+                if (announcer) {
+                    announcer.textContent = "404 error page loaded. The page you were looking for could not be found.";
+                }
+            }, 1000);
+        </script>
+    </head>
+
+    <body class="bg-black overflow-hidden">
+        <!-- Screen reader announcer for accessibility -->
+        <div id="screen-reader-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+        <main class="error-page-container relative w-screen h-screen flex items-center justify-center">
+            <!-- Animated background gradient -->
+            <div class="error-bg-gradient absolute inset-0 opacity-0"></div>
+
+            <!-- Floating particles -->
+            <div class="error-particles absolute inset-0 pointer-events-none overflow-hidden">
+                <!-- Particles will be generated via JavaScript -->
+            </div>
+
+            <!-- Main content -->
+            <div class="error-content relative z-10 text-center px-8 opacity-0 transform translate-y-8">
+                <!-- Large 404 number with glossy effect -->
+                <div class="error-number-container mb-8">
+                    <h1 class="error-number glossy-text font-bold leading-none select-none" aria-label="Error 404">
+                        404
+                    </h1>
+                </div>
+
+                <!-- Error message -->
+                <div class="error-message-container mb-12">
+                    <h2 class="error-title text-white font-semibold mb-4 opacity-0 transform translate-y-4">
+                        Page Not Found
+                    </h2>
+                    <p
+                        class="error-description text-gray-300 max-w-md mx-auto leading-relaxed opacity-0 transform translate-y-4"
+                    >
+                        The page you're looking for seems to have wandered into the digital void. Let's get you back on
+                        track.
+                    </p>
+                </div>
+
+                <!-- Action buttons -->
+                <div
+                    class="error-actions space-y-4 sm:space-y-0 sm:space-x-6 sm:flex sm:justify-center opacity-0 transform translate-y-4"
+                >
+                    <a
+                        href="/"
+                        class="error-btn error-btn-primary inline-flex items-center justify-center px-8 py-3 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+                        aria-label="Return to homepage"
+                    >
+                        <span class="mr-2">←</span>
+                        Back to Home
+                    </a>
+                    <button
+                        class="error-btn error-btn-secondary inline-flex items-center justify-center px-8 py-3 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-black"
+                        onclick="history.back()"
+                        aria-label="Go back to previous page"
+                    >
+                        <span class="mr-2">↺</span>
+                        Go Back
+                    </button>
+                </div>
+            </div>
+
+            <!-- Decorative elements -->
+            <div class="error-decorations absolute inset-0 pointer-events-none">
+                <div class="error-glow-1 absolute opacity-0"></div>
+                <div class="error-glow-2 absolute opacity-0"></div>
+                <div class="error-glow-3 absolute opacity-0"></div>
+            </div>
+        </main>
+    </body>
+</html>
