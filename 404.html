@@ -1,518 +1,626 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Page not found - Boden Chen's portfolio" />
-        <title>404 - Page Not Found | Boden Chen</title>
-
-        <!-- Open Graph / Rich Preview Meta Tags -->
-        <meta property="og:title" content="404 - Page Not Found | Boden Chen" />
-        <meta property="og:description" content="The page you're looking for doesn't exist." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://boden-c.github.io/404" />
-        <meta property="og:image" content="/assets/logo-DsAJdvk3.jpg" />
-        <meta property="og:site_name" content="Boden Chen Portfolio" />
-        <meta name="twitter:card" content="summary_large_image" />
-
-        <!-- Favicon -->
-        <link rel="icon" href="/assets/icon-Ub1gu1WP.png" type="image/png" />
-
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-
-        <!-- GSAP Animation Library -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-        <!-- Inline 404 Page Animations -->
-        <script>
-            /**
-             * 404 Error Page Animation Controller
-             * Handles all animations and interactive effects for the error page
-             */
-            class ErrorPageAnimator {
-                constructor() {
-                    this.particles = [];
-                    this.animationFrameId = null;
-                    this.mouseX = 0;
-                    this.mouseY = 0;
-                    this.isInitialized = false;
-                }
-
-                /**
-                 * Initialize all animations and effects
-                 */
-                async init() {
-                    if (this.isInitialized) return;
-
-                    this.setupEventListeners();
-                    await this.createParticles();
-                    await this.animateBackground();
-                    await this.animateContent();
-                    await this.setupInteractiveEffects();
-
-                    this.isInitialized = true;
-                    this.startAnimationLoop();
-                }
-
-                /**
-                 * Setup event listeners for mouse tracking and interactions
-                 */
-                setupEventListeners() {
-                    document.addEventListener("mousemove", this.handleMouseMove.bind(this));
-
-                    // Keyboard accessibility
-                    document.addEventListener("keydown", (e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                            const target = e.target;
-                            if (target.classList.contains("error-btn")) {
-                                target.click();
-                            }
-                        }
-                    });
-                }
-
-                /**
-                 * Handle mouse movement for interactive effects
-                 */
-                handleMouseMove(event) {
-                    this.mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-                    this.mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-                }
-
-                /**
-                 * Create floating particles with random positions and animations
-                 */
-                async createParticles() {
-                    const particleContainer = document.querySelector(".error-particles");
-                    if (!particleContainer) return;
-
-                    const particleCount = 50;
-
-                    for (let i = 0; i < particleCount; i++) {
-                        const particle = document.createElement("div");
-                        particle.className = "error-particle absolute rounded-full bg-white opacity-20";
-
-                        // Random size between 1-4px
-                        const size = Math.random() * 3 + 1;
-                        particle.style.width = `${size}px`;
-                        particle.style.height = `${size}px`;
-
-                        // Random position
-                        particle.style.left = `${Math.random() * 100}%`;
-                        particle.style.top = `${Math.random() * 100}%`;
-
-                        // Random animation delay
-                        particle.style.animationDelay = `${Math.random() * 5}s`;
-
-                        particleContainer.appendChild(particle);
-                        this.particles.push(particle);
-
-                        // Animate particle appearance
-                        gsap.fromTo(
-                            particle,
-                            { scale: 0, opacity: 0 },
-                            {
-                                scale: 1,
-                                opacity: Math.random() * 0.3 + 0.1,
-                                duration: Math.random() * 2 + 1,
-                                delay: Math.random() * 3,
-                                ease: "power2.out",
-                            }
-                        );
-                    }
-                }
-
-                /**
-                 * Animate the background gradient
-                 */
-                async animateBackground() {
-                    const bgGradient = document.querySelector(".error-bg-gradient");
-                    if (!bgGradient) return;
-
-                    // Set initial gradient
-                    bgGradient.style.background = `
-            radial-gradient(
-                circle at 30% 70%,
-                rgba(45, 55, 75, 0.15) 0%,
-                rgba(25, 35, 55, 0.1) 40%,
-                rgba(15, 20, 35, 0.05) 70%,
-                transparent 100%
-            ),
-            linear-gradient(
-                135deg,
-                rgba(30, 40, 60, 0.1) 0%,
-                rgba(20, 25, 40, 0.08) 50%,
-                rgba(10, 15, 25, 0.05) 100%
-            )
-        `;
-
-                    // Fade in background
-                    gsap.to(bgGradient, {
-                        opacity: 1,
-                        duration: 3,
-                        ease: "power2.inOut",
-                    });
-
-                    // Animate gradient position
-                    gsap.to(bgGradient, {
-                        backgroundPosition: "100% 30%",
-                        duration: 20,
-                        ease: "none",
-                        repeat: -1,
-                        yoyo: true,
-                    });
-                }
-
-                /**
-                 * Animate the main content elements
-                 */
-                async animateContent() {
-                    const content = document.querySelector(".error-content");
-                    const number = document.querySelector(".error-number");
-                    const title = document.querySelector(".error-title");
-                    const description = document.querySelector(".error-description");
-                    const actions = document.querySelector(".error-actions");
-
-                    if (!content) return;
-
-                    // Main content container
-                    gsap.to(content, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 1.5,
-                        ease: "power3.out",
-                        delay: 0.5,
-                    });
-
-                    // Large 404 number with dramatic entrance
-                    if (number) {
-                        // Set initial styles for 404 number
-                        number.style.fontSize = "min(25vw, 15rem)";
-                        number.style.fontWeight = "700";
-                        number.style.lineHeight = "0.8";
-
-                        gsap.fromTo(
-                            number,
-                            {
-                                scale: 0.3,
-                                opacity: 0,
-                                rotationY: 180,
-                                filter: "blur(20px)",
-                            },
-                            {
-                                scale: 1,
-                                opacity: 1,
-                                rotationY: 0,
-                                filter: "blur(0px)",
-                                duration: 2,
-                                ease: "back.out(1.7)",
-                                delay: 0.8,
-                            }
-                        );
-
-                        // Continuous subtle animation
-                        gsap.to(number, {
-                            rotationY: 5,
-                            duration: 4,
-                            ease: "sine.inOut",
-                            repeat: -1,
-                            yoyo: true,
-                        });
-                    }
-
-                    // Title animation
-                    if (title) {
-                        title.style.fontSize = "2rem";
-                        gsap.to(title, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 1,
-                            ease: "power2.out",
-                            delay: 1.5,
-                        });
-                    }
-
-                    // Description animation
-                    if (description) {
-                        gsap.to(description, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 1,
-                            ease: "power2.out",
-                            delay: 1.8,
-                        });
-                    }
-
-                    // Actions animation
-                    if (actions) {
-                        gsap.to(actions, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 1,
-                            ease: "power2.out",
-                            delay: 2.1,
-                        });
-                    }
-
-                    // Animate decorative glows
-                    this.animateDecorativeElements();
-                }
-
-                /**
-                 * Animate decorative glow elements
-                 */
-                animateDecorativeElements() {
-                    const glows = document.querySelectorAll("[class^='error-glow-']");
-
-                    glows.forEach((glow, index) => {
-                        const size = Math.random() * 200 + 100;
-                        const x = Math.random() * 100;
-                        const y = Math.random() * 100;
-
-                        glow.style.width = `${size}px`;
-                        glow.style.height = `${size}px`;
-                        glow.style.left = `${x}%`;
-                        glow.style.top = `${y}%`;
-                        glow.style.background = `radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)`;
-                        glow.style.borderRadius = "50%";
-                        glow.style.filter = "blur(20px)";
-
-                        gsap.to(glow, {
-                            opacity: 0.5,
-                            duration: 3 + index,
-                            ease: "power2.inOut",
-                            delay: 2 + index * 0.5,
-                        });
-
-                        // Floating animation
-                        gsap.to(glow, {
-                            x: `${(Math.random() - 0.5) * 100}px`,
-                            y: `${(Math.random() - 0.5) * 100}px`,
-                            duration: 8 + index * 2,
-                            ease: "sine.inOut",
-                            repeat: -1,
-                            yoyo: true,
-                        });
-                    });
-                }
-
-                /**
-                 * Setup interactive hover and focus effects
-                 */
-                async setupInteractiveEffects() {
-                    const buttons = document.querySelectorAll(".error-btn");
-
-                    buttons.forEach((button) => {
-                        // Set initial button styles
-                        if (button.classList.contains("error-btn-primary")) {
-                            button.style.background =
-                                "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)";
-                            button.style.border = "1px solid rgba(255,255,255,0.2)";
-                            button.style.backdropFilter = "blur(10px)";
-                            button.style.color = "white";
-                        } else {
-                            button.style.background =
-                                "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)";
-                            button.style.border = "1px solid rgba(255,255,255,0.1)";
-                            button.style.backdropFilter = "blur(10px)";
-                            button.style.color = "rgba(255,255,255,0.8)";
-                        }
-
-                        // Hover effects
-                        button.addEventListener("mouseenter", () => {
-                            gsap.to(button, {
-                                scale: 1.05,
-                                duration: 0.3,
-                                ease: "power2.out",
-                            });
-
-                            if (button.classList.contains("error-btn-primary")) {
-                                gsap.to(button, {
-                                    background:
-                                        "linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)",
-                                    duration: 0.3,
-                                });
-                            }
-                        });
-
-                        button.addEventListener("mouseleave", () => {
-                            gsap.to(button, {
-                                scale: 1,
-                                duration: 0.3,
-                                ease: "power2.out",
-                            });
-
-                            if (button.classList.contains("error-btn-primary")) {
-                                gsap.to(button, {
-                                    background:
-                                        "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
-                                    duration: 0.3,
-                                });
-                            }
-                        });
-
-                        // Click effect
-                        button.addEventListener("click", () => {
-                            gsap.to(button, {
-                                scale: 0.95,
-                                duration: 0.1,
-                                ease: "power2.out",
-                                yoyo: true,
-                                repeat: 1,
-                            });
-                        });
-                    });
-                }
-
-                /**
-                 * Main animation loop for continuous effects
-                 */
-                startAnimationLoop() {
-                    const animate = () => {
-                        this.updateParticles();
-                        this.updateMouseEffects();
-                        this.animationFrameId = requestAnimationFrame(animate);
-                    };
-
-                    animate();
-                }
-
-                /**
-                 * Update particle positions and animations
-                 */
-                updateParticles() {
-                    this.particles.forEach((particle, index) => {
-                        const time = Date.now() * 0.0001;
-                        const offset = index * 0.1;
-
-                        // Gentle floating motion
-                        const x = Math.sin(time + offset) * 20;
-                        const y = Math.cos(time * 0.7 + offset) * 15;
-
-                        particle.style.transform = `translate(${x}px, ${y}px)`;
-
-                        // Subtle opacity pulsing
-                        const opacity = 0.1 + Math.sin(time * 2 + offset) * 0.1;
-                        particle.style.opacity = opacity.toString();
-                    });
-                }
-
-                /**
-                 * Update mouse-based interactive effects
-                 */
-                updateMouseEffects() {
-                    const number = document.querySelector(".error-number");
-                    if (!number) return;
-
-                    // Subtle mouse following for the 404 number
-                    const targetX = 45 + this.mouseX * 10;
-                    const targetY = 50 + this.mouseY * 10;
-
-                    number.style.setProperty("--x", `${targetX}%`);
-                    number.style.setProperty("--y", `${targetY}%`);
-                }
-
-                /**
-                 * Clean up animations and event listeners
-                 */
-                dispose() {
-                    if (this.animationFrameId) {
-                        cancelAnimationFrame(this.animationFrameId);
-                    }
-
-                    document.removeEventListener("mousemove", this.handleMouseMove);
-                    gsap.killTweensOf("*");
+        <meta charset="utf-8" />
+        <title>404 - Page Not Found</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="robots" content="noindex, nofollow" />
+        <meta name="description" content="404 page not found. Return home." />
+        <meta name="theme-color" content="#000000" />
+        <link rel="icon" href="data:," />
+        <style>
+            :root {
+                --bg1: 215 70% 3%;
+                --bg2: 220 70% 8%;
+                --bg3: 260 70% 12%;
+                --accent: 200 100% 65%;
+                --accent-alt: 280 90% 70%;
+                --warn: 20 90% 60%;
+                --gloss: linear-gradient(
+                    140deg,
+                    hsl(var(--bg3) / 0.15),
+                    hsl(var(--bg2) / 0.15) 40%,
+                    hsl(var(--bg3) / 0.05)
+                );
+                --font-stack: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                height: 100%;
+            }
+            body {
+                margin: 0;
+                font-family: var(--font-stack);
+                color: hsl(0 0% 92%);
+                background: radial-gradient(circle at 20% 20%, hsl(var(--bg2)), hsl(var(--bg1))) fixed;
+                background-image: radial-gradient(circle at 80% 70%, hsl(var(--bg3)), transparent 60%),
+                    linear-gradient(160deg, hsl(var(--bg1)), hsl(var(--bg2))),
+                    radial-gradient(circle at 10% 90%, hsl(var(--bg2)), transparent 70%);
+                background-blend-mode: overlay, normal, normal;
+                overflow: hidden;
+                -webkit-font-smoothing: antialiased;
+            }
+            body::before,
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+            }
+            body::before {
+                background: linear-gradient(
+                    115deg,
+                    hsl(var(--accent) / 0.15),
+                    transparent 40%,
+                    hsl(var(--accent-alt) / 0.12)
+                );
+                mix-blend-mode: screen;
+                filter: blur(80px);
+            }
+            body::after {
+                background: repeating-linear-gradient(60deg, hsl(var(--bg3) / 0.15) 0 2px, transparent 2px 6px);
+                opacity: 0.25;
+            }
+            a {
+                color: hsl(var(--accent));
+                text-decoration: none;
+            }
+            a:focus-visible,
+            button:focus-visible {
+                outline: 2px solid hsl(var(--accent));
+                outline-offset: 4px;
+                border-radius: 4px;
+            }
+            .skip {
+                position: absolute;
+                left: -999px;
+                top: auto;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+            }
+            .skip:focus {
+                left: 1rem;
+                top: 1rem;
+                width: auto;
+                height: auto;
+                padding: 0.75rem 1rem;
+                background: #000;
+                z-index: 999;
+            }
+            main {
+                position: relative;
+                display: grid;
+                place-items: center;
+                height: 100%;
+                padding: clamp(1rem, 3vw, 3rem);
+            }
+            .stage {
+                position: relative;
+                width: min(900px, 100%);
+                aspect-ratio: 16/9;
+                border-radius: 2rem;
+                overflow: hidden;
+                padding: 0;
+                backdrop-filter: blur(12px) saturate(140%);
+                background: linear-gradient(160deg, hsl(var(--bg2) / 0.6), hsl(var(--bg1) / 0.4));
+                box-shadow:
+                    0 0 0 1px hsl(var(--accent) / 0.15),
+                    0 10px 40px -10px #000;
+                isolation: isolate;
+            }
+            .stage::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: var(--gloss);
+                mix-blend-mode: overlay;
+            }
+            .stage::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle at 30% 10%, hsl(var(--accent) / 0.25), transparent 60%),
+                    radial-gradient(circle at 80% 70%, hsl(var(--accent-alt) / 0.25), transparent 55%);
+                mix-blend-mode: color-dodge;
+                pointer-events: none;
+                animation: aura 9s linear infinite alternate;
+            }
+            @keyframes aura {
+                to {
+                    filter: hue-rotate(60deg);
+                    transform: scale(1.02);
                 }
             }
-
-            // Initialize the error page animations when DOM is ready
-            document.addEventListener("DOMContentLoaded", async () => {
-                const animator = new ErrorPageAnimator();
-                await animator.init();
-
-                // Cleanup on page unload
-                window.addEventListener("beforeunload", () => {
-                    animator.dispose();
-                });
-            });
-
-            // Announce page load to screen readers
-            setTimeout(() => {
-                const announcer = document.getElementById("screen-reader-announcer");
-                if (announcer) {
-                    announcer.textContent = "404 error page loaded. The page you were looking for could not be found.";
+            .sky {
+                position: absolute;
+                inset: 0;
+                overflow: hidden;
+            }
+            .particle {
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                background: hsl(var(--accent));
+                box-shadow: 0 0 6px 2px hsl(var(--accent) / 0.6);
+                opacity: 0;
+                animation: twinkle 6s linear infinite;
+            }
+            @keyframes twinkle {
+                0% {
+                    opacity: 0;
+                    transform: translateY(0) scale(0.4);
                 }
-            }, 1000);
-        </script>
-      <link rel="stylesheet" crossorigin href="/assets/style-B9cHcpga.css">
+                8% {
+                    opacity: 0.9;
+                }
+                50% {
+                    opacity: 0.2;
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(40px) scale(0.4);
+                }
+            }
+            .narrative {
+                position: absolute;
+                inset: 0;
+                display: grid;
+                place-items: center;
+                padding: 2rem;
+                text-align: center;
+                pointer-events: none;
+            }
+            .line {
+                font-size: clamp(0.8rem, 1.4vw, 1rem);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                font-weight: 500;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: 0.9s cubic-bezier(0.65, 0.05, 0.36, 1);
+                filter: blur(4px);
+            }
+            .line.show {
+                opacity: 0.85;
+                transform: none;
+                filter: none;
+            }
+            h1 {
+                font-size: clamp(4rem, 15vw, 11rem);
+                margin: 0;
+                font-weight: 700;
+                line-height: 0.8;
+                letter-spacing: -0.04em;
+                background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--accent-alt)));
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                color: transparent;
+                filter: drop-shadow(0 0 20px hsl(var(--accent) / 0.35)) drop-shadow(0 0 40px hsl(var(--accent) / 0.25));
+                position: relative;
+            }
+            /* Fallback: if background-clip:text unsupported, show solid accent */
+            @supports not ((background-clip: text) or (-webkit-background-clip: text)) {
+                h1 {
+                    background: none;
+                    color: hsl(var(--accent));
+                    -webkit-text-fill-color: initial;
+                }
+            }
+            .ghost {
+                --s: clamp(60px, 13vw, 140px);
+                width: var(--s);
+                aspect-ratio: 1/1.2;
+                position: absolute;
+                top: 55%;
+                left: 10%;
+                transform: translate(-50%, -50%);
+                border-radius: 46% 46% 52% 52% / 40% 40% 60% 60%;
+                background: linear-gradient(160deg, hsl(var(--accent-alt) / 0.9), hsl(var(--accent) / 0.8));
+                box-shadow: 0 8px 30px -8px hsl(var(--accent) / 0.6);
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                padding-top: 22%;
+                overflow: visible;
+                filter: brightness(1.15) saturate(1.4);
+                will-change: transform, opacity;
+                transition: opacity 0.6s ease;
+                opacity: 0;
+            }
+            .ghost::before,
+            .ghost::after {
+                content: "";
+                position: absolute;
+                border-radius: 50%;
+                background: #fff;
+                top: 28%;
+                width: 18%;
+                aspect-ratio: 1;
+            }
+            .ghost::before {
+                left: 26%;
+            }
+            .ghost::after {
+                right: 26%;
+            }
+            .ghost .trail {
+                position: absolute;
+                inset: auto 0 0 0;
+                height: 35%;
+                display: flex;
+                gap: 4%;
+                justify-content: space-between;
+                align-items: flex-end;
+            }
+            .ghost .trail span {
+                flex: 1;
+                background: linear-gradient(to top, hsl(var(--accent) / 0.85), hsl(var(--accent-alt) / 0));
+                border-radius: 40px;
+                animation: flicker 2s ease-in-out infinite;
+                animation-delay: calc(var(--i) * 0.2s);
+                transform-origin: bottom;
+            }
+            @keyframes float {
+                0%,
+                100% {
+                    transform: translate(-50%, -55%) translateY(0);
+                }
+                50% {
+                    transform: translate(-50%, -55%) translateY(-24px);
+                }
+            }
+            @keyframes flicker {
+                0%,
+                100% {
+                    opacity: 0.35;
+                    transform: scaleY(0.8);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scaleY(1);
+                }
+            }
+            .path {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+            }
+            .orb {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 18px;
+                height: 18px;
+                margin: -9px;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle at 30% 30%,
+                    #fff,
+                    hsl(var(--accent)) 40%,
+                    hsl(var(--accent-alt)) 70%
+                );
+                box-shadow:
+                    0 0 18px 6px hsl(var(--accent) / 0.55),
+                    0 0 40px 14px hsl(var(--accent-alt) / 0.25);
+                animation: travel 5.2s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+                opacity: 0;
+            }
+            @keyframes travel {
+                0% {
+                    opacity: 0;
+                    transform: translate(-320px, 120px) scale(0.4);
+                }
+                4% {
+                    opacity: 1;
+                }
+                20% {
+                    transform: translate(-180px, -110px) scale(0.7);
+                }
+                38% {
+                    transform: translate(-10px, -40px) scale(0.9);
+                }
+                55% {
+                    transform: translate(160px, -130px) scale(0.6);
+                }
+                70% {
+                    transform: translate(230px, 50px) scale(0.8);
+                }
+                82% {
+                    transform: translate(90px, 140px) scale(0.65);
+                }
+                100% {
+                    transform: translate(-40px, 80px) scale(0.9);
+                    opacity: 0;
+                }
+            }
+            .cta {
+                position: absolute;
+                bottom: 1.6rem;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 1rem;
+                pointer-events: auto;
+            }
+            .home-btn {
+                --btn-bg: hsl(var(--accent));
+                appearance: none;
+                border: none;
+                font: 600 1rem/1 var(--font-stack);
+                padding: 1rem 1.6rem;
+                border-radius: 100px;
+                background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-alt)));
+                color: #000;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                letter-spacing: 0.05em;
+                box-shadow:
+                    0 10px 30px -10px hsl(var(--accent) / 0.8),
+                    0 2px 4px -1px #000;
+                transition:
+                    background 0.6s,
+                    transform 0.4s;
+                text-decoration: none;
+            }
+            .home-btn::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(120deg, #fff8, transparent 40%, #fff2 60%, #fff8 80%);
+                mix-blend-mode: overlay;
+                opacity: 0.4;
+                animation: sheen 5s linear infinite;
+            }
+            .home-btn:hover {
+                transform: translateY(-3px);
+            }
+            .home-btn:active {
+                transform: translateY(1px) scale(0.97);
+            }
+            .home-btn:focus-visible {
+                box-shadow:
+                    0 0 0 2px #000,
+                    0 0 0 4px hsl(var(--accent));
+            }
+            @keyframes sheen {
+                0% {
+                    transform: translateX(-60%);
+                }
+                100% {
+                    transform: translateX(60%);
+                }
+            }
+            .hidden {
+                position: absolute;
+                width: 1px;
+                height: 1px;
+                margin: -1px;
+                padding: 0;
+                border: 0;
+                clip: rect(0 0 0 0);
+                clip-path: inset(50%);
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            .ready .ghost {
+                animation: fadeIn 0.8s forwards 0.2s;
+            }
+            /* Big 404 reveal styles */
+            .big404-wrap {
+                position: absolute;
+                inset: 0;
+                display: grid;
+                place-items: center;
+                pointer-events: none;
+                z-index: 2;
+                padding: clamp(8px, 2vmin, 16px);
+                box-sizing: border-box;
+            }
+            #big404 {
+                margin: 0;
+                font-size: clamp(5rem, 20vw, 14rem);
+                line-height: 0.85;
+                letter-spacing: -0.055em;
+                font-weight: 800;
+                background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-alt)), hsl(var(--accent)) 70%);
+                background-size: 200% 100%;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                filter: drop-shadow(0 0 18px hsl(var(--accent) / 0.35))
+                    drop-shadow(0 0 36px hsl(var(--accent-alt) / 0.25));
+                animation: big404Sheen 8s linear infinite;
+                opacity: 0;
+                transform: translateY(10px) scale(0.96);
+                transition:
+                    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                    opacity 0.8s ease;
+            }
+            #big404.big404-enter {
+                opacity: 1;
+                transform: none;
+            }
+            #big404 span {
+                display: inline-block;
+                transform: translateY(40px) scale(0.85) rotateX(35deg);
+                opacity: 0;
+                filter: blur(14px) brightness(0.6);
+                transition:
+                    transform 1s cubic-bezier(0.65, 0.05, 0.36, 1),
+                    opacity 1s ease,
+                    filter 1s ease;
+            }
+            #big404 span:nth-child(2) {
+                transition-delay: 0.08s;
+            }
+            #big404 span:nth-child(3) {
+                transition-delay: 0.16s;
+            }
+            #big404.big404-enter span {
+                transform: none;
+                opacity: 1;
+                filter: none;
+            }
+            @keyframes big404Sheen {
+                to {
+                    background-position: 100% 0;
+                    filter: hue-rotate(40deg) drop-shadow(0 0 22px hsl(var(--accent) / 0.45));
+                }
+            }
+            /* Optional reduced motion: instantly show */
+            body[data-reduce-motion="true"] #big404 {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+            body[data-reduce-motion="true"] #big404 span {
+                transition: none;
+                transform: none;
+                opacity: 1;
+                filter: none;
+            }
+            @media (max-width: 680px) {
+                .stage {
+                    border-radius: 1.4rem;
+                }
+                h1 {
+                    font-size: clamp(3.5rem, 26vw, 8rem);
+                }
+                .ghost {
+                    --s: clamp(80px, 28vw, 160px);
+                    top: 58%;
+                    left: 14%;
+                }
+                .line {
+                    letter-spacing: 0.12em;
+                }
+            }
+        </style>
     </head>
-
-    <body class="bg-black overflow-hidden">
-        <!-- Screen reader announcer for accessibility -->
-        <div id="screen-reader-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-
-        <main class="error-page-container relative w-screen h-screen flex items-center justify-center">
-            <!-- Animated background gradient -->
-            <div class="error-bg-gradient absolute inset-0 opacity-0"></div>
-
-            <!-- Floating particles -->
-            <div class="error-particles absolute inset-0 pointer-events-none overflow-hidden">
-                <!-- Particles will be generated via JavaScript -->
-            </div>
-
-            <!-- Main content -->
-            <div class="error-content relative z-10 text-center px-8 opacity-0 transform translate-y-8">
-                <!-- Large 404 number with glossy effect -->
-                <div class="error-number-container mb-8">
-                    <h1 class="error-number glossy-text font-bold leading-none select-none" aria-label="Error 404">
-                        404
-                    </h1>
+    <body>
+        <a href="#main" class="skip">Skip to content</a>
+        <main id="main" role="main" aria-labelledby="title" aria-describedby="desc">
+            <div class="stage" aria-hidden="true">
+                <div class="sky" id="sky"></div>
+                <div class="path"><div class="orb" id="orb"></div></div>
+                <div class="ghost" id="ghost" aria-hidden="true">
+                    <div class="trail">
+                        <span style="--i: 0"></span><span style="--i: 1"></span><span style="--i: 2"></span>
+                    </div>
                 </div>
-
-                <!-- Error message -->
-                <div class="error-message-container mb-12">
-                    <h2 class="error-title text-white font-semibold mb-4 opacity-0 transform translate-y-4">
-                        Page Not Found
-                    </h2>
-                    <p
-                        class="error-description text-gray-300 max-w-md mx-auto leading-relaxed opacity-0 transform translate-y-4"
-                    >
-                        The page you're looking for seems to have wandered into the digital void. Let's get you back on
-                        track.
-                    </p>
+                <div class="narrative" aria-hidden="true">
+                    <p class="line" data-delay="400">Venturing...</p>
+                    <p class="line" data-delay="1400">Searching corridors...</p>
+                    <p class="line" data-delay="2300">Only echoes here.</p>
                 </div>
-
-                <!-- Action buttons -->
-                <div
-                    class="error-actions space-y-4 sm:space-y-0 sm:space-x-6 sm:flex sm:justify-center opacity-0 transform translate-y-4"
-                >
-                    <a
-                        href="/"
-                        class="error-btn error-btn-primary inline-flex items-center justify-center px-8 py-3 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
-                        aria-label="Return to homepage"
-                    >
-                        <span class="mr-2">←</span>
-                        Back to Home
-                    </a>
-                    <button
-                        class="error-btn error-btn-secondary inline-flex items-center justify-center px-8 py-3 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-black"
-                        onclick="history.back()"
-                        aria-label="Go back to previous page"
-                    >
-                        <span class="mr-2">↺</span>
-                        Go Back
-                    </button>
+                <div class="cta" aria-hidden="true">
+                    <a class="home-btn" href="/" aria-label="Return to home">Return Home</a>
                 </div>
             </div>
-
-            <!-- Decorative elements -->
-            <div class="error-decorations absolute inset-0 pointer-events-none">
-                <div class="error-glow-1 absolute opacity-0"></div>
-                <div class="error-glow-2 absolute opacity-0"></div>
-                <div class="error-glow-3 absolute opacity-0"></div>
-            </div>
+            <h1 id="title" class="hidden" aria-live="polite">404</h1>
+            <p id="desc" class="hidden">The page you were looking for is gone. Use the button to return home.</p>
+            <div class="hidden" aria-hidden="true" id="visual404" aria-label="Decorative animated scene"></div>
         </main>
+        <script>
+            const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            if (reduce) document.body.dataset.reduceMotion = "true";
+            const stage = document.querySelector(".stage");
+            const lines = [...document.querySelectorAll(".line")];
+            const orb = document.getElementById("orb");
+            const ghost = document.getElementById("ghost");
+            const sky = document.getElementById("sky");
+            const makeParticles = () => {
+                const count = 34;
+                const frag = document.createDocumentFragment();
+                for (let i = 0; i < count; i++) {
+                    const p = document.createElement("div");
+                    p.className = "particle";
+                    p.style.left = Math.random() * 100 + "%";
+                    p.style.top = Math.random() * 100 + "%";
+                    p.style.animationDelay = Math.random() * 6 + "s";
+                    p.style.animationDuration = 4 + Math.random() * 6 + "s";
+                    frag.appendChild(p);
+                }
+                sky.appendChild(frag);
+            };
+            function timeline() {
+                lines.forEach((l) => setTimeout(() => l.classList.add("show"), parseInt(l.dataset.delay, 10)));
+                setTimeout(() => document.body.classList.add("ready"), 300);
+                // Reveal the 404 as soon as the last line finishes its entrance transition
+                const lastDelay = Math.max(...lines.map((l) => parseInt(l.dataset.delay, 10))) + 900; // 0.9s = .line transition duration
+                setTimeout(() => build404(), lastDelay);
+            }
+            function build404() {
+                if (document.getElementById("big404")) return;
+                const wrap = document.createElement("div");
+                wrap.className = "big404-wrap";
+                wrap.setAttribute("aria-hidden", "true");
+                const h = document.createElement("h1");
+                h.id = "big404";
+                [..."404"].forEach((ch) => {
+                    const s = document.createElement("span");
+                    s.textContent = ch;
+                    h.appendChild(s);
+                });
+                wrap.appendChild(h);
+                stage.appendChild(wrap);
+                // Sync fade of narrative lines as 404 reveals and pop-in
+                requestAnimationFrame(() => {
+                    void h.offsetHeight; // ensure transitions
+                    h.classList.add("big404-enter");
+                    lines.forEach((l) => {
+                        l.style.transition = "opacity .8s ease";
+                        l.style.opacity = 0;
+                    });
+                });
+            }
+            let pointer = { x: 0, y: 0 },
+                ghostPos = { x: 0, y: 0 };
+            const lerp = (a, b, t) => a + (b - a) * t;
+            function onMove(e) {
+                pointer.x = e.clientX / window.innerWidth - 0.5;
+                pointer.y = e.clientY / window.innerHeight - 0.5;
+            }
+            window.addEventListener("pointermove", onMove, { passive: true });
+            function animate(t) {
+                ghostPos.x = lerp(ghostPos.x, pointer.x * 20, 0.05);
+                ghostPos.y = lerp(ghostPos.y, pointer.y * 14, 0.05);
+                // JS-driven float (amplitude 24px, period 4.5s)
+                const floatY = Math.sin((t / 1000) * ((Math.PI * 2) / 4.5)) * 24;
+                ghost.style.transform = `translate(-50%,-55%) translate(${ghostPos.x}px, ${ghostPos.y + floatY}px)`;
+                requestAnimationFrame(animate);
+            }
+            function init() {
+                if (!reduce) {
+                    makeParticles();
+                    requestAnimationFrame(animate);
+                }
+                timeline();
+                setTimeout(() => (orb.style.opacity = 1), 50);
+                // Fallback to ensure ghost becomes visible even if class timing drifts
+                setTimeout(() => {
+                    ghost.style.opacity = 1;
+                }, 400);
+            }
+            document.addEventListener("visibilitychange", () => {
+                if (!document.hidden && !init.done) {
+                    init();
+                    init.done = true;
+                }
+            });
+            window.addEventListener("load", () => {
+                if (!init.done) {
+                    init();
+                    init.done = true;
+                }
+            });
+        </script>
     </body>
 </html>
