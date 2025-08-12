@@ -35,12 +35,14 @@ interface AnimationState {
  */
 export const initTitleAnimation = (): number => {
     const elements = document.querySelectorAll(".glossy-text");
-    if (elements.length === 0) return 0; // Animation configuration
+    if (elements.length === 0) return 0;
+
+    // Animation configuration
     const config: AnimationConfig = {
-        easing: 0.04,
-        directionChangeInterval: 200,
+        easing: 0.06,
+        directionChangeInterval: 150,
         movementMagnitude: 80,
-        mouseInfluence: 30,
+        mouseInfluence: 25,
     };
 
     // Animation state
@@ -162,15 +164,95 @@ export const Title = (props: TitleProps) => {
     const classes = isLoaded ? `${baseClasses} ${loadedClasses}` : `${baseClasses} ${initialClasses}`;
 
     // Initialize title animation immediately to prevent delay
-    // Use requestAnimationFrame to ensure it runs as soon as possible
     requestAnimationFrame(() => {
         initTitleAnimation();
     });
 
-    // Return the lit-html template
     return html`
+        <style>
+            /* Wave-like morphing blob */
+            @keyframes waveMorph {
+                0% {
+                    border-radius: 58% 42% 50% 50% / 38% 62% 38% 62%;
+                    transform: translate(-50%, -50%) scaleX(1.0) scaleY(1.0);
+                }
+                20% {
+                    border-radius: 65% 35% 45% 55% / 35% 65% 40% 60%;
+                    transform: translate(calc(-50% + 1%), calc(-50% + 0.5%)) scaleX(1.04) scaleY(0.98) skewX(1deg);
+                }
+                40% {
+                    border-radius: 55% 45% 60% 40% / 30% 70% 35% 65%;
+                    transform: translate(calc(-50% - 1%), calc(-50% - 0.5%)) scaleX(1.06) scaleY(0.96) skewX(-1deg);
+                }
+                60% {
+                    border-radius: 62% 38% 48% 52% / 34% 66% 42% 58%;
+                    transform: translate(calc(-50% + 0.8%), calc(-50% + 0.3%)) scaleX(1.03) scaleY(0.985) skewX(0.5deg);
+                }
+                80% {
+                    border-radius: 50% 50% 58% 42% / 32% 68% 34% 66%;
+                    transform: translate(calc(-50% - 0.6%), calc(-50% - 0.4%)) scaleX(1.05) scaleY(0.97) skewX(-0.5deg);
+                }
+                100% {
+                    border-radius: 58% 42% 50% 50% / 38% 62% 38% 62%;
+                    transform: translate(-50%, -50%) scaleX(1.0) scaleY(1.0);
+                }
+            }
+
+            @keyframes accentGradientShift {
+                0%,
+                100% {
+                    background-position: 50% 50%, 0% 50%;
+                }
+                50% {
+                    background-position: 50% 50%, 100% 50%;
+                }
+            }
+
+            #titleContainer .title-glow {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                /* 50% wider, 50% flatter */
+                width: clamp(480px, 90vw, 1650px);
+                height: clamp(80px, 12vw, 190px);
+                pointer-events: none;
+                z-index: 0;
+                /* Animated accent gradient + soft radial highlight that follows --x/--y */
+                background:
+                    radial-gradient(40% 80% at var(--x, 50%) var(--y, 50%),
+                        rgba(163, 137, 244, 0.25) 0%,
+                        rgba(111, 110, 246, 0.18) 25%,
+                        rgba(85, 162, 242, 0.12) 45%,
+                        rgba(122, 209, 245, 0.0) 65%)",
+                    linear-gradient(90deg, #A389F4, #6F6EF6, #55A2F2, #7AD1F5, #A389F4);
+                background-size: 120% 120%, 300% 100%;
+                background-position: 50% 50%, 0% 50%;
+                filter: blur(72px) saturate(1.2);
+                opacity: 0.78;
+                will-change: transform, border-radius, background-position, opacity;
+                animation: waveMorph 18s ease-in-out infinite, accentGradientShift 7s ease-in-out infinite;
+            }
+
+            #titleContainer .title-glow::after {
+                content: "";
+                position: absolute;
+                inset: -10%;
+                background: radial-gradient(120% 100% at 50% 50%,
+                    rgba(163, 137, 244, 0.14) 0%,
+                    rgba(111, 110, 246, 0.12) 45%,
+                    rgba(85, 162, 242, 0.10) 70%,
+                    rgba(122, 209, 245, 0.0) 85%);
+                filter: blur(90px);
+                opacity: 0.55;
+                border-radius: inherit;
+                animation: waveMorph 22s ease-in-out infinite reverse;
+            }
+        </style>
         <div id="titleContainer" class="${classes}" aria-label="Portfolio title">
-            <h1 class="title-text inline-block font-bold leading-none whitespace-nowrap glossy-text">BODEN CHEN</h1>
+            <div class="title-glow" aria-hidden="true"></div>
+            <h1 class="title-text inline-block font-bold leading-none whitespace-nowrap glossy-text relative z-10">
+                BODEN CHEN
+            </h1>
         </div>
     `;
 };

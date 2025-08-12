@@ -75,6 +75,12 @@ const showContentSections = async (): Promise<void> => {
 
         // Announce to screen readers that content is now visible
         announceToScreenReader("Additional content is now available.");
+
+        try {
+            await initProjects();
+        } catch (e) {
+            console.error("Failed to init Projects animations", e);
+        }
     }
 };
 
@@ -146,19 +152,15 @@ const orchestrateInitialLoad = async () => {
     document.body.classList.add("overflow-y-hidden");
     await renderApp();
 
-    if (state.currentPath === "/") {
-        // Removed model loading
-        try {
-            await initBackgroundEffect();
-        } catch (err) {
-            console.error(err);
-        }
-
-        state.isLoaded = true;
-        await renderApp();
-    } else {
-        state.isLoaded = true;
+    // Removed model loading
+    try {
+        await initBackgroundEffect();
+    } catch (err) {
+        console.error(err);
     }
+
+    state.isLoaded = true;
+    await renderApp();
 
     // TODO: Add back in the model
 };

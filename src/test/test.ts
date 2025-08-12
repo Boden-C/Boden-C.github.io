@@ -496,16 +496,16 @@ class DigitalSculpture {
         const targetX = this.mousePosition.x * mouseInfluence * 5;
 
         // Smooth camera movement
-        this.camera.position.x = THREE.MathUtils.lerp(this.camera.position.x, targetX, 0.02);
-        this.camera.position.y = THREE.MathUtils.lerp(this.camera.position.y, targetY, 0.02);
-        this.camera.position.z = THREE.MathUtils.lerp(this.camera.position.z, targetZ, 0.02);
+        this.camera.position.x = THREE.MathUtils.lerp(this.camera.position.x, targetX, 0.03);
+        this.camera.position.y = THREE.MathUtils.lerp(this.camera.position.y, targetY, 0.03);
+        this.camera.position.z = THREE.MathUtils.lerp(this.camera.position.z, targetZ, 0.03);
 
         // Camera rotation based on mouse
         const targetRotationY = this.mousePosition.x * 0.1;
         const targetRotationX = this.mousePosition.y * 0.05;
 
-        this.camera.rotation.y = THREE.MathUtils.lerp(this.camera.rotation.y, targetRotationY, 0.02);
-        this.camera.rotation.x = THREE.MathUtils.lerp(this.camera.rotation.x, targetRotationX, 0.02);
+        this.camera.rotation.y = THREE.MathUtils.lerp(this.camera.rotation.y, targetRotationY, 0.03);
+        this.camera.rotation.x = THREE.MathUtils.lerp(this.camera.rotation.x, targetRotationX, 0.03);
 
         this.camera.lookAt(0, targetY, 0);
     }

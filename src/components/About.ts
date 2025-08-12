@@ -24,42 +24,42 @@ const README_PARAGRAPHS = [
  */
 const animateTerminalContent = () => {
     // Create the animation timeline
-    const timeline = gsap.timeline({ delay: 0.5 });
+    const timeline = gsap.timeline({ delay: 0.3 });
 
     // Type the command (after the static prompt)
     timeline.to("#terminal-command", {
-        duration: 1.2,
+        duration: 0.8,
         text: TERMINAL_COMMAND,
-        ease: "none",
+        ease: "expo.out",
     });
 
     // Small pause after command is typed
-    timeline.to({}, { duration: 0.3 });
+    timeline.to({}, { duration: 0.2 });
 
     // Animate each paragraph with fade + y transform
     README_PARAGRAPHS.forEach((_, index) => {
         timeline.to(
             `#paragraph-${index}`,
             {
-                duration: 0.5,
+                duration: 1.0,
                 opacity: 1,
                 y: 0,
-                ease: "power2.out",
+                ease: "expo.out",
             },
-            "-=0.2"
-        ); // Slight overlap for smoother sequence
+            "-=0.7"
+        ); // Faster overlap for smoother sequence
     });
 
     // Fade in the social links at the end
     timeline.to(
         "#social-links",
         {
-            duration: 0.5,
+            duration: 1.5,
             opacity: 1,
             y: 0,
-            ease: "power2.out",
+            ease: "expo.out",
         },
-        "-=0.2"
+        "-=0.9"
     );
 
     return timeline;
@@ -96,11 +96,11 @@ export const About = (props: AboutProps) => {
             // Floating animation for all social icons (reduced frequency)
             gsap.to(".social-icon", {
                 y: -3,
-                duration: 3,
-                ease: "power1.inOut",
+                duration: 4.5,
+                ease: "power2.inOut",
                 yoyo: true,
                 repeat: -1,
-                stagger: 0.5,
+                stagger: 0.6,
             }); // Setup optimized vanilla CSS hover animations for social icons
             const socialIcons = document.querySelectorAll(".social-icon");
             socialIcons.forEach((icon: Element) => {
@@ -119,9 +119,9 @@ export const About = (props: AboutProps) => {
                 iconEl.style.transformStyle = "preserve-3d";
 
                 // Set up smooth transitions
-                iconEl.style.transition = "transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)";
-                if (svg) svg.style.transition = "transform 0.18s cubic-bezier(0.4, 0, 0.2, 1)";
-                if (label) label.style.transition = "transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)";
+                iconEl.style.transition = "transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+                if (svg) svg.style.transition = "transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+                if (label) label.style.transition = "transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
                 iconEl.addEventListener("mouseenter", () => {
                     // Vanilla CSS transforms for maximum performance
@@ -178,12 +178,22 @@ export const About = (props: AboutProps) => {
                 50% {
                     background-position: 90% 50%;
                 }
+            }
+
+            @keyframes accentGradientFlow {
+                0%,
+                100% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
             } /* Social icon performance optimizations */
             .social-icon {
                 will-change: transform;
                 backface-visibility: hidden;
                 transform-style: preserve-3d;
-                transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
                 width: 80px;
                 height: 80px;
             }
@@ -191,13 +201,13 @@ export const About = (props: AboutProps) => {
             .social-icon svg {
                 will-change: transform, filter;
                 transition:
-                    transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
-                    filter 0.3s ease;
+                    transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                    filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             }
 
             .social-icon span {
                 will-change: transform;
-                transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             } /* Animated glowing effects for each social icon */
             @keyframes purpleGlow {
                 0% {
@@ -343,15 +353,15 @@ export const About = (props: AboutProps) => {
                     <!-- First paragraph as header with different styling -->
                     <p
                         id="paragraph-0"
-                        class="mb-4 opacity-0 transform translate-y-4 text-3xl font-bold"
+                        class="mb-4 opacity-0 transform translate-y-4 text-3xl font-bold glossy-text"
                         style="
                             transition: opacity 0.3s, transform 0.3s;
-                            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #a855f7, #3b82f6);
-                            background-size: 300% 100%;
+                            background: linear-gradient(90deg, #A389F4, #6F6EF6, #55A2F2, #7AD1F5, #A389F4);
+                            background-size: 400% 100%;
                             background-clip: text;
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;
-                            animation: gradientFlow 3s ease-in-out infinite;
+                            animation: accentGradientFlow 4s ease-in-out infinite;
                         "
                     >
                         ${README_PARAGRAPHS[0]}
@@ -362,7 +372,7 @@ export const About = (props: AboutProps) => {
                         (paragraph, index) => html`
                             <p
                                 id="paragraph-${index + 1}"
-                                class="mb-3 opacity-0 transform translate-y-4 text-lg"
+                                class="mb-3 opacity-0 text-gray-300 transform translate-y-4 text-lg font-sans"
                                 style="transition: opacity 0.3s, transform 0.3s"
                             >
                                 ${paragraph}
@@ -459,4 +469,22 @@ export const About = (props: AboutProps) => {
             </div>
         </section>
     `;
+};
+
+export const init = (): Promise<void> => {
+    return new Promise((resolve) => {
+        const el = document.getElementById("about-section");
+        if (!el) return resolve();
+        // Use setTimeout to ensure DOM is ready
+        setTimeout(() => {
+            const tl = animateTerminalContent();
+            tl.eventCallback("onStart", () => {
+                window.dispatchEvent(new Event("about:ready"));
+            });
+            tl.eventCallback("onComplete", () => {
+                window.dispatchEvent(new Event("about:finished"));
+            });
+            resolve();
+        }, 0);
+    });
 };

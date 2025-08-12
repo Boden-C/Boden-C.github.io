@@ -9,6 +9,7 @@ export class Background {
     private animationFrame?: number;
     private mouseX: number = 0;
     private mouseY: number = 0;
+    private readonly MIN_DISTANCE = 8; // Min distance from camera before particle is respawned
 
     /**
      * Initialize the 3D background effect
@@ -30,10 +31,10 @@ export class Background {
 
             this.scene = new THREE.Scene();
 
-            // Add gradient background
-            const backgroundColor = new THREE.Color(0x000000);
+            // Update background to deep navy to match accent palette
+            const backgroundColor = new THREE.Color(0x0b1220);
             this.scene.background = backgroundColor;
-            this.scene.fog = new THREE.FogExp2(0x000000, 0.00001);
+            this.scene.fog = new THREE.FogExp2(0x0b1220, 0.00002);
 
             // Setup camera
             this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -55,6 +56,13 @@ export class Background {
             const positions = new Float32Array(particlesCount * 3);
             const colors = new Float32Array(particlesCount * 3);
 
+            // Accent palette (blue -> violet -> purple)
+            const palette = [
+                new THREE.Color(0x3b82f6), // blue-500
+                new THREE.Color(0x8b5cf6), // violet-500/600
+                new THREE.Color(0xa855f7), // purple-500
+            ];
+
             const particleSize = 0.5;
 
             // Create better particle distribution using spherical coordinates
@@ -69,10 +77,16 @@ export class Background {
                 positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta); // y
                 positions[i * 3 + 2] = radius * Math.cos(phi); // z
 
-                // Color - brighter white/blue variations
-                colors[i * 3] = 0.9 + Math.random() * 0.1; // r - increased brightness
-                colors[i * 3 + 1] = 0.9 + Math.random() * 0.1; // g - increased brightness
-                colors[i * 3 + 2] = 1.0; // b - full brightness for blue
+                // Color - whiter with subtle accent tint
+                const base = palette[Math.floor(Math.random() * palette.length)];
+                const mix = 0.5 + Math.random() * 0.05; // 80-95% white mix
+                const r = base.r * (1 - mix) + 1 * mix;
+                const g = base.g * (1 - mix) + 1 * mix;
+                const b = base.b * (1 - mix) + 1 * mix;
+                const brightness = 0.96 + Math.random() * 0.08;
+                colors[i * 3] = Math.min(1, r * brightness);
+                colors[i * 3 + 1] = Math.min(1, g * brightness);
+                colors[i * 3 + 2] = Math.min(1, b * brightness);
             }
 
             particlesGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -176,30 +190,42 @@ export class Background {
 
         this.animationFrame = requestAnimationFrame(this.animate.bind(this));
 
-        // Wave effect based on time and mouse position
         const positions = (this.particles.geometry as THREE.BufferGeometry).getAttribute("position");
-        const time = Date.now() * 0.0004;
+        const time = Date.now() * 0.0002; // Slower particle movement
+        const camPos = this.camera.position;
 
         for (let i = 0; i < positions.count; i++) {
             const x = positions.getX(i);
             const y = positions.getY(i);
             const z = positions.getZ(i);
 
-            // Create wave effect
-            const newZ = z + Math.sin(time + x * 0.03 + y * 0.03) * 2;
-
-            // Subtle mouse interaction
-            const mouseInfluence = 0.05;
+            // Wave effect with slower movement
+            const newZ = z + Math.sin(time + x * 0.02 + y * 0.02) * 1.5;
+            const mouseInfluence = 0.03;
             const adjustedZ = newZ + this.mouseX * mouseInfluence * x + this.mouseY * mouseInfluence * y;
 
-            positions.setZ(i, adjustedZ);
+            // Distance to camera (camera at (0,0,50))
+            const dx = x - camPos.x;
+            const dy = y - camPos.y;
+            const dz = adjustedZ - camPos.z;
+            const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+            if (dist < this.MIN_DISTANCE) {
+                // Respawn particle at a new random spherical position far away
+                const radius = 40 + Math.random() * 60; // 40-100
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(Math.random() * 2 - 1);
+                const nx = radius * Math.sin(phi) * Math.cos(theta);
+                const ny = radius * Math.sin(phi) * Math.sin(theta);
+                const nz = radius * Math.cos(phi);
+                positions.setXYZ(i, nx, ny, nz);
+            } else {
+                positions.setZ(i, adjustedZ);
+            }
         }
 
         positions.needsUpdate = true;
-
-        // Rotate particles very slowly
-        this.particles.rotation.y += 0.0001;
-
+        this.particles.rotation.y += 0.00005; // Slow rotation
         this.renderer.render(this.scene, this.camera);
     }
 

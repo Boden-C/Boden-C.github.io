@@ -97,8 +97,8 @@ export class ModelViewer {
         }
 
         // Smooth mouse movement interpolation
-        this.mouseX += (this.targetMouseX - this.mouseX) * 0.05;
-        this.mouseY += (this.targetMouseY - this.mouseY) * 0.05;
+        this.mouseX += (this.targetMouseX - this.mouseX) * 0.08;
+        this.mouseY += (this.targetMouseY - this.mouseY) * 0.08;
 
         // Apply subtle movement to the model based on mouse position
         if (this.model) {
@@ -259,8 +259,9 @@ export class ModelViewer {
                     const elapsed = this.clock.getElapsedTime() - startTime;
                     const progress = Math.min(elapsed / duration, 1);
 
-                    // Ease function (ease-out)
-                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+                    // Smooth ease function (faster middle, smooth ease-out)
+                    const easeProgress =
+                        progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
                     // Interpolate position
                     this.model.position.y = startY + (targetY - startY) * easeProgress;
