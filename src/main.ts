@@ -149,7 +149,6 @@ const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 // Orchestrate load sequence
 const orchestrateInitialLoad = async () => {
-    document.body.classList.add("overflow-y-hidden");
     await renderApp();
 
     // Removed model loading
@@ -158,6 +157,8 @@ const orchestrateInitialLoad = async () => {
     } catch (err) {
         console.error(err);
     }
+
+    // await delay(200);
 
     state.isLoaded = true;
     await renderApp();

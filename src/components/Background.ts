@@ -9,7 +9,7 @@ export class Background {
     private animationFrame?: number;
     private mouseX: number = 0;
     private mouseY: number = 0;
-    private readonly MIN_DISTANCE = 8; // Min distance from camera before particle is respawned
+    private readonly MIN_DISTANCE = 40;
 
     /**
      * Initialize the 3D background effect
