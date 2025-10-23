@@ -528,7 +528,17 @@
             <p id="desc" class="hidden">The page you were looking for is gone. Use the button to return home.</p>
             <div class="hidden" aria-hidden="true" id="visual404" aria-label="Decorative animated scene"></div>
         </main>
+        <script src="/main.js"></script>
         <script>
+            (function () {
+                const path = window.location.pathname.replace(/\.html$/, "");
+                if (window.Router && window.Router.routeExists(path)) {
+                    const targetFile = window.Router.routes[path];
+                    window.location.replace(targetFile);
+                    return;
+                }
+            })();
+
             const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
             if (reduce) document.body.dataset.reduceMotion = "true";
             const stage = document.querySelector(".stage");

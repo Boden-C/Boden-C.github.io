@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>KeyTest - Input Monitoring Tool</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta
+            name="description"
+            content="Professional keystroke and mouse click testing tool with precise timing information."
+        />
+        <meta name="theme-color" content="#0A091A" />
+        <link rel="icon" href="data:," />
+        <style>
+            :root {
+                --bg1: #0a091a;
+                --bg2: #0d0c15;
+                --bg3: #0e0e0e;
+                --accent-1: #a389f4;
+                --accent-2: #6f6ef6;
+                --accent-3: #55a2f2;
+                --accent-4: #7ad1f5;
+                --font-stack: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+                --font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+            }
+            body {
+                font-family: var(--font-stack);
+                color: #ebebeb;
+                background: linear-gradient(160deg, var(--bg1), var(--bg2), var(--bg3));
+                background-attachment: fixed;
+                overflow: hidden;
+                -webkit-font-smoothing: antialiased;
+                position: relative;
+            }
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: linear-gradient(115deg, #a389f420, transparent 40%, #7ad1f515);
+                mix-blend-mode: screen;
+                filter: blur(80px);
+                pointer-events: none;
+            }
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: repeating-linear-gradient(60deg, #0e0e0e15 0 2px, transparent 2px 6px);
+                opacity: 0.25;
+                pointer-events: none;
+            }
+            .skip {
+                position: absolute;
+                left: -999px;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+            }
+            .skip:focus {
+                left: 1rem;
+                top: 1rem;
+                width: auto;
+                height: auto;
+                padding: 0.75rem 1rem;
+                background: #000;
+                z-index: 999;
+                outline: 2px solid var(--accent-3);
+            }
+            main {
+                height: 100%;
+                padding: clamp(1.5rem, 4vw, 3rem);
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                position: relative;
+                z-index: 1;
+            }
+            .header {
+                text-align: center;
+                animation: fadeInDown 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+            h1 {
+                margin: 0 0 0.5rem;
+                font-size: clamp(2rem, 5vw, 3.5rem);
+                font-weight: 700;
+                letter-spacing: -0.02em;
+                background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-4));
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                filter: drop-shadow(0 0 20px #a389f440);
+            }
+            .subtitle {
+                margin: 0;
+                font-size: clamp(0.85rem, 1.8vw, 1rem);
+                color: #a0a0a0;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                font-weight: 500;
+            }
+            .subtitle-note {
+                display: block;
+                margin-top: 0.5rem;
+                font-size: 0.75rem;
+                color: #666;
+                font-style: italic;
+                letter-spacing: 0.03em;
+                text-transform: none;
+            }
+            .glass-card {
+                backdrop-filter: blur(12px) saturate(140%);
+                background: linear-gradient(160deg, #0d0c1580, #0a091a60);
+                border-radius: 1.5rem;
+                border: 1px solid #a389f420;
+                box-shadow: 0 10px 40px -10px #00000080;
+                position: relative;
+                isolation: isolate;
+            }
+            .glass-card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(140deg, #0e0e0e25, #0d0c1525 40%, #0e0e0e08);
+                mix-blend-mode: overlay;
+                border-radius: inherit;
+                pointer-events: none;
+            }
+            .container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                min-height: 0;
+                animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s backwards;
+            }
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+            .stat-card {
+                padding: 1.25rem 1.5rem;
+                transition:
+                    transform 0.3s ease,
+                    box-shadow 0.3s ease;
+            }
+            .stat-card:hover {
+                transform: translateY(-2px);
+                box-shadow:
+                    0 12px 45px -10px #00000090,
+                    0 0 0 1px #a389f430;
+            }
+            .stat-label {
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: #888;
+                margin: 0 0 0.5rem;
+                font-weight: 600;
+            }
+            .stat-value {
+                font-size: 1.5rem;
+                font-weight: 700;
+                font-family: var(--font-mono);
+                margin: 0;
+                background: linear-gradient(90deg, var(--accent-3), var(--accent-4));
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+            .stat-value .stat-secondary {
+                font-size: 0.85rem;
+                opacity: 0.7;
+                margin-left: 0.5rem;
+            }
+            .targets-section {
+                padding: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .targets-title {
+                font-size: 1rem;
+                font-weight: 600;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                margin: 0 0 0.75rem;
+                color: #d0d0d0;
+            }
+            .targets-inputs {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            .target-input-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.4rem;
+                flex: 1;
+                min-width: 180px;
+            }
+            .target-label {
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: #888;
+                font-weight: 600;
+            }
+            .target-input {
+                background: linear-gradient(135deg, #0d0c1560, #0a091a40);
+                border: 1px solid #a389f425;
+                border-radius: 0.5rem;
+                color: #ebebeb;
+                font: 600 1rem/1.4 var(--font-mono);
+                padding: 0.75rem 1rem;
+                transition:
+                    border-color 0.2s ease,
+                    box-shadow 0.2s ease;
+            }
+            .target-input:focus {
+                outline: none;
+                border-color: var(--accent-3);
+                box-shadow: 0 0 0 3px #55a2f220;
+            }
+            .target-input::placeholder {
+                color: #555;
+            }
+            .history-container {
+                flex: 1;
+                min-height: 0;
+                padding: 1.5rem;
+                display: flex;
+                flex-direction: column;
+            }
+            .history-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+            .history-title {
+                font-size: 1rem;
+                font-weight: 600;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                margin: 0;
+                color: #d0d0d0;
+            }
+            .clear-btn {
+                appearance: none;
+                border: none;
+                background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+                color: #000;
+                font: 600 0.85rem/1 var(--font-stack);
+                padding: 0.65rem 1.2rem;
+                border-radius: 100px;
+                cursor: pointer;
+                letter-spacing: 0.05em;
+                transition:
+                    transform 0.2s ease,
+                    box-shadow 0.2s ease;
+                box-shadow: 0 4px 12px -4px #a389f460;
+            }
+            .clear-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 18px -4px #a389f480;
+            }
+            .clear-btn:active {
+                transform: translateY(0) scale(0.97);
+            }
+            .clear-btn:focus-visible {
+                outline: 2px solid var(--accent-3);
+                outline-offset: 3px;
+            }
+            .history-wrapper {
+                flex: 1;
+                overflow-y: auto;
+                margin: 0;
+            }
+            .history-wrapper::-webkit-scrollbar {
+                width: 8px;
+            }
+            .history-wrapper::-webkit-scrollbar-track {
+                background: #0a091a40;
+                border-radius: 4px;
+            }
+            .history-wrapper::-webkit-scrollbar-thumb {
+                background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+                border-radius: 4px;
+            }
+            .history-wrapper::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(180deg, var(--accent-2), var(--accent-3));
+            }
+            .history-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-family: var(--font-mono);
+                font-size: 1.1rem;
+            }
+            .history-table thead {
+                position: sticky;
+                top: 0;
+                background: linear-gradient(135deg, #0d0c15, #0a091a);
+                z-index: 10;
+            }
+            .history-table th {
+                text-align: left;
+                padding: 1rem 1.2rem;
+                font-weight: 600;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                font-size: 0.85rem;
+                color: #888;
+                border-bottom: 2px solid #a389f430;
+            }
+            /* Use an inset divider on the row instead of per-cell border to avoid a visible seam when
+               the row is translated on hover. The "bar" you see is the td border-bottom becoming
+               visible due to transform/anti-aliasing. Removing the cell border and using an inset
+               shadow keeps the divider attached to the row and avoids the artifact. */
+            .history-table td {
+                padding: 1rem 1.2rem;
+                border-bottom: none;
+                color: #ebebeb;
+                font-weight: 500;
+                font-size: 1.1rem;
+            }
+            .history-table tbody tr {
+                background: linear-gradient(135deg, #0d0c1530, #0a091a20);
+                transition:
+                    background 0.2s ease,
+                    transform 0.2s ease;
+                animation: slideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+                /* subtle divider that moves with the row */
+                box-shadow: inset 0 -1px rgba(163, 137, 244, 0.06);
+            }
+            .history-table tbody tr.event-up {
+                opacity: 0.65;
+            }
+            .history-table tbody tr:hover {
+                background: linear-gradient(135deg, #0d0c1560, #0a091a40);
+                transform: translateX(3px);
+            }
+            .col-time {
+                color: #5a5870;
+                font-weight: 600;
+                cursor: help;
+            }
+            .col-event {
+                color: #ebebeb;
+            }
+            .event-symbol {
+                font-size: 1.3rem;
+                margin-right: 0.5rem;
+            }
+            .event-symbol.down {
+                color: var(--accent-1);
+            }
+            .event-symbol.up {
+                color: var(--accent-3);
+            }
+            .col-duration {
+                font-weight: 600;
+                cursor: help;
+            }
+            .duration-label {
+                opacity: 0.5;
+            }
+            .duration-held {
+                color: var(--accent-3);
+            }
+            .duration-released {
+                color: var(--accent-1);
+            }
+            .col-target {
+                font-weight: 600;
+            }
+            .col-target.early {
+                color: #ff4444;
+            }
+            .col-target.perfect {
+                color: #44ff44;
+            }
+            .col-target.late {
+                color: #ffaa44;
+            }
+            .prompt {
+                text-align: center;
+                color: #666;
+                font-size: 1.1rem;
+                padding: 3rem 1rem;
+                letter-spacing: 0.03em;
+            }
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
+            @media (max-width: 768px) {
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+                .history-header {
+                    flex-direction: column;
+                    gap: 0.75rem;
+                    align-items: stretch;
+                }
+            }
+            @media (prefers-reduced-motion: reduce) {
+                *,
+                *::before,
+                *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <a href="#main" class="skip">Skip to content</a>
+        <main id="main" role="main" aria-labelledby="page-title">
+            <header class="header">
+                <h1 id="page-title">KeyTest</h1>
+                <p class="subtitle">
+                    Input Monitoring Tool
+                    <span class="subtitle-note">Only tracks inputs when cursor is in the event history area</span>
+                </p>
+            </header>
+            <div class="container">
+                <section class="stats-grid" aria-label="Input statistics">
+                    <div class="stat-card glass-card">
+                        <p class="stat-label">Start Time</p>
+                        <p class="stat-value" id="start-time">—</p>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <p class="stat-label">Mouse CPS (Last 5s)</p>
+                        <p class="stat-value" id="mouse-cps">
+                            <span id="left-cps">0</span> | <span id="right-cps">0</span>
+                        </p>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <p class="stat-label">Keys Per Second (Last 5s)</p>
+                        <p class="stat-value" id="kps-value">
+                            0 KPS <span class="stat-secondary" id="wpm-value">(0 WPM)</span>
+                        </p>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <p class="stat-label">Fastest Key</p>
+                        <p class="stat-value" id="fastest-key">—</p>
+                    </div>
+                </section>
+                <section class="glass-card targets-section" aria-label="Practice targets">
+                    <h2 class="targets-title">Practice Targets</h2>
+                    <div class="targets-inputs">
+                        <div class="target-input-group">
+                            <label for="hold-target" class="target-label">Hold For (ms)</label>
+                            <input
+                                type="number"
+                                id="hold-target"
+                                class="target-input"
+                                placeholder="e.g., 500"
+                                min="0"
+                                aria-describedby="hold-help"
+                            />
+                        </div>
+                        <div class="target-input-group">
+                            <label for="release-target" class="target-label">Release For (ms)</label>
+                            <input
+                                type="number"
+                                id="release-target"
+                                class="target-input"
+                                placeholder="e.g., 100"
+                                min="0"
+                                aria-describedby="release-help"
+                            />
+                        </div>
+                    </div>
+                </section>
+                <section class="glass-card history-container" aria-label="Event history">
+                    <div class="history-header">
+                        <h2 class="history-title">Event History</h2>
+                        <button class="clear-btn" id="clear-btn" aria-label="Clear history">Clear</button>
+                    </div>
+                    <div class="history-wrapper" role="log" aria-live="polite" aria-atomic="false">
+                        <table class="history-table" id="history-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Event</th>
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">Target</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-body">
+                                <tr>
+                                    <td colspan="4" class="prompt">Press any key or click to begin tracking...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+        <script>
+            "use strict";
+            // Normalize file URL to the clean route like /games does in games.html
+            (function () {
+                if (window.history && window.history.replaceState) {
+                    const path = window.location.pathname || "";
+                    if (path.endsWith("/keytest.html")) {
+                        window.history.replaceState(null, "", "/keytest");
+                    }
+                }
+            })();
+            const historyBody = document.getElementById("history-body");
+            const historyWrapper = document.querySelector(".history-wrapper");
+            const startTimeEl = document.getElementById("start-time");
+            const leftCpsEl = document.getElementById("left-cps");
+            const rightCpsEl = document.getElementById("right-cps");
+            const kpsValueEl = document.getElementById("kps-value");
+            const wpmValueEl = document.getElementById("wpm-value");
+            const fastestKeyEl = document.getElementById("fastest-key");
+            const clearBtn = document.getElementById("clear-btn");
+            const holdTargetInput = document.getElementById("hold-target");
+            const releaseTargetInput = document.getElementById("release-target");
+
+            let startTime = null;
+            let isMouseInside = false;
+            const mouseDownTimes = new Map();
+            const keyDownTimes = new Map();
+            const lastUpTimes = new Map();
+            const leftClickTimes = [];
+            const rightClickTimes = [];
+            const keyPressTimes = [];
+
+            historyWrapper.addEventListener("mouseenter", () => {
+                isMouseInside = true;
+            });
+
+            historyWrapper.addEventListener("mouseleave", () => {
+                isMouseInside = false;
+            });
+
+            // Block default browser interactions while the cursor is inside the history box.
+            // This prevents things like page scrolling on Space, context menu on right-click,
+            // and arrow/page navigation while practicing.
+            historyWrapper.addEventListener(
+                "contextmenu",
+                (e) => {
+                    if (isMouseInside) {
+                        e.preventDefault();
+                    }
+                },
+                true
+            );
+
+            // Capture keydown at the window level so keyboard events are intercepted even when
+            // the wrapper isn't focused. We still only block while the cursor is inside.
+            window.addEventListener(
+                "keydown",
+                (e) => {
+                    if (!isMouseInside) return;
+                    const blocked = [
+                        "Space", // Spacebar scrolls
+                        "ArrowUp",
+                        "ArrowDown",
+                        "ArrowLeft",
+                        "ArrowRight",
+                        "PageUp",
+                        "PageDown",
+                        "Home",
+                        "End",
+                        "Tab",
+                    ];
+                    const code = e.code || e.key;
+                    if (blocked.includes(code)) {
+                        e.preventDefault();
+                    }
+                },
+                true
+            );
+
+            // Also prevent mouse-based default actions that could interfere
+            historyWrapper.addEventListener(
+                "mousedown",
+                (e) => {
+                    if (!isMouseInside) return;
+                    // Prevent text selection and other default behaviours from dragging
+                    e.preventDefault();
+                },
+                true
+            );
+            // keyPressCount removed; fastest key calculated from sliding window `keyPressTimes`
+
+            const MOUSE_BUTTON_NAMES = ["Left", "Middle", "Right", "Back", "Forward"];
+
+            historyWrapper.addEventListener("mouseenter", () => {
+                isMouseInside = true;
+            });
+
+            historyWrapper.addEventListener("mouseleave", () => {
+                isMouseInside = false;
+            });
+
+            /**
+             * Updates CPS and KPS stats
+             */
+            function updateStats() {
+                const now = performance.now() / 1000;
+                const fiveSecsAgo = now - 5;
+
+                // purge old timestamps outside the 5s window
+                while (leftClickTimes.length > 0 && leftClickTimes[0] < fiveSecsAgo) leftClickTimes.shift();
+                while (rightClickTimes.length > 0 && rightClickTimes[0] < fiveSecsAgo) rightClickTimes.shift();
+                while (keyPressTimes.length > 0 && keyPressTimes[0].time < fiveSecsAgo) keyPressTimes.shift();
+
+                // CPS = number of downs in last 5s divided by 5
+                const leftCps = leftClickTimes.length / 5;
+                const rightCps = rightClickTimes.length / 5;
+                leftCpsEl.textContent = leftCps.toFixed(2) + " CPS";
+                rightCpsEl.textContent = rightCps.toFixed(2) + " CPS";
+
+                // KPS = keydowns in last 5s divided by 5
+                // Only count real keys (exclude Space which is used for scrolling)
+                const filteredKeys = keyPressTimes.filter((p) => p.key !== " " && p.key !== "Space");
+                const keyCount = filteredKeys.length;
+                const kps = keyCount / 5;
+                const wpm = Math.round(kps * 12);
+                kpsValueEl.textContent = kps.toFixed(2) + " KPS (Last 5s) ";
+                wpmValueEl.textContent = `(${wpm} WPM) (Last 5s)`;
+
+                // Fastest key computed from keyPressTimes in last 5s
+                if (filteredKeys.length > 0) {
+                    const counts = new Map();
+                    for (const p of filteredKeys) counts.set(p.key, (counts.get(p.key) || 0) + 1);
+                    let maxKey = null;
+                    let maxCount = 0;
+                    for (const [k, c] of counts.entries()) {
+                        if (c > maxCount) {
+                            maxCount = c;
+                            maxKey = k;
+                        }
+                    }
+                    if (maxKey) {
+                        const maxKps = (maxCount / 5).toFixed(2);
+                        fastestKeyEl.textContent = `${formatEventName("key", maxKey)} (${maxKps} KPS) (Last 5s)`;
+                    }
+                } else {
+                    fastestKeyEl.textContent = "—";
+                }
+            }
+
+            setInterval(updateStats, 100);
+
+            /**
+             * Formats a time value in seconds to a readable string
+             * @param {number} seconds
+             * @returns {string}
+             */
+            function formatTime(seconds) {
+                return seconds.toFixed(3) + "s";
+            }
+
+            /**
+             * Converts seconds to milliseconds
+             * @param {number} seconds
+             * @returns {number}
+             */
+            function toMilliseconds(seconds) {
+                return Math.round(seconds * 1000);
+            }
+
+            /**
+             * Formats an event name for display
+             * @param {string} eventType
+             * @param {string} key
+             * @returns {string}
+             */
+            function formatEventName(eventType, key) {
+                if (eventType.startsWith("mouse")) {
+                    return `${key} Mouse Button`;
+                }
+                if (key.length === 1) {
+                    return `"${key}"`;
+                }
+                return key;
+            }
+
+            /**
+             * Evaluates timing against targets
+             * @param {number} actualMs
+             * @param {number} targetMs
+             * @param {boolean} isRelease
+             * @returns {{className: string, text: string}|null}
+             */
+            function evaluateTiming(actualMs, targetMs, isRelease) {
+                if (!targetMs || targetMs <= 0) return null;
+
+                const diff = actualMs - targetMs;
+
+                if (isRelease) {
+                    if (diff < -23) {
+                        return { className: "early", text: `${diff} ms` };
+                    } else if (diff > 10) {
+                        return { className: "perfect", text: `+${diff} ms` };
+                    } else {
+                        return { className: "late", text: `${diff >= 0 ? "+" : ""}${diff} ms` };
+                    }
+                } else {
+                    if (diff < 0) {
+                        return { className: "perfect", text: `${diff} ms` };
+                    } else {
+                        return { className: "early", text: `+${diff} ms` };
+                    }
+                }
+            }
+
+            /**
+             * Adds an event to the history table
+             * @param {number} relativeTime
+             * @param {string} eventDescription
+             * @param {number|null} duration
+             * @param {string} identifier
+             * @param {boolean} isUp
+             */
+            function addHistoryEvent(relativeTime, eventDescription, duration = null, identifier = "", isUp = false) {
+                const prompt = historyBody.querySelector(".prompt");
+                if (prompt) prompt.parentElement.remove();
+
+                const tr = document.createElement("tr");
+                if (isUp) tr.classList.add("event-up");
+
+                const tdTime = document.createElement("td");
+                tdTime.className = "col-time";
+                tdTime.textContent = formatTime(relativeTime);
+                tdTime.title = `${toMilliseconds(relativeTime)} ms since start`;
+
+                const tdEvent = document.createElement("td");
+                tdEvent.className = "col-event";
+                const symbol = document.createElement("span");
+                symbol.className = "event-symbol " + (isUp ? "up" : "down");
+                symbol.textContent = isUp ? "▲" : "▼";
+                tdEvent.appendChild(symbol);
+                tdEvent.appendChild(document.createTextNode(eventDescription.replace(" Up", "").replace(" Down", "")));
+
+                const tdDuration = document.createElement("td");
+                tdDuration.className = "col-duration";
+
+                const tdTarget = document.createElement("td");
+                tdTarget.className = "col-target";
+
+                if (isUp) {
+                    if (duration !== null) {
+                        const heldMs = toMilliseconds(duration);
+                        const heldLabel = document.createElement("span");
+                        heldLabel.className = "duration-held";
+                        heldLabel.textContent = "Held";
+                        const forLabel = document.createElement("span");
+                        forLabel.className = "duration-label";
+                        forLabel.textContent = " for ";
+                        tdDuration.appendChild(heldLabel);
+                        tdDuration.appendChild(forLabel);
+                        tdDuration.appendChild(document.createTextNode(`${heldMs} ms`));
+                        tdDuration.title = `${duration.toFixed(3)} seconds`;
+
+                        const holdTarget = parseInt(holdTargetInput.value, 10);
+                        if (holdTarget > 0) {
+                            const evaluation = evaluateTiming(heldMs, holdTarget, false);
+                            if (evaluation) {
+                                tdTarget.textContent = evaluation.text;
+                                tdTarget.classList.add(evaluation.className);
+                            }
+                        }
+                    } else {
+                        tdDuration.textContent = "—";
+                    }
+                    lastUpTimes.set(identifier, relativeTime);
+                } else {
+                    const lastUpTime = lastUpTimes.get(identifier);
+                    if (lastUpTime !== undefined) {
+                        const releaseForMs = toMilliseconds(relativeTime - lastUpTime);
+                        const releasedLabel = document.createElement("span");
+                        releasedLabel.className = "duration-released";
+                        releasedLabel.textContent = "Released";
+                        const forLabel = document.createElement("span");
+                        forLabel.className = "duration-label";
+                        forLabel.textContent = " for ";
+                        tdDuration.appendChild(releasedLabel);
+                        tdDuration.appendChild(forLabel);
+                        tdDuration.appendChild(document.createTextNode(`${releaseForMs} ms`));
+                        tdDuration.title = `Time since last up event`;
+
+                        const releaseTarget = parseInt(releaseTargetInput.value, 10);
+                        if (releaseTarget > 0) {
+                            const evaluation = evaluateTiming(releaseForMs, releaseTarget, true);
+                            if (evaluation) {
+                                tdTarget.textContent = evaluation.text;
+                                tdTarget.classList.add(evaluation.className);
+                            }
+                        }
+                    } else {
+                        tdDuration.textContent = "—";
+                    }
+                }
+
+                tr.appendChild(tdTime);
+                tr.appendChild(tdEvent);
+                tr.appendChild(tdDuration);
+                tr.appendChild(tdTarget);
+
+                historyBody.insertBefore(tr, historyBody.firstChild);
+            }
+
+            /**
+             * Gets the relative time since tracking started
+             * @returns {number}
+             */
+            function getRelativeTime() {
+                if (!startTime) {
+                    startTime = performance.now() / 1000;
+                    // display local clock time when tracking began
+                    startTimeEl.textContent = new Date().toLocaleTimeString("en-US", { hour12: false });
+                }
+                return performance.now() / 1000 - startTime;
+            }
+
+            /**
+             * Handles keydown events
+             * @param {KeyboardEvent} e
+             */
+            function handleKeyDown(e) {
+                if (!isMouseInside || e.repeat) return;
+                const key = e.key;
+                const time = getRelativeTime();
+                keyDownTimes.set(key, time);
+                addHistoryEvent(time, `${formatEventName("key", key)} Down`, null, `key_${key}`, false);
+
+                keyPressTimes.push({ time: performance.now() / 1000, key });
+            }
+
+            /**
+             * Handles keyup events
+             * @param {KeyboardEvent} e
+             */
+            function handleKeyUp(e) {
+                if (!isMouseInside) return;
+                const key = e.key;
+                const time = getRelativeTime();
+                const downTime = keyDownTimes.get(key);
+                if (downTime !== undefined) {
+                    const duration = time - downTime;
+                    addHistoryEvent(time, `${formatEventName("key", key)} Up`, duration, `key_${key}`, true);
+                    keyDownTimes.delete(key);
+                } else {
+                    addHistoryEvent(time, `${formatEventName("key", key)} Up`, null, `key_${key}`, true);
+                }
+            }
+
+            /**
+             * Handles mousedown events
+             * @param {MouseEvent} e
+             */
+            function handleMouseDown(e) {
+                if (!isMouseInside) return;
+                const button = e.button;
+                const buttonName = MOUSE_BUTTON_NAMES[button] || `Button${button}`;
+                const time = getRelativeTime();
+                mouseDownTimes.set(button, time);
+                addHistoryEvent(time, `${formatEventName("mouse", buttonName)} Down`, null, `mouse_${button}`, false);
+
+                const now = performance.now() / 1000;
+                if (button === 0) {
+                    leftClickTimes.push(now);
+                } else if (button === 2) {
+                    rightClickTimes.push(now);
+                }
+            }
+
+            /**
+             * Handles mouseup events
+             * @param {MouseEvent} e
+             */
+            function handleMouseUp(e) {
+                if (!isMouseInside) return;
+                const button = e.button;
+                const buttonName = MOUSE_BUTTON_NAMES[button] || `Button${button}`;
+                const time = getRelativeTime();
+                const downTime = mouseDownTimes.get(button);
+                if (downTime !== undefined) {
+                    const duration = time - downTime;
+                    addHistoryEvent(
+                        time,
+                        `${formatEventName("mouse", buttonName)} Up`,
+                        duration,
+                        `mouse_${button}`,
+                        true
+                    );
+                    mouseDownTimes.delete(button);
+                } else {
+                    addHistoryEvent(time, `${formatEventName("mouse", buttonName)} Up`, null, `mouse_${button}`, true);
+                }
+            }
+
+            /**
+             * Clears all history and resets the tracker
+             */
+            function clearHistory() {
+                historyBody.innerHTML =
+                    '<tr><td colspan="4" class="prompt">Press any key or click to begin tracking...</td></tr>';
+                startTime = null;
+                mouseDownTimes.clear();
+                keyDownTimes.clear();
+                lastUpTimes.clear();
+                leftClickTimes.length = 0;
+                rightClickTimes.length = 0;
+                keyPressTimes.length = 0;
+                // keyPressCount cleared intentionally removed; keyPressTimes is primary source
+                startTimeEl.textContent = "—";
+                leftCpsEl.textContent = "0 CPS";
+                rightCpsEl.textContent = "0 CPS";
+                kpsValueEl.textContent = "0 KPS ";
+                wpmValueEl.textContent = "(0 WPM)";
+                fastestKeyEl.textContent = "—";
+            }
+
+            window.addEventListener("keydown", handleKeyDown, { passive: true });
+            window.addEventListener("keyup", handleKeyUp, { passive: true });
+            window.addEventListener("mousedown", handleMouseDown, { passive: true });
+            window.addEventListener("mouseup", handleMouseUp, { passive: true });
+            clearBtn.addEventListener("click", clearHistory);
+        </script>
+    </body>
+</html>
