@@ -514,7 +514,7 @@ var Lh=Object.defineProperty;var Fh=(r,t,e)=>t in r?Lh(r,t,{enumerable:!0,config
             ${uf({isVisible:n,isHorizontal:e})}
             ${_f({isVisible:n,isHorizontal:e})}
         </main>
-    `},Wu=()=>window.innerWidth>=1100&&window.innerHeight>=700&&window.innerWidth>window.innerHeight,xf=(r,t)=>{let e;return(...n)=>{const i=()=>{e=void 0,r(...n)};clearTimeout(e),e=window.setTimeout(i,t)}},Xu=r=>{const t=document.getElementById("screen-reader-announcer");if(t){t.textContent=r;return}const e=document.createElement("div");e.id="screen-reader-announcer",e.classList.add("sr-only"),e.setAttribute("aria-live","polite"),e.setAttribute("aria-atomic","true"),e.textContent=r,document.body.appendChild(e)};/**
+    `},Wu=()=>window.innerWidth>window.innerHeight,xf=(r,t)=>{let e;return(...n)=>{const i=()=>{e=void 0,r(...n)};clearTimeout(e),e=window.setTimeout(i,t)}},Xu=r=>{const t=document.getElementById("screen-reader-announcer");if(t){t.textContent=r;return}const e=document.createElement("div");e.id="screen-reader-announcer",e.classList.add("sr-only"),e.setAttribute("aria-live","polite"),e.setAttribute("aria-atomic","true"),e.textContent=r,document.body.appendChild(e)};/**
  * @license
  * Copyright 2010-2023 Three.js Authors
  * SPDX-License-Identifier: MIT

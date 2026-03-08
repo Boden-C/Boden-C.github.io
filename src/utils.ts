@@ -1,8 +1,9 @@
 /**
- * Determines if the current viewport can support the desktop composition
+ * Determines whether the viewport should use the horizontal composition.
+ * Temporary rule: any landscape viewport uses horizontal; square and portrait use vertical.
  */
 export const isHorizontalLayout = (): boolean => {
-    return window.innerWidth >= 1100 && window.innerHeight >= 700 && window.innerWidth > window.innerHeight;
+    return window.innerWidth > window.innerHeight;
 };
 
 /**
