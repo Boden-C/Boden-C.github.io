@@ -1,8 +1,8 @@
 /**
- * Determines if the current viewport is in landscape orientation
+ * Determines if the current viewport can support the desktop composition
  */
 export const isHorizontalLayout = (): boolean => {
-    return window.matchMedia("(orientation: landscape)").matches;
+    return window.innerWidth >= 1100 && window.innerHeight >= 700 && window.innerWidth > window.innerHeight;
 };
 
 /**

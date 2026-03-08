@@ -16,16 +16,28 @@ export const Title = (props: TitleProps) => {
 
     // Determine CSS classes based on state
     const baseClasses = "title-container absolute w-[90%] text-center";
-    const initialClasses = "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2";
-    const loadedClasses = isLoaded ? (isHorizontal ? "loaded-horizontal" : "loaded-vertical") : "";
+    const initialClasses = isHorizontal
+        ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        : "vertical-initial";
+    const loadedClasses = isLoaded
+        ? isHorizontal
+            ? "loaded-horizontal"
+            : "loaded-vertical"
+        : "";
 
     // Apply the appropriate classes based on state
-    const classes = isLoaded ? `${baseClasses} ${loadedClasses}` : `${baseClasses} ${initialClasses}`;
+    const classes = isLoaded
+        ? `${baseClasses} ${loadedClasses}`
+        : `${baseClasses} ${initialClasses}`;
 
     // Split title into characters for per-letter intro animation
     const characters = titleText.split("").map((char, index) => {
         const displayChar = char === " " ? html`&nbsp;` : char;
-        return html`<span class="char-wrapper" style="--char-index: ${index};" aria-hidden="true">
+        return html`<span
+            class="char-wrapper"
+            style="--char-index: ${index};"
+            aria-hidden="true"
+        >
             <span class="char">${displayChar}</span>
         </span>`;
     });
@@ -44,7 +56,8 @@ export const Title = (props: TitleProps) => {
                 will-change: opacity, transform;
             }
             .char-wrapper {
-                animation: slideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+                animation: slideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+                    forwards;
                 animation-delay: calc(var(--char-index) * 50ms);
             }
             .char {
@@ -67,7 +80,11 @@ export const Title = (props: TitleProps) => {
                 }
             }
         </style>
-        <div id="titleContainer" class="${classes}" aria-label="Portfolio title">
+        <div
+            id="titleContainer"
+            class="${classes}"
+            aria-label="Portfolio title"
+        >
             <h1
                 class="title-text font-bold leading-none whitespace-nowrap relative z-10"
                 aria-label="${titleText}"

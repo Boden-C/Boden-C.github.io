@@ -16,15 +16,20 @@ export interface LayoutProps {
  */
 export const Layout = (props: LayoutProps) => {
     const { isLoaded, isHorizontal, areExtraDivsVisible } = props;
+    const shellClasses = isHorizontal ? "app-shell app-shell-horizontal" : "app-shell app-shell-vertical";
+    const titleStageClasses = isHorizontal ? "title-stage title-stage-horizontal" : "title-stage title-stage-vertical";
 
     return html`
-        <div class="h-screen w-screen relative overflow-hidden">
+        <main class="${shellClasses}" aria-label="Portfolio content">
             <!-- Screen reader announcer for accessibility -->
             <div id="screen-reader-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
             <!-- Main components -->
-            ${Title({ isLoaded, isHorizontal })} ${About({ isVisible: areExtraDivsVisible, isHorizontal })}
+            <section class="${titleStageClasses}" aria-labelledby="portfolio-title">
+                ${Title({ isLoaded, isHorizontal })}
+            </section>
+            ${About({ isVisible: areExtraDivsVisible, isHorizontal })}
             ${Projects({ isVisible: areExtraDivsVisible, isHorizontal })}
-        </div>
+        </main>
     `;
 };

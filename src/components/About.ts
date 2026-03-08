@@ -415,7 +415,7 @@ export const About = (props: AboutProps) => {
                         >
                     </a>
                     <a
-                        href="https://www.linkedin.com/in/boden-chen-7088462b3/"
+                        href="https://www.linkedin.com/in/boden-c/"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="social-icon linkedin text-white hover:text-blue-300 transition-all duration-300 flex flex-col items-center justify-center group relative overflow-hidden rounded-lg backdrop-blur-sm"
